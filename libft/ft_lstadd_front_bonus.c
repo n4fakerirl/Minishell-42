@@ -1,40 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 16:02:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/07/21 13:58:32 by lenakach         ###   ########.fr       */
+/*   Created: 2025/05/03 22:20:06 by lenakach          #+#    #+#             */
+/*   Updated: 2025/07/21 13:58:21 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
+	if (!new)
+		return ;
 	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
+	{
+		*lst = new;
+		return ;
+	}
+	new->next = *lst;
+	*lst = new;
 }
-
 /*int	main(void)
 {
-	t_list	*test = NULL;
+	t_list	*head = NULL;
 	t_list	*elem1 = malloc(sizeof(t_list));
-	elem1->content = ft_strdup("Element1");
+	elem1->content = ft_strdup("Hello");
 	elem1->next = NULL;
 
 	t_list	*elem2 = malloc(sizeof(t_list));
-	elem2->content = ft_strdup("Element2");
+	elem2->content = ft_strdup("World");
 	elem2->next = NULL;
 
-	ft_lstadd_front(&test, elem2);
-	ft_lstadd_front(&test, elem1);
+	ft_lstadd_front(&head, elem1);
+	ft_lstadd_front(&head, elem2);
 
-	printf("%s", (char *)ft_lstlast(test)->content);
+	t_list	*current = head;
+	while (current)
+	{
+		printf("%s\n", (char *)current->content);
+		current = current->next;
+	}
 	return (0);
 }*/

@@ -1,40 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 16:02:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/07/21 13:58:32 by lenakach         ###   ########.fr       */
+/*   Created: 2025/04/29 16:10:19 by lenakach          #+#    #+#             */
+/*   Updated: 2025/07/21 13:59:13 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
+	unsigned char	*c1;
+	unsigned char	*c2;
+	size_t			i;
+
+	i = 0;
+	c1 = (unsigned char *)s1;
+	c2 = (unsigned char *)s2;
+	while (i < n)
+	{
+		if (!(c1[i] == c2[i]))
+			return (c1[i] - c2[i]);
+		i++;
+	}
+	return (0);
 }
 
 /*int	main(void)
 {
-	t_list	*test = NULL;
-	t_list	*elem1 = malloc(sizeof(t_list));
-	elem1->content = ft_strdup("Element1");
-	elem1->next = NULL;
+	char	*s1 = "abcdefghij";
+	char	*s2 = "abcdefgxyz";
+	int		res = ft_memcmp(s1, s2, 7);
 
-	t_list	*elem2 = malloc(sizeof(t_list));
-	elem2->content = ft_strdup("Element2");
-	elem2->next = NULL;
-
-	ft_lstadd_front(&test, elem2);
-	ft_lstadd_front(&test, elem1);
-
-	printf("%s", (char *)ft_lstlast(test)->content);
+	printf("%d", res);
 	return (0);
 }*/

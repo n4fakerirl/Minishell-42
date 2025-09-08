@@ -1,25 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/06 19:30:26 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/08 12:51:27 by lenakach         ###   ########.fr       */
+/*   Created: 2025/05/01 15:45:57 by lenakach          #+#    #+#             */
+/*   Updated: 2025/07/21 13:59:47 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "includes/libft.h"
 
-//Affiche le repertoire courant
-int	ft_pwd(void)
+/*void	ft_test(unsigned int i, char *s)
 {
-	char	cwd[100000];
+	if (i % 2 == 0 && (*s >= 'A' && *s <= 'Z'))
+		*s = *s + 32;
+}*/
 
-	if (getcwd(cwd, sizeof(cwd)))
-		printf("%s\n", cwd);
-	else
-		perror("pwd");
-	return (0);
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+{
+	unsigned int	i;
+
+	i = 0;
+	if (!s || !f)
+		return ;
+	while (s[i])
+	{
+		(*f)(i, &s[i]);
+		i++;
+	}
 }
+
+/*int	main(void)
+{
+	char	str[] = "HEYD?KJS";
+
+	ft_striteri(str, ft_test);
+	printf("%s", str);
+	return (0);
+}*/

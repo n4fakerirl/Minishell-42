@@ -1,40 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 16:02:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/07/21 13:58:32 by lenakach         ###   ########.fr       */
+/*   Created: 2025/04/30 12:35:29 by lenakach          #+#    #+#             */
+/*   Updated: 2025/08/01 17:38:50 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	if (!lst)
+	char	*s3;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	s3 = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!s3 || !s2)
 		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
+	while (s1[i])
+	{
+		s3[j] = s1[i];
+		i++;
+		j++;
+	}
+	i = 0;
+	while (s2[i])
+	{
+		s3[j] = s2[i];
+		i++;
+		j++;
+	}
+	s3[j] = '\0';
+	return (s3);
 }
 
 /*int	main(void)
 {
-	t_list	*test = NULL;
-	t_list	*elem1 = malloc(sizeof(t_list));
-	elem1->content = ft_strdup("Element1");
-	elem1->next = NULL;
+	const char	s1[] = "Hey";
+	const char	s2[] = "Salut";
 
-	t_list	*elem2 = malloc(sizeof(t_list));
-	elem2->content = ft_strdup("Element2");
-	elem2->next = NULL;
-
-	ft_lstadd_front(&test, elem2);
-	ft_lstadd_front(&test, elem1);
-
-	printf("%s", (char *)ft_lstlast(test)->content);
+	printf("%s", ft_strjoin(s1, s2));
 	return (0);
 }*/

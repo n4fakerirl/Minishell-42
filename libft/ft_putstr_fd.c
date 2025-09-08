@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 16:02:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/07/21 13:58:32 by lenakach         ###   ########.fr       */
+/*   Created: 2025/05/01 17:18:57 by lenakach          #+#    #+#             */
+/*   Updated: 2025/07/21 13:59:35 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	ft_putstr_fd(char *s, int fd)
 {
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }
 
 /*int	main(void)
 {
-	t_list	*test = NULL;
-	t_list	*elem1 = malloc(sizeof(t_list));
-	elem1->content = ft_strdup("Element1");
-	elem1->next = NULL;
+	char	*str = "Hello";
 
-	t_list	*elem2 = malloc(sizeof(t_list));
-	elem2->content = ft_strdup("Element2");
-	elem2->next = NULL;
-
-	ft_lstadd_front(&test, elem2);
-	ft_lstadd_front(&test, elem1);
-
-	printf("%s", (char *)ft_lstlast(test)->content);
+	ft_putstr_fd(str, 0);
+	ft_putstr_fd(str, 1);
+	ft_putstr_fd(str, 2);
 	return (0);
 }*/

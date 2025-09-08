@@ -1,40 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 16:02:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/07/21 13:58:32 by lenakach         ###   ########.fr       */
+/*   Created: 2025/05/01 14:35:38 by lenakach          #+#    #+#             */
+/*   Updated: 2025/07/21 14:00:00 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+/*char	f_test(unsigned int i, char c)
 {
-	if (!lst)
+	if (i % 2 == 0)
+		c = c + 32;
+	return (c);
+}*/
+
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
+{
+	unsigned int	i;
+	char			*str;
+
+	str = malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!str)
 		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
+	i = 0;
+	while (s[i])
+	{
+		str[i] = f(i, s[i]);
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
 
 /*int	main(void)
 {
-	t_list	*test = NULL;
-	t_list	*elem1 = malloc(sizeof(t_list));
-	elem1->content = ft_strdup("Element1");
-	elem1->next = NULL;
+	char	*str = "";
 
-	t_list	*elem2 = malloc(sizeof(t_list));
-	elem2->content = ft_strdup("Element2");
-	elem2->next = NULL;
-
-	ft_lstadd_front(&test, elem2);
-	ft_lstadd_front(&test, elem1);
-
-	printf("%s", (char *)ft_lstlast(test)->content);
+	printf("%s", ft_strmapi(str, f_test));
 	return (0);
 }*/

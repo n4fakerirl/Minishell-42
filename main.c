@@ -6,9 +6,11 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/06 20:00:17 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:18:40 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/minishell.h"
 
 /* int	is_builtin(char *cmd)
 {
@@ -20,7 +22,7 @@
 	return (1);
 } */
 
-int exec_builtin(char **split, int *exit_status)
+/* int exec_builtin(char **split, int *exit_status)
 {
 	if (!ft_strcmp(split[0], "echo"))
 		return (ft_echo(split));
@@ -37,17 +39,21 @@ int exec_builtin(char **split, int *exit_status)
 	else if (!ft_strcmp(split[0], "exit"))
 		return (ft_exit(split, exit_status));
 	return (1);
-}
+} */
 
 int	main(int ac, char **av, char **envp)
 {
-	int		exit_status;
 	char	**split;
+	t_env	*env;
 
-	exit_status = 0;
-	split = ft_split(av);
+	(void)ac;
+	split = ft_split(av[1], ' ');
 	if (!split || !split[0])
 		return (1);
-	env_conv(envp);
-	exec_builtin(split, env, &exit_status);
+	env = init_env(envp);
+	print_list(env);
+	ft_cd(split, env);
+	printf("\n\n\n\n\n\n\n\n\n\n\n");
+	print_list(env);
+	return (0);
 }

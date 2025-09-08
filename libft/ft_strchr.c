@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/08 11:08:23 by lenakach         ###   ########.fr       */
+/*   Created: 2025/04/29 17:16:50 by lenakach          #+#    #+#             */
+/*   Updated: 2025/07/21 13:59:42 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "includes/libft.h"
 
-// Librairies
-# include <unistd.h>
-
-// Builtins
-// Fonction ENV
-typedef struct s_env
+char	*ft_strchr(const char *s, int c)
 {
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}					t_env;
+	int	i;
+	int	cc;
 
-#endif
+	i = 0;
+	cc = (unsigned char)c;
+	while (s[i])
+	{
+		if (s[i] == cc)
+			return ((char *)(&s[i]));
+		i++;
+	}
+	if (s[i] == cc)
+		return ((char *)(&s[i]));
+	return (NULL);
+}
+/*int	main(void)
+{
+	const char	str[] = "Hola";
+	int			c;
+
+	c = 72;
+	printf("Mon retour : %p", ft_strchr(str, c));
+	return (0);
+}*/
