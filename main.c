@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:42:51 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/08 15:06:43 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:21:10 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int ac, char **av)
 	(void)ac;
 	str = readline("minishell$ ");
 	tokens = tokenize(str);
+	new_type(tokens);
 	while (tokens != NULL)
 	{
 	    printf("TYPE : %d, CONTENT : %s\n", tokens->type, tokens->value);

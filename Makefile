@@ -6,7 +6,7 @@
 #    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 12:51:02 by ocviller          #+#    #+#              #
-#    Updated: 2025/09/08 15:24:11 by ocviller         ###   ########.fr        #
+#    Updated: 2025/09/08 17:05:32 by ocviller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME        = minishell
 
 # Compilateur et flags
 CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror -g3 -I. -Ilibft
+CFLAGS      = -Wall -Wextra -Werror -g -I. -Ilibft
 
 # Librairies à linker
 LIBS        = -lreadline -lncurses

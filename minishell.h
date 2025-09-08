@@ -50,5 +50,6 @@ typedef struct s_token
 
 t_token				*tokenize(char *input);
 void				ft_lstadd_back(t_token **toklist, t_token *token);
+t_token				*new_type(t_token *token);
 
 #endif
