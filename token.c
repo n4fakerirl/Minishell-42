@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:54:09 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/08 17:21:46 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:00:05 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ t_token *new_type(t_token *tokens)
 	while (tmp != NULL)
 	{
 		if (tmp->type == TOKEN_REDIRECT_APPEND || tmp->type == TOKEN_REDIRECT_IN || tmp->type == TOKEN_REDIRECT_OUT)
-			tmp->next->type = TOKEN_EOF;
+		{
+			if (tmp->next->type == TOKEN_WORD)
+				tmp->next->type = TOKEN_EOF;
+		}
 		tmp = tmp->next;
 	}
 	return (tokens);
