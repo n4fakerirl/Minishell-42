@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:42:51 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/08 17:21:10 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/09 18:33:21 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,20 @@ int	main(int ac, char **av)
 {
 	char	*str;
 	t_token	*tokens;
-
-	tokens = malloc(sizeof(t_token **));
-	if (!tokens)
-		return (1);
+	t_token *token1 = malloc(sizeof(t_token));
+	
 	(void)av;
 	(void)ac;
-	str = readline("minishell$ ");
-	tokens = tokenize(str);
-	new_type(tokens);
-	while (tokens != NULL)
+	while (1)
 	{
-	    printf("TYPE : %d, CONTENT : %s\n", tokens->type, tokens->value);
-	    tokens = tokens->next;
-    }
+		str = readline("minishell$ ");
+		tokens = tokenize(str);
+		new_type(tokens);
+		token1 = tokens;
+		while (token1 != NULL)
+		{
+			printf("TYPE : %d, CONTENT : %s\n", token1->type, token1->value);
+			token1 = token1->next;
+		}
+	}
 }

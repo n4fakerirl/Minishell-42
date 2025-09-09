@@ -32,13 +32,13 @@
 
 typedef enum e_token_type
 {
-	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_REDIRECT_IN,     // <
-	TOKEN_REDIRECT_OUT,    // >
-	TOKEN_REDIRECT_APPEND, // >>
-	TOKEN_HEREDOC,         // <<
-	TOKEN_EOF
+	TOKEN_WORD, // 0
+	TOKEN_PIPE, // 1
+	TOKEN_REDIRECT_IN,     // < // 2
+	TOKEN_REDIRECT_OUT,    // > // 3
+	TOKEN_REDIRECT_APPEND, // >> // 4
+	TOKEN_HEREDOC,         // << // 5
+	TOKEN_EOF // 6
 }					t_token_type;
 
 typedef struct s_token
