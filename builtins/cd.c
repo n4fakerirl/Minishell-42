@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:09:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 17:50:23 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/09 19:28:35 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,11 @@ int	change_directory(t_env *env, char *path)
 	}
 	if (chdir(path) == -1)
 	{
-		fprintf(stderr, "minishell: cd: %s: %s\n", path, strerror(errno));
+		ft_putstr_fd("minishell: cd:", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(":", 2);
+		perror(errno);
+		ft_putstr_fd("\n", 2);
 		free(current_pwd);
 		return (1);
 	}
