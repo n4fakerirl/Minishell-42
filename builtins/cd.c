@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:09:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 19:51:17 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/09 20:32:19 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	change_directory(t_env *env, char *path)
 		ft_putstr_fd(path, 2);
 		ft_putstr_fd(":", 2);
 		perror("");
-		ft_putstr_fd("\n", 2);
 		free(current_pwd);
 		return (1);
 	}

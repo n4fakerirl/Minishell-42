@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 19:56:29 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/09 22:46:41 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,35 @@
 
 int exec_builtin(char **split, t_env *env)
 {
-	//if (!ft_strcmp(split[0], "echo"))
-	//	return (ft_echo(split));
-	if (!ft_strcmp(split[0], "cd"))
+	int	exit_flag;
+	int	exit_code;
+
+	exit_flag = 1;
+	exit_code = 0;
+	if (!ft_strcmp(split[0], "echo"))
+		return (ft_echo(split));
+	else if (!ft_strcmp(split[0], "cd"))
 		return (ft_cd(split, env));
 	else if (!ft_strcmp(split[0], "pwd"))
 		return (ft_pwd());
-	return (0);
+	else if (!ft_strcmp(split[0], "env"))
+		return (ft_env(split, env));
+	else if (!ft_strcmp(split[0], "exit"))
+	{
+		exit_code = ft_exit(split, &exit_flag);
+		printf("ECHO : %d\n", exit_code);
+		printf("SI 1 JE SORS 0 NON %d\n", exit_flag);
+		if (exit_flag == 1)
+		{
+			free_struct(env);
+			exit(exit_code);
+		}
+	}
 	/*else if (!ft_strcmp(split[0], "export"))
 		return (ft_export(split));
 	else if (!ft_strcmp(split[0], "unset"))
-		return (ft_unset(split));
-	else if (!ft_strcmp(split[0], "env"))
-		return (ft_env(split));
-	else if (!ft_strcmp(split[0], "exit"))
-		return (ft_exit(split, exit_status));
-	return (1); */
+		return (ft_unset(split));*/
+	return (1);
 }
 void	free_split(char **split)
 {
@@ -75,29 +88,16 @@ void	free_struct(t_env *env)
 }
 int	main(int ac, char **av, char **envp)
 {
-	char	**split;
 	t_env	*env;
 
-	split = NULL;
 	(void)ac;
-	split = ft_split(av[1], ' ');
-	if (!split || !split[0])
-		return (1);
 	env = init_env(envp);
-	if (exec_builtin(split, env) == 0)
+	if (exec_builtin((av + 1), env) == 1)
 	{
 		free_struct(env);
-		free_split(split);
 		return (1);
 	}
-	/* if (ft_cd(split, env) == 1)
-	{
-		printf("CD FAILED\n");
-		free_struct(env);
-		free_split(split);
-		return (1);
-	} */
-	free_split(split);
+
 	free_struct(env);
 	return (0);
 }

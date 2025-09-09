@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 19:52:00 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/09 22:15:46 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <unistd.h>
 
 // Builtins
-// Fonction ENV
 typedef struct s_env
 {
 	char			*key;
@@ -30,17 +29,18 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 t_env				*init_env(char **envp);
-void				print_list(t_env *env);
-void				free_struct(t_env *env);
-void				free_split(char **split);
-
-// Fonction CD
 int					ft_cd(char **split, t_env *env);
-
-// Fonction PWD
 int					ft_pwd(void);
+int					ft_echo(char **split);
+int					ft_env(char **split, t_env *env);
+int					ft_exit(char **split, int *exit_flag);
 
 // Divers
 int					ft_strcmp(const char *s1, const char *s2);
+void				print_list(t_env *env);
+
+// free
+void				free_struct(t_env *env);
+void				free_split(char **split);
 
 #endif

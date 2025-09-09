@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/09/09 16:11:14 by lenakach         ###   ########.fr        #
+#    Updated: 2025/09/09 22:16:11 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ INCLUDES = -Iincludes -I$(LIBFT_DIR)
 LIBFT = $(LIBFT_DIR)/libft.a
 
 #Sources
-BUITLINS = $(BUITLINS_DIR)/env.c $(BUITLINS_DIR)/echo.c $(BUITLINS_DIR)/pwd.c $(BUITLINS_DIR)/cd.c
+BUITLINS = $(BUITLINS_DIR)/env.c $(BUITLINS_DIR)/echo.c $(BUITLINS_DIR)/pwd.c $(BUITLINS_DIR)/cd.c \
+			$(BUITLINS_DIR)/exit.c
 UTILS = $(UTILS_DIR)/init_env.c
 
 SRCS = $(BUITLINS) $(UTILS) main.c
