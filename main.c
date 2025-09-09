@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 19:23:22 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/09 19:56:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@
 		return (0);
 	return (1);
 } */
-/* int exec_builtin(char **split, int *exit_status)
+
+int exec_builtin(char **split, t_env *env)
 {
-	if (!ft_strcmp(split[0], "echo"))
-		return (ft_echo(split));
-	else if (!ft_strcmp(split[0], "cd"))
-		return (ft_cd(split));
+	//if (!ft_strcmp(split[0], "echo"))
+	//	return (ft_echo(split));
+	if (!ft_strcmp(split[0], "cd"))
+		return (ft_cd(split, env));
 	else if (!ft_strcmp(split[0], "pwd"))
 		return (ft_pwd());
-	else if (!ft_strcmp(split[0], "export"))
+	return (0);
+	/*else if (!ft_strcmp(split[0], "export"))
 		return (ft_export(split));
 	else if (!ft_strcmp(split[0], "unset"))
 		return (ft_unset(split));
@@ -41,8 +43,8 @@
 		return (ft_env(split));
 	else if (!ft_strcmp(split[0], "exit"))
 		return (ft_exit(split, exit_status));
-	return (1);
-} */
+	return (1); */
+}
 void	free_split(char **split)
 {
 	int	i;
@@ -71,7 +73,6 @@ void	free_struct(t_env *env)
 		env = tmp;
 	}
 }
-
 int	main(int ac, char **av, char **envp)
 {
 	char	**split;
@@ -83,15 +84,41 @@ int	main(int ac, char **av, char **envp)
 	if (!split || !split[0])
 		return (1);
 	env = init_env(envp);
-	// print_list(env);
-	if (ft_cd(split, env) == 1)
+	if (exec_builtin(split, env) == 0)
+	{
+		free_struct(env);
+		free_split(split);
+		return (1);
+	}
+	/* if (ft_cd(split, env) == 1)
 	{
 		printf("CD FAILED\n");
 		free_struct(env);
 		free_split(split);
-		return (-1);
-	}
+		return (1);
+	} */
 	free_split(split);
 	free_struct(env);
 	return (0);
 }
+/* 
+int	main(int ac, char **av, char **envp)
+{
+	char	**split;
+	t_env	*env;
+
+	split = NULL;
+	(void)ac;
+	split = ft_split(av[1], ' ');
+	if (!split || !split[0])
+		return (1);
+	env = init_env(envp);
+	if (ft_pwd() == 1)
+	{
+		printf("PWD FAILED\n");
+		free_struct(env);
+		free_split(split);
+		return (1);
+	}
+	return (0);
+} */

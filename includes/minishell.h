@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 17:42:42 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/09 19:52:00 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 
 // Librairies
 # include "../libft/includes/libft.h"
-# include <unistd.h>
+# include <errno.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <string.h>
-# include <errno.h>
+# include <unistd.h>
 
 // Builtins
 // Fonction ENV
@@ -28,15 +29,18 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }					t_env;
-t_env	*init_env(char **envp);
-void	print_list(t_env *env);
-void	free_struct(t_env *env);
-void	free_split(char **split);
+t_env				*init_env(char **envp);
+void				print_list(t_env *env);
+void				free_struct(t_env *env);
+void				free_split(char **split);
 
-//Fonction CD
-int	ft_cd(char **split, t_env *env);
+// Fonction CD
+int					ft_cd(char **split, t_env *env);
 
-//Divers
-int	ft_strcmp(const char *s1, const char *s2);
+// Fonction PWD
+int					ft_pwd(void);
+
+// Divers
+int					ft_strcmp(const char *s1, const char *s2);
 
 #endif
