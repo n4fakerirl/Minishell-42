@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/08 15:30:18 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:42:42 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "../libft/includes/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
+# include <string.h>
+# include <errno.h>
 
 // Builtins
 // Fonction ENV
@@ -28,6 +30,8 @@ typedef struct s_env
 }					t_env;
 t_env	*init_env(char **envp);
 void	print_list(t_env *env);
+void	free_struct(t_env *env);
+void	free_split(char **split);
 
 //Fonction CD
 int	ft_cd(char **split, t_env *env);

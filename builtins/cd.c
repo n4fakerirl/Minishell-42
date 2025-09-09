@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:09:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/08 21:42:40 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/09 17:50:23 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,27 @@
 
 char	*get_pwd(t_env *env, char *pwd)
 {
+	char	*new_pwd;
+
 	while (env != NULL)
 	{
 		if (!ft_strcmp(env->key, pwd))
-			return (ft_strdup(env->value));
+		{
+			new_pwd = ft_strdup(env->value);
+			if (!new_pwd)
+			{
+				fprintf(stderr, "minishell: cd: malloc error\n");
+				return (NULL);
+			}
+			return (new_pwd);
+		}
 		else
 			env = env->next;
 	}
 	return (NULL);
 }
 
-void	maj_pwd(t_env *env, char *pwd, char *old_path)
+int	maj_pwd(t_env *env, char *pwd, char *old_path)
 {
 	while (env != NULL)
 	{
@@ -32,44 +42,76 @@ void	maj_pwd(t_env *env, char *pwd, char *old_path)
 		{
 			free(env->value);
 			env->value = ft_strdup(old_path);
-			return ;
+			if (!env->value)
+			{
+				fprintf(stderr, "minishell: cd: malloc error\n");
+				return (1);
+			}
+			return (0);
 		}
 		env = env->next;
 	}
+	return (1);
 }
 
-void	change_directory(t_env *env, char *path)
+int	change_directory(t_env *env, char *path)
 {
 	char	*current_pwd;
 	char	*new_pwd;
-	
-	current_pwd = get_pwd(env, "PWD");
-	if (chdir(path) < 0 || access(NULL, X_OK))
+
+	current_pwd = getcwd(NULL, 0);
+	if (!current_pwd)
 	{
-		printf("ERROR\n");
+		fprintf(stderr, "minishell: cd: error retrieving current directory: %s\n", strerror(errno));
+		return (1);
+	}
+	if (chdir(path) == -1)
+	{
+		fprintf(stderr, "minishell: cd: %s: %s\n", path, strerror(errno));
 		free(current_pwd);
-		return ;
+		return (1);
 	}
 	new_pwd = getcwd(NULL, 0);
-	maj_pwd(env, "OLDPWD", current_pwd);
-	maj_pwd(env, "PWD", new_pwd);
+	if (!new_pwd)
+	{
+		fprintf(stderr, "minishell: cd: error retrieving current directory: %s\n", strerror(errno));
+		return (1);
+	}
+	if (maj_pwd(env, "OLDPWD", current_pwd) == 1)
+	{
+		free(current_pwd);
+		free(new_pwd);
+		return (1);
+	}
+	if (maj_pwd(env, "PWD", new_pwd) == 1)
+	{
+		free(current_pwd);
+		free(new_pwd);
+		return (1);
+	}
 	free(new_pwd);
 	free(current_pwd);
+	return (0);
 }
 
 int	ft_cd(char **split, t_env *env)
 {
 	char	*path;
-	
-	if (!split[1] || !split[1][0] || !ft_strcmp(split[1], "~") || !ft_strcmp(split[1], "--"))
-	{	
+
+	if (!split[1] || !split[1][0] || !ft_strcmp(split[1], "~")
+		|| !ft_strcmp(split[1], "--"))
+	{
 		path = get_pwd(env, "HOME");
 		if (!path)
 		{
-			perror("cd");
-			return (-1);
+			fprintf(stderr, "minishell: cd: HOME not set\n");
+			return (1);
 		}
-		change_directory(env, path);
+		if (change_directory(env, path) == 1)
+		{
+			free(path);
+			return (1);
+		}
 		free(path);
 	}
 	else if (!ft_strcmp(split[1], "-"))
@@ -77,14 +119,19 @@ int	ft_cd(char **split, t_env *env)
 		path = get_pwd(env, "OLDPWD");
 		if (!path)
 		{
-			perror("cd");
-			return (-1);
+			fprintf(stderr, "minishell: cd: OLDPWD not set\n");
+			return (1);
 		}
-		change_directory(env, path);
+		if (change_directory(env, path) == 1)
+		{
+			free(path);
+			return (1);
+		}
 		printf("%s\n", path);
 		free(path);
 	}
 	else if (split[1])
-		change_directory(env, split[1]);
+		if (change_directory(env, split[1]) == 1)
+			return (1);
 	return (0);
 }

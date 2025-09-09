@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/30 11:52:01 by lenakach          #+#    #+#              #
-#    Updated: 2025/09/08 12:44:22 by lenakach         ###   ########.fr        #
+#    Updated: 2025/09/09 15:35:43 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,11 +45,11 @@ AR = ar rcs
 #Regle principale
 all : $(NAME)
 
-$(NAME) : $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+$(NAME) : $(OBJS) $(OBJS_BONUS)
+	$(AR) $(NAME) $(OBJS) $(OBJS_BONUS)
 
-bonus: $(OBJS_BONUS)
-	$(AR) $(NAME) $(OBJS_BONUS)
+#bonus: $(OBJS_BONUS)
+#	$(AR) $(NAME) $(OBJS_BONUS)
 
 # Nettoyage des .o
 clean:

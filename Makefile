@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/09/08 15:23:49 by lenakach         ###   ########.fr        #
+#    Updated: 2025/09/09 16:11:14 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,11 @@ NAME = minishell
 
 #Compilateur et flags
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g3
 
 #Dossiers
-SRC_DIR = builtins
+BUITLINS_DIR = builtins
+UTILS_DIR = utils
 LIBFT_DIR = libft
 
 #Includes
@@ -28,9 +29,10 @@ INCLUDES = -Iincludes -I$(LIBFT_DIR)
 LIBFT = $(LIBFT_DIR)/libft.a
 
 #Sources
-SRC = $(SRC_DIR)/env.c $(SRC_DIR)/echo.c $(SRC_DIR)/pwd.c $(SRC_DIR)/cd.c
+BUITLINS = $(BUITLINS_DIR)/env.c $(BUITLINS_DIR)/echo.c $(BUITLINS_DIR)/pwd.c $(BUITLINS_DIR)/cd.c
+UTILS = $(UTILS_DIR)/init_env.c
 
-SRCS = $(SRC) main.c
+SRCS = $(BUITLINS) $(UTILS) main.c
 OBJS = $(SRCS:.c=.o)
  
 #Commandes

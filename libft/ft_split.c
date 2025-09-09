@@ -6,18 +6,21 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:49:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/08/09 14:34:27 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/09 15:46:54 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-static char	**ft_free(char **arr, int j)
+static char	**ft_free(char **arr)
 {
-	while (j >= 0)
+	int	i;
+
+	i = 0;
+	while (arr[i])
 	{
-		free(arr[j]);
-		j--;
+		free(arr[i]);
+		i++;
 	}
 	free(arr);
 	return (NULL);
@@ -76,44 +79,61 @@ char	**ft_split(const char *s, char c)
 	size_t	i;
 	int		j;
 	int		s_word;
+	size_t	len;
 
+	len = ft_strlen(s);
 	ft_initialize(&i, &j, &s_word);
 	if (!s || !*s)
 		return (NULL);
 	arr = ft_calloc((word_count(s, c) + 1), sizeof(char *));
 	if (!arr)
 		return (NULL);
-	while (++i <= ft_strlen(s))
+	while (++i < len)
 	{
 		if (s[i] != c && s_word < 0)
 			s_word = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && s_word >= 0)
+		else if (s[i] == c && s_word >= 0)
 		{
 			arr[j] = fill_word(s, s_word, i);
 			if (!arr[j])
-				return (ft_free(arr, j));
+				return (ft_free(arr));
 			s_word = -1;
 			j++;
+			arr[j] = 0;
 		}
+	}
+	if (s_word >= 0)
+	{
+		arr[j] = fill_word(s, s_word, i);
+		if (!arr[j])
+			return (ft_free(arr));
+		arr[j + 1] = 0;
 	}
 	return (arr);
 }
 
-/* int	main(void)
+/* int	main(int ac, char **av)
 {
-	const char	*s = "lorem ipsum";
-	char		c;
-	char		**tab;
-	int			i;
+	char c;
+	char **tab;
+	int i;
 
-	c = ' ';
-	i = 0;
-	tab = ft_split(s, c);
-	printf("%d", word_count(s, c));
-	while (tab[i])
+	if (ac == 2 && av[1] && av[1][0])
 	{
-		printf("%s\n", tab[i]);
-		i++;
+		c = ' ';
+		i = 0;
+		tab = ft_split(av[1], c);
+		while (tab[i])
+		{
+			printf("%s\n", tab[i]);
+			i++;
+		}
+		ft_free(tab);
+	}
+	else
+	{
+		printf("ERROR\n");
+		return (-1);
 	}
 	return (0);
 } */
