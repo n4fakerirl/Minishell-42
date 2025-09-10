@@ -46,7 +46,6 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	bool			need_exp;
 	struct s_token	*next;
 }					t_token;
 
@@ -73,6 +72,9 @@ typedef struct s_shell
 t_token				*tokenize(char *input);
 void				ft_lstadd_back(t_token **toklist, t_token *token);
 t_token				*new_type(t_token *token);
-void				create_cmd(t_token *tokens, t_cmd *cmds, t_shell *shell);
-int					lstiter(t_token **toklist);
+void				create_cmd(t_token *tokens, t_cmd *cmds);
+int	lstlen(t_token **toklist);
+void cmd_list(t_token *tokens, t_cmd **cmds);
+void	add_cmds(t_cmd **cmds, t_cmd *cmd);
+
 #endif

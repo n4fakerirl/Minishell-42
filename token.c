@@ -38,13 +38,17 @@ int	redirect(char *input, t_token **tokens)
 	if (input[0] == '|')
 		return (ft_lstadd_back(tokens, create_token(PIPE, ft_strdup("|"))), 1);
 	if (input[0] == '<' && input[1] == '<')
-		return (ft_lstadd_back(tokens, create_token(REDIRDL, ft_strdup("<<"))), 2);
+		return (ft_lstadd_back(tokens, create_token(REDIRDL, ft_strdup("<<"))),
+			2);
 	if (input[0] == '>' && input[1] == '>')
-		return (ft_lstadd_back(tokens, create_token(REDIRDR, ft_strdup(">>"))), 2);
+		return (ft_lstadd_back(tokens, create_token(REDIRDR, ft_strdup(">>"))),
+			2);
 	if (input[0] == '<')
-		return (ft_lstadd_back(tokens, create_token(REDIRL, ft_strdup("<"))), 1);
+		return (ft_lstadd_back(tokens, create_token(REDIRL, ft_strdup("<"))),
+			1);
 	if (input[0] == '>')
-		return (ft_lstadd_back(tokens, create_token(REDIRR, ft_strdup(">"))), 1);
+		return (ft_lstadd_back(tokens, create_token(REDIRR, ft_strdup(">"))),
+			1);
 	return (0);
 }
 
@@ -105,8 +109,7 @@ t_token	*new_type(t_token *tokens)
 	tmp = tokens;
 	while (tmp != NULL)
 	{
-		if (tmp->type == REDIRDR || tmp->type == REDIRL
-			|| tmp->type == REDIRR)
+		if (tmp->type == REDIRDR || tmp->type == REDIRL || tmp->type == REDIRR)
 		{
 			if (tmp->next && tmp->next->type == WORD)
 				tmp->next->type = ARGREDIR;
