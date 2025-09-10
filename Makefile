@@ -6,7 +6,7 @@
 #    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 12:51:02 by ocviller          #+#    #+#              #
-#    Updated: 2025/09/08 17:05:32 by ocviller         ###   ########.fr        #
+#    Updated: 2025/09/10 16:56:16 by ocviller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_INC = -I$(LIBFT_DIR)
 
 # Fichiers sources
-SRC         = main.c token.c utils.c
+SRC         = main.c token.c utils.c parsing.c
 
 # Objets générés
 OBJ         = $(SRC:.c=.o)

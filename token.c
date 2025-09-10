@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:54:09 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/10 14:32:37 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:19:51 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_token	*new_type(t_token *tokens)
 			|| tmp->type == REDIRR)
 		{
 			if (tmp->next && tmp->next->type == WORD)
-				tmp->next->type = TEOF;
+				tmp->next->type = ARGREDIR;
 		}
 		tmp = tmp->next;
 	}
