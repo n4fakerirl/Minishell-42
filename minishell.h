@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -32,19 +33,20 @@
 
 typedef enum e_token_type
 {
-	TOKEN_WORD, // 0
-	TOKEN_PIPE, // 1
-	TOKEN_REDIRECT_IN,     // < // 2
-	TOKEN_REDIRECT_OUT,    // > // 3
-	TOKEN_REDIRECT_APPEND, // >> // 4
-	TOKEN_HEREDOC,         // << // 5
-	TOKEN_EOF // 6
+	WORD,    // 0
+	PIPE,    // 1
+	REDIRL,  // < // 2
+	REDIRR,  // > // 3
+	REDIRDR, // >> // 4
+	REDIRDL, // << // 5
+	TEOF     // 6
 }					t_token_type;
 
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	bool			need_exp;
 	struct s_token	*next;
 }					t_token;
 
