@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:41:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 22:46:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:08:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	all_digit(char *str)
 	int	i;
 	
 	i = 0;
+	if (str[0] && str[i] == '-')
+		i++;
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
@@ -26,15 +28,17 @@ int	all_digit(char *str)
 	return (1);
 }
 
-long	ft_atol(char *str)
+long	ft_atol(char *str, int *limit)
 {
 	int		i;
-	long	res;
+	long long	res;
 	int		sign;
+	int	digit;
 
 	i = 0;
 	res = 0;
 	sign = 1;
+	digit = 0;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '+' || str[i] == '-')
@@ -45,7 +49,18 @@ long	ft_atol(char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		res = res * 10 + (str[i] - 48);
+		digit = str[i] - 48;
+		if (sign == 1 && (res > (LONG_MAX - digit) / 10))
+		{
+			*limit = -1;
+			return (-1);
+		}
+		if (sign == -1 && (-res < (LONG_MIN + digit) / 10))
+		{
+			*limit = -1;
+			return (-1);
+		}
+		res = res * 10 + digit;
 		i++;
 	}
 	return (res * sign);
@@ -68,12 +83,14 @@ int	ft_exit(char **split, int *exit_flag)
 	int	num1;
 	int	lit1;
 	int	i;
-	long	result;
+	long long	result;
+	int	limit;
 	
 	num1 = 0;
 	lit1 = 0;
 	result = 0;
 	i = 0;
+	limit = 0;
 	while(split[i])
 		i++;
 	printf("exit\n");
@@ -91,10 +108,12 @@ int	ft_exit(char **split, int *exit_flag)
 		}
 		else
 		{
-			result = ft_atol(split[1]);
-			if (result > LONG_MAX)
+			result = ft_atol(split[1], &limit);
+			if (limit == -1)
 			{
+				ft_putstr_fd("minishell: exit: ", 2);
 				ft_putstr_fd(split[1], 2);
+				ft_putstr_fd(": numeric argument required\n", 2);
 				return (2);
 			}
 			return((unsigned char)(result));

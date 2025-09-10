@@ -6,7 +6,9 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:32:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 20:32:32 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:09:04 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/minishell.h"
 

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 22:46:41 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:07:08 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int exec_builtin(char **split, t_env *env)
 	else if (!ft_strcmp(split[0], "exit"))
 	{
 		exit_code = ft_exit(split, &exit_flag);
-		printf("ECHO : %d\n", exit_code);
-		printf("SI 1 JE SORS 0 NON %d\n", exit_flag);
 		if (exit_flag == 1)
 		{
 			free_struct(env);
