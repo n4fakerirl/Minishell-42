@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/10 14:07:08 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/10 20:38:57 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int exec_builtin(char **split, t_env *env)
 	else if (!ft_strcmp(split[0], "pwd"))
 		return (ft_pwd());
 	else if (!ft_strcmp(split[0], "env"))
-		return (ft_env(split, env));
+		return (ft_env(split, env, false));
 	else if (!ft_strcmp(split[0], "exit"))
 	{
 		exit_code = ft_exit(split, &exit_flag);
@@ -50,10 +50,10 @@ int exec_builtin(char **split, t_env *env)
 			exit(exit_code);
 		}
 	}
-	/*else if (!ft_strcmp(split[0], "export"))
-		return (ft_export(split));
-	else if (!ft_strcmp(split[0], "unset"))
-		return (ft_unset(split));*/
+	else if (!ft_strcmp(split[0], "export"))
+		return (ft_export(split, env));
+	//else if (!ft_strcmp(split[0], "unset"))
+	//	return (ft_unset(split));*/
 	return (1);
 }
 void	free_split(char **split)
@@ -84,6 +84,7 @@ void	free_struct(t_env *env)
 		env = tmp;
 	}
 }
+
 int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
@@ -99,24 +100,3 @@ int	main(int ac, char **av, char **envp)
 	free_struct(env);
 	return (0);
 }
-/* 
-int	main(int ac, char **av, char **envp)
-{
-	char	**split;
-	t_env	*env;
-
-	split = NULL;
-	(void)ac;
-	split = ft_split(av[1], ' ');
-	if (!split || !split[0])
-		return (1);
-	env = init_env(envp);
-	if (ft_pwd() == 1)
-	{
-		printf("PWD FAILED\n");
-		free_struct(env);
-		free_split(split);
-		return (1);
-	}
-	return (0);
-} */

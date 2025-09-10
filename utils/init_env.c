@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 19:56:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 16:32:27 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/10 20:23:42 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_env	*env_conv(char *str)
 	if (!node)
 		return (NULL);
 	equal = ft_strchr(str, '=');
+	//printf("%s\n", equal);
 	if (equal)
 	{
 		node->key = ft_substr(str, 0, equal - str);
@@ -58,6 +59,7 @@ t_env	*env_conv(char *str)
 		}
 		node->value = NULL;
 	}
+	//node->exported = 0;
 	node->next = NULL;
 	//free(equal);
 	return (node);
