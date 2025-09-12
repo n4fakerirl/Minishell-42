@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/10 20:38:57 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:04:06 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ int exec_builtin(char **split, t_env *env)
 
 	exit_flag = 1;
 	exit_code = 0;
+	if (!split || !*split)
+	{
+		printf("SPLIT VIDE\n");
+		return (1);
+	}
 	if (!ft_strcmp(split[0], "echo"))
 		return (ft_echo(split));
 	else if (!ft_strcmp(split[0], "cd"))
@@ -51,9 +56,12 @@ int exec_builtin(char **split, t_env *env)
 		}
 	}
 	else if (!ft_strcmp(split[0], "export"))
-		return (ft_export(split, env));
-	//else if (!ft_strcmp(split[0], "unset"))
-	//	return (ft_unset(split));*/
+	{
+		ft_export(split, env, &exit_code);
+		return (exit_code);
+	}
+	else if (!ft_strcmp(split[0], "unset"))
+		return(ft_unset(split, env));
 	return (1);
 }
 void	free_split(char **split)
@@ -90,13 +98,12 @@ int	main(int ac, char **av, char **envp)
 	t_env	*env;
 
 	(void)ac;
+	(void)av;
 	env = init_env(envp);
-	if (exec_builtin((av + 1), env) == 1)
-	{
-		free_struct(env);
+	if (!env)
 		return (1);
-	}
-
-	free_struct(env);
+	if (exec_builtin((av + 1), env) == 1)
+		return (free_struct(env), 1);
+	ft_env(av + 1, env, true);
 	return (0);
 }

@@ -6,15 +6,13 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 19:56:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/10 20:23:42 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/12 14:39:07 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// Affiche les variables d'environnement
-
-void	print_list(t_env *env)
+/* void	print_list(t_env *env)
 {
 	while (env->next != NULL)
 	{
@@ -22,7 +20,7 @@ void	print_list(t_env *env)
 		env = env->next;
 	}
 	printf("%s=%s\n", env->key, env->value);
-}
+} */
 
 t_env	*env_conv(char *str)
 {
@@ -33,35 +31,23 @@ t_env	*env_conv(char *str)
 	if (!node)
 		return (NULL);
 	equal = ft_strchr(str, '=');
-	//printf("%s\n", equal);
 	if (equal)
 	{
 		node->key = ft_substr(str, 0, equal - str);
 		if (!node->key)
-		{
-			free_struct(node);
-			return (NULL);
-		}
+			return (free_struct(node), NULL);
 		node->value = ft_strdup(equal + 1);
 		if (!node->value)
-		{
-			free_struct(node);
-			return (NULL);
-		}
+			return (free_struct(node), NULL);
 	}
 	else
 	{
 		node->key = ft_strdup(str);
 		if (!node->key)
-		{
-			free(node);
-			return (NULL);
-		}
+			return (free(node), NULL);
 		node->value = NULL;
 	}
-	//node->exported = 0;
 	node->next = NULL;
-	//free(equal);
 	return (node);
 }
 
@@ -76,6 +62,11 @@ t_env	*init_env(char **envp)
 	tmp = NULL;
 	new = NULL;
 	i = 0;
+	if (!envp || !envp)
+	{
+			printf("No arguments\n");
+			return NULL;
+	}
 	while (envp[i])
 	{
 		new = env_conv(envp[i]);

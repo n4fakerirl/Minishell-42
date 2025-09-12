@@ -6,12 +6,25 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:32:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/10 21:33:42 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/12 10:39:32 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/* int	ft_cherche(char *str, int c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+} */
 
 int	check_node(char *str, t_env *env)
 {
@@ -65,20 +78,6 @@ void	replace_value(char *str, t_env *env)
 	}
 }
 
-int	ft_cherche(char *str, int c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 int	check_var(char *str)
 {
 	int	i;
@@ -105,7 +104,7 @@ int	check_var(char *str)
 	return (0);
 }
 
-int	ft_export(char **split, t_env *env)
+int	ft_export(char **split, t_env *env, int *exit_code)
 {
 	int		i;
 	t_env	*tmp;
@@ -128,9 +127,10 @@ int	ft_export(char **split, t_env *env)
 		if (check_var(split[i]))
 		{
 			printf("minishell: export: \'%s\': not a valid identifier\n", split[i]);
+			*exit_code = 1;
 			continue;
 		}
-		else if (!ft_cherche(split[i], '='))
+		else if (!ft_strchr(split[i], '='))
 		{
 			if (check_node(split[i], env) == 1)
 				;

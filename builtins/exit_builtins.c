@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   exit_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 13:34:26 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/12 11:40:44 by lenakach         ###   ########.fr       */
+/*   Created: 2025/09/12 13:44:25 by lenakach          #+#    #+#             */
+/*   Updated: 2025/09/12 13:51:00 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_env(char **split, t_env *env, bool egal)
-{ /*
-		if (split[1])
-		{
-			ft_putstr_fd("minishell: env:", 2);
-			ft_putstr_fd(split[1], 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			return (1);
-		} */
-	(void)split;
-	while (env)
-	{
-		if (!env->value && egal)
-			printf("%s=\n", env->key);
-		else if (env->value)
-			printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
-	return (0);
+void	chdir_exit(char *message, char *path)
+{
+	ft_putstr_fd(message, 2);
+	ft_putstr_fd(path, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+}
+
+void	cwd_exit(char *message)
+{
+	ft_putstr_fd(message, 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+}
+
+void	getpwd_exit(char *message)
+{
+	ft_putstr_fd(message, 2);
 }
