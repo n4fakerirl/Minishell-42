@@ -46,6 +46,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	struct s_token *prev;
 	struct s_token	*next;
 }					t_token;
 
@@ -77,5 +78,6 @@ int	lstlen(t_token **toklist);
 void cmd_list(t_token *tokens, t_cmd **cmds);
 void	add_cmds(t_cmd **cmds, t_cmd *cmd);
 void trim_words(t_token *tokens);
+int parse_args(t_token *tokens);
 
 #endif

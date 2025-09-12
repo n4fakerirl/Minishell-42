@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:17:24 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/10 21:08:38 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/12 14:15:16 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ void	ft_lstadd_back(t_token **toklist, t_token *token)
 	if (!*toklist)
 	{
 		*toklist = token;
+		token->prev = NULL;
 		return ;
 	}
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = token;
+	token->prev = tmp;
 }
 
 void	add_cmds(t_cmd **cmds, t_cmd *cmd)

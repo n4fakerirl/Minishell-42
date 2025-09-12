@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 16:30:28 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/10 20:52:36 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:37:12 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,39 @@ void cmd_list(t_token *tokens, t_cmd **cmds)
             tmp = tmp->next;
         }
     }
+}
+
+int parse_args(t_token *tokens)
+{
+    t_token *tmp;
+
+    tmp = tokens;
+    while (tmp)
+    {
+        if (tmp->type == PIPE)
+        {
+            if (!tmp->prev || !tmp->next || tmp->prev->type != WORD || tmp->next->type != WORD)
+                return (printf("minishell: syntax error near unexpected token `|'\n"), 0);
+        }
+        else if (tmp->type == REDIRR || tmp->type == REDIRL)
+        {
+            if (!tmp->prev && !tmp->next)
+                return (printf("minishell: syntax error near unexpected token `newline'\n"), 0);
+            else if (tmp->type == REDIRR && tmp->next->type >= 2 && tmp->next->type <= 5)
+                return (printf("minishell: syntax error near unexpected token `>'\n"), 0);
+            else if (tmp->type == REDIRL && tmp->next->type >= 2 && tmp->next->type <= 5)
+                return (printf("minishell: syntax error near unexpected token `<'\n"), 0);
+        }
+        else if (tmp->type == REDIRDR || tmp->type == REDIRDL)
+        {
+            if (!tmp->prev && !tmp->next)
+                return (printf("minishell: syntax error near unexpected token `newline'\n"), 0);
+            else if (tmp->type == REDIRDR && tmp->next->type >= 2 && tmp->next->type <= 5)
+                return (printf("minishell: syntax error near unexpected token `>>'\n"), 0);
+            else if (tmp->type == REDIRDL && tmp->next->type >= 2 && tmp->next->type <= 5)
+                return (printf("minishell: syntax error near unexpected token `<<'\n"), 0);
+        }
+        tmp = tmp->next;
+    }
+    return (1);
 }
