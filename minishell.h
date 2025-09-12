@@ -42,6 +42,12 @@ typedef enum e_token_type
 	ARGREDIR // 6
 }					t_token_type;
 
+typedef enum e_quote_state {
+    NO_QUOTE,
+    SINGLE_QUOTE,
+    DOUBLE_QUOTE
+} t_quote_state;
+
 typedef struct s_token
 {
 	t_token_type	type;

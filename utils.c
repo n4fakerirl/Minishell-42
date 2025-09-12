@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:17:24 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/12 14:15:16 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:26:58 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,17 @@ int	lstlen(t_token **toklist)
 	return (i);
 }
 
-void trim_words(t_token *tokens)
+void	trim_words(t_token *tokens)
 {
-	t_token *tmp;
+	t_token	*tmp;
+	char	*new_value;
 
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->type == WORD)
-			tmp->value = ft_strtrim(tmp->value, "\"");
-		tmp = tmp->next;
+		new_value = ft_strtrim(tmp->value, "\"");
+		free(tmp->value);
+		tmp->value = new_value;
 	}
 }
+
