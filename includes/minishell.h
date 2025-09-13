@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/12 14:12:50 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 16:34:54 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,20 @@ int					check_var(char *str);
 int					check_node(char *str, t_env *env);
 int					ft_env(char **split, t_env *env, bool egal);
 
-// Divers
-int					ft_strcmp(const char *s1, const char *s2);
-
 // free
 void				free_struct(t_env *env);
 void				free_split(char **split);
 
 // Utils
 t_env				*init_env(char **envp);
+long				ft_atol(char *str, int *limit);
+int					ft_strcmp(const char *s1, const char *s2);
 
 // Exits
 void				chdir_exit(char *message, char *path);
 void				cwd_exit(char *message);
 void				getpwd_exit(char *message);
+void				exit_lit(char *message);
+void				exit_num(char *message);
 
 #endif

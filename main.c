@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/12 16:04:06 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:50:49 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@ int exec_builtin(char **split, t_env *env)
 
 	exit_flag = 1;
 	exit_code = 0;
-	if (!split || !*split)
-	{
-		printf("SPLIT VIDE\n");
-		return (1);
-	}
 	if (!ft_strcmp(split[0], "echo"))
 		return (ft_echo(split));
 	else if (!ft_strcmp(split[0], "cd"))
@@ -50,20 +45,16 @@ int exec_builtin(char **split, t_env *env)
 	{
 		exit_code = ft_exit(split, &exit_flag);
 		if (exit_flag == 1)
-		{
-			free_struct(env);
-			exit(exit_code);
-		}
+			return (free_struct(env), exit(exit_code), 0);
 	}
 	else if (!ft_strcmp(split[0], "export"))
-	{
-		ft_export(split, env, &exit_code);
-		return (exit_code);
-	}
+		return (ft_export(split, env, &exit_code));
 	else if (!ft_strcmp(split[0], "unset"))
 		return(ft_unset(split, env));
 	return (1);
 }
+
+
 void	free_split(char **split)
 {
 	int	i;
@@ -96,14 +87,16 @@ void	free_struct(t_env *env)
 int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
+	int		exit_status;
 
 	(void)ac;
 	(void)av;
 	env = init_env(envp);
 	if (!env)
 		return (1);
-	if (exec_builtin((av + 1), env) == 1)
-		return (free_struct(env), 1);
-	ft_env(av + 1, env, true);
+	exit_status = exec_builtin((av + 1), env);
+	if (exit_status != 0)
+		return (free_struct(env), exit_status);
+	free_struct(env);
 	return (0);
 }

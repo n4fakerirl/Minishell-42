@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:09:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/12 16:18:57 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:21:16 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ char	*get_pwd(t_env *env, char *pwd)
 	return (NULL);
 }
 
-int new_pwd(t_env **env, char *pwd)
+int	new_pwd(t_env **env, char *pwd)
 {
-	t_env *new;
-	t_env *tmp;
-	
+	t_env	*new;
+	t_env	*tmp;
+
 	tmp = *env;
 	new = malloc(sizeof(t_env));
 	if (!new)
@@ -59,45 +59,8 @@ int new_pwd(t_env **env, char *pwd)
 	return (1);
 }
 
-int	maj_pwd(t_env *env, char *pwd, char *old_path, int cd_minus)
+void	maj_pwd(t_env *env, char *pwd, char *old_path)
 {
-	int	found;
-	t_env	*tmp;
-
-	found = 0;
-	if (!ft_strcmp("OLDPWD", pwd) && cd_minus == 1)
-	{
-		tmp = env;
-		while (tmp)
-		{
-			if (!ft_strcmp(tmp->key, pwd))
-				break ;
-			tmp = tmp->next;
-		}
-		if (!tmp)
-		{
-			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-			return (1);
-		}
-	}
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->key, pwd))
-		{
-			found = 1;
-			break;
-		}
-		tmp = tmp->next;
-	}
-	if (found == 0)
-	{
-		if (!new_pwd(&env, pwd))
-		{
-			printf("HERE ?????\n\n\n\n");
-			return (1);
-		}
-	}
 	while (env != NULL)
 	{
 		if (!ft_strcmp(env->key, pwd))
@@ -106,18 +69,13 @@ int	maj_pwd(t_env *env, char *pwd, char *old_path, int cd_minus)
 				free(env->value);
 			env->value = ft_strdup(old_path);
 			if (!env->value)
-			{
 				ft_putstr_fd("minishell: cd: malloc error\n", 2);
-				return (1);
-			}
-			return (0);
 		}
 		env = env->next;
 	}
-	return (1);
 }
 
-int	change_directory(t_env *env, char *path, int cd_minus)
+int	change_directory(t_env *env, char *path)
 {
 	char	*current_pwd;
 	char	*new_pwd;
@@ -133,10 +91,8 @@ int	change_directory(t_env *env, char *path, int cd_minus)
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 		return (cwd_exit("minishell: cd: "), free(current_pwd), 1);
-	if (maj_pwd(env, "OLDPWD", current_pwd, cd_minus) == 1)
-		return (free(current_pwd), free(new_pwd), 1);
-	if (maj_pwd(env, "PWD", new_pwd, cd_minus) == 1)
-		return (free(current_pwd), free(new_pwd), 1);
+	maj_pwd(env, "OLDPWD", current_pwd);
+	maj_pwd(env, "PWD", new_pwd);
 	free(new_pwd);
 	free(current_pwd);
 	return (0);
@@ -152,7 +108,7 @@ int	ft_cd(char **split, t_env *env)
 		path = get_pwd(env, "HOME");
 		if (!path)
 			return (getpwd_exit("minishell: cd: HOME not set\n"), 1);
-		if (change_directory(env, path, 0) == 1)
+		if (change_directory(env, path) == 1)
 			return (free(path), 1);
 		free(path);
 	}
@@ -161,17 +117,12 @@ int	ft_cd(char **split, t_env *env)
 		path = get_pwd(env, "OLDPWD");
 		if (!path)
 			return (getpwd_exit("minishell: cd: OLDPWD not set\n"), 1);
-		if (change_directory(env, path, 1) == 1)
+		if (change_directory(env, path) == 1)
 			return (free(path), 1);
 		return (printf("%s\n", path), free(path), 0);
 	}
 	else if (split[1])
-	{
-		if (change_directory(env, split[1], 0) == 1)
-		{
-			ft_env(split, env, true);
+		if (change_directory(env, split[1]) == 1)
 			return (1);
-		}
-	}
 	return (0);
 }
