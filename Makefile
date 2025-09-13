@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/09/13 16:31:42 by lenakach         ###   ########.fr        #
+#    Updated: 2025/09/13 20:51:57 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ $(LIBFT):
 	@make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline
 
 %.o: %.c
 	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@

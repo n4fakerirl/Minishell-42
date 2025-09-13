@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 20:10:09 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:36:15 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 // Builtins
 typedef struct s_env

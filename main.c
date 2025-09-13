@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 20:05:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 21:12:03 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int exec_builtin(char **split, t_env **env)
 	{
 		exit_code = ft_exit(split, &exit_flag);
 		if (exit_flag == 1)
-			return (free_struct(*env), exit(exit_code), 0);
+			return (free_split(split), free_struct(*env), exit(exit_code), 0);
 	}
 	else if (!ft_strcmp(split[0], "export"))
 		return (ft_export(split, env, &exit_code));
@@ -89,16 +89,34 @@ int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
 	int		exit_status;
+	char	**split;
+	char	*line;
 
-	(void)ac;
 	(void)av;
+	if (ac != 1)
+		return (1);
 	env = init_env(envp);
 	if (!env)
 		return (1);
-	exit_status = exec_builtin((av + 1), &env);
-	if (exit_status != 0)
-		return (free_struct(env), exit_status);
-	ft_env(av + 1, env, true);
+	while (1)
+	{
+		line = readline("minishell> ");
+		if (!line)
+			break ;
+		//if (*line)
+		//	add_history(line);
+		split = ft_split(line, ' ');
+		free(line);
+		if (!split)
+			continue;
+		exit_status = exec_builtin(split, &env);
+		free_split(split);
+		printf("%d\n", exit_status);
+	}
+	//if (exit_status != 0)
+	//	return (free_struct(env), exit_status);
 	free_struct(env);
+	//exit_status = exec_builtin((av + 1), &env);
+	//ft_env(av + 1, env, true);
 	return (0);
 }
