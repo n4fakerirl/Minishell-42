@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:32:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 19:00:53 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:09:46 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_node(char *str, t_env *env)
 {
 	char	*true_key;
 	char	*tmp;
-	
+
 	tmp = ft_strchr(str, '=');
 	if (tmp)
 		true_key = ft_substr(str, 0, tmp - str);
@@ -95,7 +95,8 @@ int	check_var(char *str)
 		true_key = ft_substr(str, 0, tmp - str);
 	else
 		true_key = ft_strdup(str);
-	if (!true_key || !true_key[0] || !(ft_isalpha(true_key[0]) || true_key[0] == '_'))
+	if (!true_key || !true_key[0] || !(ft_isalpha(true_key[0])
+			|| true_key[0] == '_'))
 	{
 		if (true_key)
 			free(true_key);
@@ -103,32 +104,19 @@ int	check_var(char *str)
 	}
 	while (true_key[++i])
 		if (!(ft_isalnum(true_key[i]) || true_key[i] == '_'))
-			return(free(true_key), 1);
+			return (free(true_key), 1);
 	return (free(true_key), 0);
 }
 
-void	new_node(t_env **env, char *str)
+int	ft_export(char **split, t_env **env, int *exit_code)
 {
-	t_env *tmp;
-	t_env *new;
-
-	tmp = *env;
-	new = env_conv(str);
-	while (tmp->next != NULL)
-		tmp = tmp->next;
-	tmp->next = new;
-}
-
-
-int	ft_export(char **split, t_env *env, int *exit_code)
-{
-	int		i;
+	int	i;
 
 	i = 0;
 	while (split[i])
 		i++;
 	if (i == 1)
-		return (print_export(env, false), 0);
+		return (print_export(*env, false), 0);
 	i = 0;
 	while (split[++i])
 	{
@@ -139,12 +127,12 @@ int	ft_export(char **split, t_env *env, int *exit_code)
 			*exit_code = 1;
 			continue ;
 		}
-		if (!ft_strchr(split[i], '=') && !check_node(split[i], env))
-			new_node(&env, split[i]);
-		else if (ft_strchr(split[i], '=') && check_node(split[i], env) == 1)
-			replace_value(split[i], &env);
-		else if (!check_node(split[i], env))
-			new_node(&env, split[i]);
+		if (!ft_strchr(split[i], '=') && !check_node(split[i], *env))
+			new_node(env, split[i]);
+		else if (ft_strchr(split[i], '=') && check_node(split[i], *env) == 1)
+			replace_value(split[i], env);
+		else if (!check_node(split[i], *env))
+			new_node(env, split[i]);
 	}
 	return (*exit_code);
 }

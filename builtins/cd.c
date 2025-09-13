@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:09:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 18:21:16 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:08:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,26 @@ int	new_pwd(t_env **env, char *pwd)
 	return (1);
 }
 
-void	maj_pwd(t_env *env, char *pwd, char *old_path)
+void	maj_pwd(t_env **env, char *pwd, char *old_path)
 {
-	while (env != NULL)
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp != NULL)
 	{
-		if (!ft_strcmp(env->key, pwd))
+		if (!ft_strcmp(tmp->key, pwd))
 		{
-			if (env->value)
-				free(env->value);
-			env->value = ft_strdup(old_path);
-			if (!env->value)
+			if (tmp->value)
+				free(tmp->value);
+			tmp->value = ft_strdup(old_path);
+			if (!tmp->value)
 				ft_putstr_fd("minishell: cd: malloc error\n", 2);
 		}
-		env = env->next;
+		tmp = tmp->next;
 	}
 }
 
-int	change_directory(t_env *env, char *path)
+int	change_directory(t_env **env, char *path)
 {
 	char	*current_pwd;
 	char	*new_pwd;
@@ -98,14 +101,14 @@ int	change_directory(t_env *env, char *path)
 	return (0);
 }
 
-int	ft_cd(char **split, t_env *env)
+int	ft_cd(char **split, t_env **env)
 {
 	char	*path;
 
 	if (!split[1] || !split[1][0] || !ft_strcmp(split[1], "~")
 		|| !ft_strcmp(split[1], "--"))
 	{
-		path = get_pwd(env, "HOME");
+		path = get_pwd(*env, "HOME");
 		if (!path)
 			return (getpwd_exit("minishell: cd: HOME not set\n"), 1);
 		if (change_directory(env, path) == 1)
@@ -114,7 +117,7 @@ int	ft_cd(char **split, t_env *env)
 	}
 	else if (!ft_strcmp(split[1], "-"))
 	{
-		path = get_pwd(env, "OLDPWD");
+		path = get_pwd(*env, "OLDPWD");
 		if (!path)
 			return (getpwd_exit("minishell: cd: OLDPWD not set\n"), 1);
 		if (change_directory(env, path) == 1)

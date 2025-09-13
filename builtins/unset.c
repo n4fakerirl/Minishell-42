@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 09:47:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/12 12:34:59 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:08:45 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,32 +20,24 @@ void	delete_var(char *str, t_env **env)
 	if (!env || !*env)
 		return ;
 	cur = *env;
-	printf("TEST\n");
-	if (env && !ft_strcmp(str, cur->key))
+	if (!ft_strcmp(str, cur->key))
 	{
 		*env = cur->next;
-		//free(cur->value);
-		//free(cur->key);
-		//free(cur);
-		printf("TEST2\n");
-		return ;
+		return (free(cur->value), free(cur->key), free(cur));
 	}
 	while (cur->next)
 	{
-		printf("TEST3\n");
 		if (!ft_strcmp(str, cur->next->key))
 		{
 			tmp = cur->next;
 			cur->next = cur->next->next;
-			//free(tmp->key);
-			//free(tmp->value);
-			//free(tmp);
+			return (free(tmp->key), free(tmp->value), free(tmp));
 		}
 		cur = cur->next;
 	}
 }
 
-int	ft_unset(char **split, t_env *env)
+int	ft_unset(char **split, t_env **env)
 {
 	int	i;
 
@@ -58,11 +50,11 @@ int	ft_unset(char **split, t_env *env)
 	while (split[++i])
 	{
 		if (check_var(split[i]))
-			;
-		else if (!check_node(split[i], env))
-			;
+			continue ;
+		else if (!check_node(split[i], *env))
+			continue ;
 		else
-			delete_var(split[i], &env);
+			delete_var(split[i], env);
 	}
 	return (0);
 }

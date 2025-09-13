@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 18:50:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:05:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 	return (1);
 } */
 
-int exec_builtin(char **split, t_env *env)
+int exec_builtin(char **split, t_env **env)
 {
 	int	exit_flag;
 	int	exit_code;
@@ -40,12 +40,12 @@ int exec_builtin(char **split, t_env *env)
 	else if (!ft_strcmp(split[0], "pwd"))
 		return (ft_pwd());
 	else if (!ft_strcmp(split[0], "env"))
-		return (ft_env(split, env, false));
+		return (ft_env(split, *env, false));
 	else if (!ft_strcmp(split[0], "exit"))
 	{
 		exit_code = ft_exit(split, &exit_flag);
 		if (exit_flag == 1)
-			return (free_struct(env), exit(exit_code), 0);
+			return (free_struct(*env), exit(exit_code), 0);
 	}
 	else if (!ft_strcmp(split[0], "export"))
 		return (ft_export(split, env, &exit_code));
@@ -79,7 +79,8 @@ void	free_struct(t_env *env)
 			free(env->key);
 		if (env->value)
 			free(env->value);
-		free(env);
+		if (env)
+			free(env);
 		env = tmp;
 	}
 }
@@ -94,9 +95,10 @@ int	main(int ac, char **av, char **envp)
 	env = init_env(envp);
 	if (!env)
 		return (1);
-	exit_status = exec_builtin((av + 1), env);
+	exit_status = exec_builtin((av + 1), &env);
 	if (exit_status != 0)
 		return (free_struct(env), exit_status);
+	ft_env(av + 1, env, true);
 	free_struct(env);
 	return (0);
 }

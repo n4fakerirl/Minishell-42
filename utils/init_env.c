@@ -6,21 +6,23 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 19:56:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/12 14:39:07 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:09:57 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/* void	print_list(t_env *env)
+void	new_node(t_env **env, char *str)
 {
-	while (env->next != NULL)
-	{
-		printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
-	printf("%s=%s\n", env->key, env->value);
-} */
+	t_env	*tmp;
+	t_env	*new;
+
+	tmp = *env;
+	new = env_conv(str);
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = new;
+}
 
 t_env	*env_conv(char *str)
 {
