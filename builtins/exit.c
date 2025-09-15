@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:41:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 16:49:36 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:11:56 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,16 @@ int	ft_exit(char **split, int *exit_flag)
 	while (split[i])
 		i++;
 	printf("exit\n");
-	if (i == 1)
+	if (i == 0)
 		return (0);
-	check_args(split[1], &num1, &lit1);
+	check_args(split[0], &num1, &lit1);
 	if (lit1 == 1)
-		return (exit_lit(split[1]), 2);
+		return (exit_lit(split[0]), 2);
 	if (i > 2)
-		return (exit_num(split[1]), *exit_flag = 0, 1);
-	result = ft_atol(split[1], &limit);
+		return (exit_num(split[0]), *exit_flag = 0, 1);
+	result = ft_atol(split[0], &limit);
 	if (limit == -1)
-		return (exit_lit(split[1]), 2);
+		return (exit_lit(split[0]), 2);
 	return ((unsigned char)(result));
 	return (1);
 }

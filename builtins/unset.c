@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 09:47:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 20:08:45 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:38:16 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int	ft_unset(char **split, t_env **env)
 	i = 0;
 	while (split[i])
 		i++;
-	if (i == 1)
+	if (i == 0)
 		return (0);
-	i = 0;
+	i = -1;
 	while (split[++i])
 	{
 		if (check_var(split[i]))

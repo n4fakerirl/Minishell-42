@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:09:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 20:08:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:40:27 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ int	ft_cd(char **split, t_env **env)
 {
 	char	*path;
 
-	if (!split[1] || !split[1][0] || !ft_strcmp(split[1], "~")
-		|| !ft_strcmp(split[1], "--"))
+	if (!split[0] || !split[0][0] || !ft_strcmp(split[0], "~")
+		|| !ft_strcmp(split[0], "--"))
 	{
 		path = get_pwd(*env, "HOME");
 		if (!path)
@@ -115,7 +115,7 @@ int	ft_cd(char **split, t_env **env)
 			return (free(path), 1);
 		free(path);
 	}
-	else if (!ft_strcmp(split[1], "-"))
+	else if (!ft_strcmp(split[0], "-"))
 	{
 		path = get_pwd(*env, "OLDPWD");
 		if (!path)
@@ -124,8 +124,8 @@ int	ft_cd(char **split, t_env **env)
 			return (free(path), 1);
 		return (printf("%s\n", path), free(path), 0);
 	}
-	else if (split[1])
-		if (change_directory(env, split[1]) == 1)
+	else if (split[0])
+		if (change_directory(env, split[0]) == 1)
 			return (1);
 	return (0);
 }

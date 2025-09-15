@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/09/13 20:51:57 by lenakach         ###   ########.fr        #
+#    Updated: 2025/09/15 09:58:39 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 #Sources
 BUITLINS = $(BUITLINS_DIR)/env.c $(BUITLINS_DIR)/echo.c $(BUITLINS_DIR)/pwd.c $(BUITLINS_DIR)/cd.c \
 			$(BUITLINS_DIR)/exit.c $(BUITLINS_DIR)/export.c $(BUITLINS_DIR)/unset.c $(BUITLINS_DIR)/exit_builtins.c
-UTILS = $(UTILS_DIR)/init_env.c $(UTILS_DIR)/divers.c
+UTILS = $(UTILS_DIR)/init_env.c $(UTILS_DIR)/divers.c $(UTILS_DIR)/free.c
 
 SRCS = $(BUITLINS) $(UTILS) main.c
 OBJS = $(SRCS:.c=.o)

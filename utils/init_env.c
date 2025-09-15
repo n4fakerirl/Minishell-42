@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 19:56:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 20:09:57 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/15 10:49:53 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ t_env	*env_conv(char *str)
 	{
 		node->key = ft_substr(str, 0, equal - str);
 		if (!node->key)
-			return (free_struct(node), NULL);
+			return (free_env(node), NULL);
 		node->value = ft_strdup(equal + 1);
 		if (!node->value)
-			return (free_struct(node), NULL);
+			return (free_env(node), NULL);
 	}
 	else
 	{

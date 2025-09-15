@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 20:36:15 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/15 10:49:32 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,20 @@
 # include "../libft/includes/libft.h"
 # include <errno.h>
 # include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+
+// Parsing
+typedef struct s_cmd
+{
+	char			*name;
+	char			**args;
+}					t_cmd;
 
 // Builtins
 typedef struct s_env
@@ -44,8 +51,9 @@ int					check_node(char *str, t_env *env);
 int					ft_env(char **split, t_env *env, bool egal);
 
 // free
-void				free_struct(t_env *env);
 void				free_split(char **split);
+void				free_cmd(t_cmd *cmd);
+void				free_env(t_env *env);
 
 // Utils
 t_env				*init_env(char **envp);

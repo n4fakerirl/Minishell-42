@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:41:22 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 16:35:53 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/15 13:45:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	ft_echo(char **split)
 	int	new_line;
 	int	i;
 
-	i = 1;
+	i = 0;
 	new_line = 1;
-	if (split[i] && !ft_strcmp(split[1], "-n"))
+	if (split[0] && !ft_strcmp(split[0], "-n"))
 	{
 		new_line = 0;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:32:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 20:09:46 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:34:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ int	ft_export(char **split, t_env **env, int *exit_code)
 	i = 0;
 	while (split[i])
 		i++;
-	if (i == 1)
+	if (i == 0)
 		return (print_export(*env, false), 0);
-	i = 0;
+	i = -1;
 	while (split[++i])
 	{
 		if (check_var(split[i]))

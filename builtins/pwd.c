@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 19:30:26 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 18:22:57 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:08:40 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	ft_pwd(void)
 
 	cwd = getcwd(NULL, 0);
 	if (cwd != NULL)
+	{
 		printf("%s\n", cwd);
+		free(cwd);
+	}
 	else
 	{
 		ft_putstr_fd("minishell: pwd: error retrieving current directory : ",

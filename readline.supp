@@ -55,3 +55,18 @@
    fun:add_history
 }
 
+{
+   readline_add_history
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:add_history
+}
+
+{
+   readline_leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:readline
+}
+
+
