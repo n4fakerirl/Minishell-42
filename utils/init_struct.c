@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_env.c                                         :+:      :+:    :+:   */
+/*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 19:56:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/15 10:49:53 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/16 14:28:47 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ t_env	*env_conv(char *str)
 	{
 		node->key = ft_substr(str, 0, equal - str);
 		if (!node->key)
-			return (free_env(node), NULL);
+			return (free(node), NULL);
 		node->value = ft_strdup(equal + 1);
 		if (!node->value)
-			return (free_env(node), NULL);
+			return (free(node), NULL);
 	}
 	else
 	{
@@ -63,13 +63,10 @@ t_env	*init_env(char **envp)
 	head = NULL;
 	tmp = NULL;
 	new = NULL;
-	i = 0;
+	i = -1;
 	if (!envp || !envp)
-	{
-			printf("No arguments\n");
 			return NULL;
-	}
-	while (envp[i])
+	while (envp[++i])
 	{
 		new = env_conv(envp[i]);
 		if (!head)
@@ -81,7 +78,24 @@ t_env	*init_env(char **envp)
 				tmp = tmp->next;
 			tmp->next = new;
 		}
-		i++;
 	}
 	return (head);
+}
+
+t_shell	*init_shell(char **envp)
+{
+	t_shell *new_shell;
+	int	i;
+
+	i = 0;
+	new_shell = malloc(sizeof(t_shell));
+	if (!new_shell)
+		return (NULL);
+	new_shell->exit_status = 0;
+	new_shell->av = NULL;
+	new_shell->env = init_env(envp);
+	if (!new_shell->env)
+		return (free_shell(new_shell), NULL);
+	new_shell->cmd = NULL;
+	return (new_shell);
 }

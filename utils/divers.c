@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:31:17 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/13 16:32:50 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:13:09 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,27 @@ int	ft_strcmp(const char *s1, const char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+char	**dup_split(char **src)
+{
+	char	**result;
+	int		i;
+
+	i = 0;
+	while (src[i])
+		i++;
+	result = malloc(sizeof(char *) * (i + 1));
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (src[i])
+	{
+		result[i] = ft_strdup(src[i]);
+		if (!result[i])
+			return (free_split(result), NULL);
+		i++;
+	}
+	result[i] = NULL;
+	return (result);
 }

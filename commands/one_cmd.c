@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   one_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 13:34:26 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/16 15:59:33 by lenakach         ###   ########.fr       */
+/*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
+/*   Updated: 2025/09/16 12:27:26 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_env(char **split, t_env *env, bool egal)
+void	one_command(t_pipex *pipex, t_cmd *cmd, int ac, char **envp)
 {
-	if (split[0])
+	//Cas avec redirection
+	if (cmd->redirect != 0)
+		printf("Cas avec redirection\n");
+	else
 	{
-		ft_putstr_fd("minishell: env: ", 2);
-		ft_putstr_fd(split[0], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (127);
+		pipex->cmd_args
 	}
-	while (env)
-	{
-		printf("COUOUC\n");
-		if (!env->value && egal)
-			printf("%s=\n", env->key);
-		else if (env->value)
-			printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
-	return (0);
 }

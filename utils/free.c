@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:58:00 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/15 13:50:50 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:51:07 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_split(char **split)
 	int	i;
 	
 	i = 0;
+	if (!split)
+		return ;
 	while (split[i])
 	{
 		free(split[i]);
@@ -35,16 +37,19 @@ void	free_cmd(t_cmd *cmd)
 		return;
 	if (cmd->name)
 		free(cmd->name);
-	if (cmd->args)
+	if (!cmd->args)
 	{
-		while (cmd->args[i])
-		{
-			if (cmd->args[i])
-				free(cmd->args[i]);
-			i++;
-		}
-		free(cmd->args);
+		free(cmd);
+		return ;
 	}
+	while (cmd->args[i])
+	{
+		if (cmd->args[i])
+			free(cmd->args[i]);
+		i++;
+	}
+	if (cmd->args)
+		free(cmd->args);
 	if (cmd)
 		free(cmd);
 }
@@ -53,6 +58,8 @@ void	free_env(t_env *env)
 {
 	t_env *tmp;
 
+	if (!env)
+		return ;
 	while (env)
 	{
 		tmp = env->next;
@@ -64,4 +71,15 @@ void	free_env(t_env *env)
 			free(env);
 		env = tmp;
 	}
+}
+
+void	free_shell(t_shell *shell)
+{
+	if (shell->cmd)
+		free_cmd(shell->cmd);
+	if (shell->env)
+		free_env(shell->env);
+	if (shell->av)
+		free_split(shell->av);
+	free(shell);
 }
