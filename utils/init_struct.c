@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 19:56:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/16 14:28:47 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:36:43 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_env	*init_env(char **envp)
 	tmp = NULL;
 	new = NULL;
 	i = -1;
-	if (!envp || !envp)
+	if (!envp || !*envp)
 			return NULL;
 	while (envp[++i])
 	{
@@ -82,6 +82,17 @@ t_env	*init_env(char **envp)
 	return (head);
 }
 
+t_pipe	*init_pipe(void)
+{
+	t_pipe	*new_pipe;
+
+	new_pipe = malloc(sizeof(t_pipe));
+	if (!new_pipe)
+		return (NULL);
+	new_pipe->nbr_pipes = 0;
+	return (new_pipe);
+}
+
 t_shell	*init_shell(char **envp)
 {
 	t_shell *new_shell;
@@ -97,5 +108,11 @@ t_shell	*init_shell(char **envp)
 	if (!new_shell->env)
 		return (free_shell(new_shell), NULL);
 	new_shell->cmd = NULL;
+	new_shell->pipe_infos = init_pipe();
+	if (!new_shell->pipe_infos)
+		return (free_shell(new_shell), NULL);
+	new_shell->envp_initial = dup_split(envp);
+	if (!new_shell->envp_initial)
+		return (free_shell(new_shell), NULL);
 	return (new_shell);
 }

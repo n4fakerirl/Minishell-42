@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/16 15:53:33 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:31:08 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (*line)
 			add_history(line);
+		shell->line = ft_strdup(line);
+		if (!line)
+			continue ;
 		shell->av = ft_split(line, ' ');
 		if (!shell->av)
 		{
@@ -77,7 +80,10 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue;
 		}
-		shell->exit_status = exec_builtin(shell, &(shell->env));
+		if (is_builtin(shell->cmd->name))
+			shell->exit_status = exec_builtin(shell, &(shell->env));
+		else
+			start_exec(shell);
 		free(line);
 		free_cmd(shell->cmd);
 		free_split(shell->av);

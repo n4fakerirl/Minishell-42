@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/16 13:43:41 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/17 19:01:10 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 // Structures
@@ -45,12 +47,22 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct s_pipe
+{
+	int				nbr_pipes;
+	int				pid[1024];
+	int				pipe_fd[1024][2];
+}					t_pipe;
+
 typedef struct s_shell
 {
 	int				exit_status;
+	char			*line;
 	char			**av;
+	char			**envp_initial;
 	t_env			*env;
 	t_cmd			*cmd;
+	t_pipe			*pipe_infos;
 }					t_shell;
 
 // Builtins
@@ -88,20 +100,10 @@ void				getpwd_exit(char *message);
 void				exit_lit(char *message);
 void				exit_num(char *message);
 
-// Pipex
-typedef struct s_pipex
-{
-	int				fd_infile;
-	int				fd_outfile;
-	int				pid[1024];
-	int				pipou[1024][2];
-	char			*path;
-	char			**path_final;
-	char			**cmd_args;
-	char			*cmd;
-	int				start;
-	int				i;
-	int				j;
-}					t_pipex;
+// Exec
+int					start_exec(t_shell *shell);
+void				one_child(t_shell *shell, char **envp_initial);
+void				one_cmd(t_shell *shell, char **envp_initial);
+char				*get_cmd(t_shell *shell);
 
 #endif
