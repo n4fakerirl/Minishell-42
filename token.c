@@ -6,13 +6,13 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:54:09 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/10 16:19:51 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/18 01:59:47 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*create_token(t_token_type type, char *value)
+t_token	*create_token(t_token_type type, char *value, t_quote_state state)
 {
 	t_token	*token;
 
@@ -22,6 +22,8 @@ t_token	*create_token(t_token_type type, char *value)
 	token->value = value;
 	token->type = type;
 	token->next = NULL;
+	token->state = state;
+	token->need_exp = false;
 	return (token);
 }
 
@@ -36,20 +38,53 @@ int	is_special_char(char c)
 int	redirect(char *input, t_token **tokens)
 {
 	if (input[0] == '|')
-		return (ft_lstadd_back(tokens, create_token(PIPE, ft_strdup("|"))), 1);
+		return (ft_lstadd_back(tokens, create_token(PIPE, ft_strdup("|"), 0)),
+			1);
 	if (input[0] == '<' && input[1] == '<')
-		return (ft_lstadd_back(tokens, create_token(REDIRDL, ft_strdup("<<"))),
-			2);
+		return (ft_lstadd_back(tokens, create_token(REDIRDL, ft_strdup("<<"),
+					0)), 2);
 	if (input[0] == '>' && input[1] == '>')
-		return (ft_lstadd_back(tokens, create_token(REDIRDR, ft_strdup(">>"))),
-			2);
+		return (ft_lstadd_back(tokens, create_token(REDIRDR, ft_strdup(">>"),
+					0)), 2);
 	if (input[0] == '<')
-		return (ft_lstadd_back(tokens, create_token(REDIRL, ft_strdup("<"))),
+		return (ft_lstadd_back(tokens, create_token(REDIRL, ft_strdup("<"), 0)),
 			1);
 	if (input[0] == '>')
-		return (ft_lstadd_back(tokens, create_token(REDIRR, ft_strdup(">"))),
+		return (ft_lstadd_back(tokens, create_token(REDIRR, ft_strdup(">"), 0)),
 			1);
 	return (0);
+}
+
+int	check_match(char *input)
+{
+	int	doubleq;
+	int	singleq;
+	int	i;
+
+	doubleq = 0;
+	singleq = 0;
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '\"')
+		{
+			if (doubleq == 0)
+				doubleq++;
+			else
+				doubleq--;
+		}
+		else if (input[i] == '\'')
+		{
+			if (singleq == 0)
+				singleq++;
+			else
+				singleq--;
+		}
+		i++;
+	}
+	if ((singleq + doubleq) != 0)
+		return (printf("minishell: error quote unmatched\n"), 0);
+	return (1);
 }
 
 int	wording(char *input, t_token **tokens)
@@ -57,28 +92,29 @@ int	wording(char *input, t_token **tokens)
 	int	i;
 
 	i = 0;
-	if (input[i] == '"' || input[i] == '\'')
+	if (input[i] == '"')
 	{
-		i++;
 		while (input[i])
-		{
 			i++;
-			if (input[i] == '"' || input[i] == '\'')
-			{
-				i++;
-				return (ft_lstadd_back(tokens, create_token(WORD,
-							ft_substr(input, 0, i))), i);
-			}
-		}
 		if (i > 0)
-			ft_lstadd_back(tokens, create_token(WORD, ft_substr(input, 0, i)));
+			ft_lstadd_back(tokens, create_token(WORD, ft_substr(input, 0, i),
+					DOUBLE_QUOTE));
+	}
+	else if (input[i] == '\'')
+	{
+		while (input[i])
+			i++;
+		if (i > 0)
+			ft_lstadd_back(tokens, create_token(WORD, ft_substr(input, 0, i),
+					SINGLE_QUOTE));
 	}
 	else
 	{
 		while (input[i] && !is_special_char(input[i]) && !ft_isspace(input[i]))
 			i++;
 		if (i > 0)
-			ft_lstadd_back(tokens, create_token(WORD, ft_substr(input, 0, i)));
+			ft_lstadd_back(tokens, create_token(WORD, ft_substr(input, 0, i),
+					NO_QUOTE));
 	}
 	return (i);
 }
@@ -90,6 +126,8 @@ t_token	*tokenize(char *input)
 
 	i = 0;
 	tokens = NULL;
+	if (!check_match(input))
+		return (NULL);
 	while (input[i])
 	{
 		while (ft_isspace(input[i]) && input[i])

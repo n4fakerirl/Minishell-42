@@ -42,19 +42,29 @@ typedef enum e_token_type
 	ARGREDIR // 6
 }					t_token_type;
 
-typedef enum e_quote_state {
-    NO_QUOTE,
-    SINGLE_QUOTE,
-    DOUBLE_QUOTE
-} t_quote_state;
+typedef enum e_quote_state
+{
+	NO_QUOTE,     // 0
+	SINGLE_QUOTE, // 1
+	DOUBLE_QUOTE  // 2
+}					t_quote_state;
 
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	struct s_token *prev;
+	bool			need_exp;
+	t_quote_state	state;
+	struct s_token	*prev;
 	struct s_token	*next;
 }					t_token;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 
 typedef struct s_redir
 {
@@ -79,11 +89,13 @@ typedef struct s_shell
 t_token				*tokenize(char *input);
 void				ft_lstadd_back(t_token **toklist, t_token *token);
 t_token				*new_type(t_token *token);
-void				create_cmd(t_token *tokens, t_cmd *cmds);
-int	lstlen(t_token **toklist);
-void cmd_list(t_token *tokens, t_cmd **cmds);
-void	add_cmds(t_cmd **cmds, t_cmd *cmd);
-void trim_words(t_token *tokens);
-int parse_args(t_token *tokens);
+t_env				*init_env(char **envp);
+char				*expand(t_token *token, t_env *env);
+int					lstlen(t_token **toklist);
+void				cmd_list(t_token *tokens, t_cmd **cmds, t_env *env);
+void				add_cmds(t_cmd **cmds, t_cmd *cmd);
+void				trim_words(t_token *tokens);
+void				need_expand(t_token *tokens);
+int					parse_args(t_token *tokens);
 
 #endif

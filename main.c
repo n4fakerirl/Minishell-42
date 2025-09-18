@@ -6,13 +6,13 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:45:47 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/12 15:44:49 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/18 02:25:45 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	main(int ac, char **av)
+// int	main(int ac, char **av, char **envp)
 // {
 // 	char *str;
 // 	t_token *tokens;
@@ -26,24 +26,31 @@
 // 		if (!str)
 // 			break ;
 // 		tokens = tokenize(str);
-// 		new_type(tokens);
-// 		cmds = NULL;
-// 		trim_words(tokens);
-// 		cmd_list(tokens, &cmds);
-// 		parse_args(tokens);
+// 		if (tokens)
+// 		{
+// 			new_type(tokens);
+// 			cmds = NULL;
+// 			trim_words(tokens);
+// 			cmd_list(tokens, &cmds);
+// 			parse_args(tokens);
+// 		}
 // 	}
 // 	return (0);
 // }
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **envp)
 {
 	char *str;
 	t_token *tokens;
+	//t_token *tmp;
 	t_cmd *cmds;
-	t_token *test;
+	t_cmd *test;
+	t_env *env;
 
 	(void)av;
 	(void)ac;
+	env = NULL;
+	env = init_env(envp);
 	while (1)
 	{
 		str = readline("minishell$ ");
@@ -51,16 +58,24 @@ int	main(int ac, char **av)
 			break ;
 		tokens = tokenize(str);
 		new_type(tokens);
-		test = tokens;
+		parse_args(tokens);
 		cmds = NULL;
+		need_expand(tokens);
 		trim_words(tokens);
-		cmd_list(tokens, &cmds);
+		//tmp = tokens;
+		cmd_list(tokens, &cmds, env);
+		test = cmds;
 		while (test)
 		{
-			printf("CMD : %s\n", test->value);
+			int i = 0;
+			while (test->args[i])
+			{
+				printf("%s ", test->args[i]);
+				i++;
+			}
+			printf("\n");
 			test = test->next;
 		}
-		parse_args(tokens);
 	}
 	return (0);
 }

@@ -6,16 +6,17 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 16:30:28 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/12 16:47:19 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/18 02:14:16 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cmd_list(t_token *tokens, t_cmd **cmds)
+void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env)
 {
 	t_token	*tmp;
 	t_cmd	*current;
+	char	*str;
 	int		i;
 
 	tmp = tokens;
@@ -33,7 +34,14 @@ void	cmd_list(t_token *tokens, t_cmd **cmds)
 		i = 0;
 		while (tmp && tmp->type != PIPE)
 		{
-			current->args[i++] = ft_strdup(tmp->value);
+			if (tmp->need_exp == true)
+			{
+				str = expand(tmp, env);
+				if (str != NULL)
+					current->args[i++] = ft_strdup(str);
+			}
+			else
+				current->args[i++] = ft_strdup(tmp->value);
 			tmp = tmp->next;
 		}
 		current->args[i] = NULL;
@@ -93,8 +101,7 @@ int	parse_args(t_token *tokens)
 	{
 		if (tmp->type == PIPE)
 		{
-			if (!tmp->prev || !tmp->next || tmp->prev->type != WORD
-				|| tmp->next->type != WORD)
+			if (!tmp->prev || !tmp->next || tmp->prev->type != WORD)
 				return (printf("minishell: syntax error near unexpected token `|'\n"),
 					0);
 		}
