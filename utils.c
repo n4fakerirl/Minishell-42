@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:17:24 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/18 02:25:30 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/18 04:34:05 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	trim_words(t_token *tokens)
 		tmp = tmp->next;
 	}
 }
+
 t_env	*env_conv(char *str)
 {
 	t_env	*node;

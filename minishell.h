@@ -97,5 +97,6 @@ void				add_cmds(t_cmd **cmds, t_cmd *cmd);
 void				trim_words(t_token *tokens);
 void				need_expand(t_token *tokens);
 int					parse_args(t_token *tokens);
+char	*ft_triplejoin(char const *s1, char const *s2, char const *s3);
 
 #endif

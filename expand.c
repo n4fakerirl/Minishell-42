@@ -21,7 +21,8 @@ void	need_expand(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->type == WORD && (tmp->state == DOUBLE_QUOTE || tmp->state == NO_QUOTE))
+		if (tmp->type == WORD && (tmp->state == DOUBLE_QUOTE
+				|| tmp->state == NO_QUOTE))
 		{
 			i = 0;
 			while (tmp->value[i])
@@ -39,20 +40,40 @@ char	*expand(t_token *token, t_env *env)
 {
 	int		i;
 	int		y;
-	char	*str;
+	char	*var;
+	char	*first;
+	int		len;
+	char	*final;
 
+	final = NULL;
+	first = NULL;
 	i = 0;
 	y = 0;
+	len = ft_strlen(token->value);
 	while (token->value[i] != '\0' && token->value[i] != '$')
 		i++;
-	while (token->value[i + y] && token->value[i + y] != ' ' && token->value[i + y] != '\"')
+	if (i > 0)
+		first = ft_substr(token->value, 0, i);
+	while (token->value[i + y] && token->value[i + y] != ' ' && token->value[i
+		+ y] != '\"')
 		y++;
-	str = ft_substr(token->value, i + 1, y);
+	var = ft_substr(token->value, i + 1, y - 1);
 	while (env)
 	{
-		if (env->key && ft_strcmp(env->key, str) == 0)
-			return (env->value);
+		if (env->key && ft_strcmp(env->key, var) == 0)
+		{
+			if (first)
+				first = ft_strjoin(first, env->value);
+			else
+				first = ft_strdup(env->value);
+		}
 		env = env->next;
 	}
-	return (NULL);
+	if (token->value[i + y] != '\0')
+		final = ft_substr(token->value, i + y, len - y - i);
+	if (final)
+	{
+		first = ft_strjoin(first, final);
+	}
+	return (first);
 }
