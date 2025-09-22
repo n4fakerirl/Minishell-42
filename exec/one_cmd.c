@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/17 16:40:29 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:37:44 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,30 @@
 
 void	one_cmd(t_shell *shell, char **envp_initial)
 {
-	int	pid;
-	int	status;
-
-	pid = fork();
-	if (pid < 0)
+	shell->pipe_infos->pid[0] = fork();
+	if (shell->pipe_infos->pid[0] < 0)
 	{
-		ft_putstr_fd("Fork failed\n", 2);
+		ft_putstr_fd("Error: fork failed\n", 2);
 		shell->exit_status = 1;
 		return ;
 	}
-	else if (pid == 0)
-		one_child(shell, envp_initial);
-	else if (pid > 0)
+	else if (shell->pipe_infos->pid[0] == 0)
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			shell->exit_status = WEXITSTATUS(status);
+		if (is_builtin(shell->cmd->args[0]))
+			shell->exit_status = exec_builtin(shell, &(shell->env));
 		else
-			shell->exit_status = 1;
+			one_child(shell, envp_initial);
 	}
 }
 
 void	one_child(t_shell *shell, char **envp_initial)
 {
 	char	*cmd_finale;
-	//g deja cmd_args rempli;
+	
 	cmd_finale = get_cmd(shell);
 	if (!cmd_finale)
 	{
-		printf("bash: %s: command not found\n", shell->cmd->name);
+		printf("bash: %s: command not found\n", shell->cmd->args[0]);
 		shell->exit_status = 127;
 		return ;
 	}

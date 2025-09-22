@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/17 19:01:10 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:26:00 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@
 // Contient ma commande et mes arguments
 typedef struct s_cmd
 {
-	char			*name;
 	char			**args;
 	int				redirect;
 	int				here_doc;
+	struct s_cmd	*next;
 }					t_cmd;
 
 // Pour mes variables d'environnement
@@ -57,6 +57,7 @@ typedef struct s_pipe
 typedef struct s_shell
 {
 	int				exit_status;
+	int				nbr_cmd;
 	char			*line;
 	char			**av;
 	char			**envp_initial;
@@ -84,14 +85,17 @@ void				free_split(char **split);
 void				free_cmd(t_cmd *cmd);
 void				free_env(t_env *env);
 void				free_shell(t_shell *shell);
+void				free_move_cmd(t_cmd *cmd);
 
 // Utils
 t_env				*init_env(char **envp);
 t_shell				*init_shell(char **envp);
+t_cmd				*init_cmd(char **split);
 long				ft_atol(char *str, int *limit);
 int					ft_strcmp(const char *s1, const char *s2);
 void				new_node(t_env **env, char *str);
 char				**dup_split(char **src);
+void				print_cmd(t_cmd *cmd);
 
 // Exits
 void				chdir_exit(char *message, char *path);
@@ -101,9 +105,14 @@ void				exit_lit(char *message);
 void				exit_num(char *message);
 
 // Exec
-int					start_exec(t_shell *shell);
+void				start_exec(t_shell *shell, int i);
 void				one_child(t_shell *shell, char **envp_initial);
 void				one_cmd(t_shell *shell, char **envp_initial);
 char				*get_cmd(t_shell *shell);
+int					count_list(t_cmd *cmd);
+void				first_child(t_shell *shell, char **envp_initial);
+void				last_child(t_shell *shell, char **envp_initial, int i);
+void				inter_child(t_shell *shell, char **envp_initial, int i);
+void				fail_fork(t_shell *shell, int i);
 
 #endif

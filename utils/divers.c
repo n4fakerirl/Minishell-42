@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:31:17 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/16 13:13:09 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:44:47 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 long	ft_atol(char *str, int *limit)
 {
-	int		i;
+	int			i;
 	long long	res;
-	int		sign;
-	int	digit;
+	int			sign;
+	int			digit;
 
 	i = 0;
 	res = 0;
@@ -81,4 +81,21 @@ char	**dup_split(char **src)
 	}
 	result[i] = NULL;
 	return (result);
+}
+
+void	print_cmd(t_cmd *cmd)
+{
+	int	i;
+
+	while (cmd)
+	{
+		//printf("NAME : %s\n", cmd->name);
+		i = 0;
+		while (cmd->args[i])
+		{
+			fprintf(stderr, "CMD ARGS : %s\n", cmd->args[i]);
+			i++;
+		}
+		cmd = cmd->next;
+	}
 }

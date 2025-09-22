@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 15:21:30 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/17 16:13:13 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/21 12:12:17 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	*get_cmd(t_shell *shell)
 	char	*path_tmp;
 	char	*cmd_finale;
 
-	if (!shell->cmd->name)
+	if (!shell->cmd->args[0])
 	{
-		printf("PAS DE COMMANDE\n");
+		fprintf(stderr, "PAS DE COMMANDE\n");
 		return (NULL);
 	}
-	if (access(shell->cmd->name, X_OK) == 0)
+	if (access(shell->cmd->args[0], X_OK) == 0)
 	{
-		cmd_finale = ft_strdup(shell->cmd->name);
+		cmd_finale = ft_strdup(shell->cmd->args[0]);
 		if (!cmd_finale)
 		{
 			printf("strdup de cmd failed\n");
@@ -87,6 +87,6 @@ char	*get_cmd(t_shell *shell)
 		printf("SPLIT POUR AVOIR PATH ** FAILED\n");
 		return (NULL);
 	}
-	cmd_finale = fill_path(path, shell->cmd->name);
+	cmd_finale = fill_path(path, shell->cmd->args[0]);
 	return (cmd_finale);
 }

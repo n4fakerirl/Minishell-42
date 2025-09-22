@@ -6,40 +6,22 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/17 18:31:08 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:53:30 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//Simulation parsing
-t_cmd	*init_cmd(char **split)
+void	print_split(char **split)
 {
-	t_cmd	*new_cmd;
-	int		i;
-	int		j;
-	int		len;
+	int	i;
 
-	len = 0;
-	while (split[len])
-		len++;
-	new_cmd = malloc(sizeof(t_cmd));
-	if (!new_cmd)
-		return (NULL);
-	new_cmd->name = ft_strdup(split[0]);
-	if (!new_cmd->name)
-		return (free_cmd(new_cmd), NULL);
-	new_cmd->args = malloc((len) *sizeof(char *));
-	if (!new_cmd->args)
-		return (free_cmd(new_cmd), NULL);
-	j = 0;
 	i = 0;
-	while (++i < len)
-		new_cmd->args[j++] = ft_strdup(split[i]);
-	new_cmd->args[j] = NULL;
-	new_cmd->redirect = 0;
-	new_cmd->here_doc = 0;
-	return (new_cmd);
+	while (split[i])
+	{
+		printf("%s\n", split[i]);
+		i++;	
+	}
 }
 
 int	main(int ac, char **av, char **envp)
@@ -47,8 +29,12 @@ int	main(int ac, char **av, char **envp)
 	t_shell	*shell;
 	char	*line;
 	int	exit_status;
+	int	status;
+	int	i;
+	t_cmd	*tmp;
 
 	(void)av;
+	i = 0;
 	if (ac != 1)
 		return (1);
 	shell = init_shell(envp);
@@ -56,34 +42,61 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	while (1)
 	{
+		printf("MON PID MAINNNNN EST : %d\n", getpid());
+		i = 0;
 		line = readline("minishell> ");
+		//Cas de CTRL D : av et cmd = NULL parce que s'ils ont ete free a la boucle d'avant
+		// Ca va segfault dans le free_shell de fin de main si ils n'ont pas ete mis a NULL;
 		if (!line)
 		{
 			shell->av = NULL;
 			shell->cmd = NULL;
+			printf("CTRL D\n");
 			break;
 		}
 		if (*line)
 			add_history(line);
 		shell->line = ft_strdup(line);
-		if (!line)
-			continue ;
+		//Protection du malloc du ft_strdup
+		//Meme chose que cas CTRL D;shell->cmd
+		if (!shell->line)
+		{
+			shell->av = NULL;
+			shell->cmd = NULL;
+			printf("shell->line strdup failed\n");
+			break;
+		}
 		shell->av = ft_split(line, ' ');
 		if (!shell->av)
 		{
-			free(line);
-			continue;
+			free(line); //ne vas pas passer par le free(line) de fin de while, direct fin du main donc il faut free(line)
+			shell->cmd = NULL; //si jamais il a ete free au tour d'avant, pour pas que ca segfault dans le free_shell
+			//Pas besoin de shell->av = NULL puisqu'il est deja NULL dans cette condition
+			printf("shell->av split failed\n");
+			break;
 		}
 		shell->cmd = init_cmd(shell->av);
 		if (!shell->cmd)
 		{
 			free(line);
-			continue;
+			shell->cmd = NULL;
+			shell->av = NULL;
+			break;
 		}
-		if (is_builtin(shell->cmd->name))
-			shell->exit_status = exec_builtin(shell, &(shell->env));
-		else
-			start_exec(shell);
+		shell->nbr_cmd = count_list(shell->cmd);
+		while (shell->cmd)
+		{
+			printf("Etape 1 : start_exec au rang [%d]\n", i);
+			start_exec(shell, i);
+			free_move_cmd(shell->cmd);
+			tmp = shell->cmd->next;
+			free(shell->cmd);
+			shell->cmd = tmp;
+			i++;
+		}
+		i = -1;
+		while (++i < shell->nbr_cmd)
+			waitpid(shell->pipe_infos->pid[i], &status, 2);
 		free(line);
 		free_cmd(shell->cmd);
 		free_split(shell->av);
@@ -101,3 +114,4 @@ int	main(int ac, char **av, char **envp)
 	free_shell(shell);
 	return (0);
 }
+

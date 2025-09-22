@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 19:56:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/17 18:36:43 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/22 11:17:38 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,14 @@ t_shell	*init_shell(char **envp)
 	new_shell = malloc(sizeof(t_shell));
 	if (!new_shell)
 		return (NULL);
+	new_shell->nbr_cmd = 0;
 	new_shell->exit_status = 0;
+	new_shell->line = NULL;
 	new_shell->av = NULL;
+	new_shell->cmd = NULL;
 	new_shell->env = init_env(envp);
 	if (!new_shell->env)
 		return (free_shell(new_shell), NULL);
-	new_shell->cmd = NULL;
 	new_shell->pipe_infos = init_pipe();
 	if (!new_shell->pipe_infos)
 		return (free_shell(new_shell), NULL);

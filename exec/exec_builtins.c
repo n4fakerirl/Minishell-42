@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:58:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/17 16:04:24 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/20 17:01:50 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,23 @@ int	exec_builtin(t_shell *shell, t_env **env)
 
 	exit_flag = 1;
 	exit_code = 0;
-	if (!ft_strcmp(shell->cmd->name, "echo"))
-		return (ft_echo(shell->cmd->args));
-	else if (!ft_strcmp(shell->cmd->name, "cd"))
-		return (ft_cd(shell->cmd->args, env));
-	else if (!ft_strcmp(shell->cmd->name, "pwd"))
+	if (!ft_strcmp(shell->cmd->args[0], "echo"))
+		return (ft_echo(shell->cmd->args + 1));
+	else if (!ft_strcmp(shell->cmd->args[0], "cd"))
+		return (ft_cd(shell->cmd->args + 1, env));
+	else if (!ft_strcmp(shell->cmd->args[0], "pwd"))
 		return (ft_pwd());
-	else if (!ft_strcmp(shell->cmd->name, "env"))
-		return (ft_env(shell->cmd->args, *env, false));
-	else if (!ft_strcmp(shell->cmd->name, "exit"))
+	else if (!ft_strcmp(shell->cmd->args[0], "env"))
+		return (ft_env(shell->cmd->args + 1, *env, false));
+	else if (!ft_strcmp(shell->cmd->args[0], "exit"))
 	{
-		exit_code = ft_exit(shell->cmd->args, &exit_flag);
+		exit_code = ft_exit(shell->cmd->args + 1, &exit_flag);
 		if (exit_flag == 1)
 			return (free_shell(shell), exit(exit_code), 0);
 	}
-	else if (!ft_strcmp(shell->cmd->name, "export"))
-		return (ft_export(shell->cmd->args, env, &exit_code));
-	else if (!ft_strcmp(shell->cmd->name, "unset"))
-		return (ft_unset(shell->cmd->args, env));
+	else if (!ft_strcmp(shell->cmd->args[0], "export"))
+		return (ft_export(shell->cmd->args + 1, env, &exit_code));
+	else if (!ft_strcmp(shell->cmd->args[0], "unset"))
+		return (ft_unset(shell->cmd->args + 1, env));
 	return (1);
 }
