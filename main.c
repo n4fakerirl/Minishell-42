@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/23 13:54:55 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/23 20:42:15 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ void	print_split(char **split)
 		printf("%s\n", split[i]);
 		i++;	
 	}
+}
+
+void	change_redir(t_cmd *cmd)
+{
+	t_cmd *tmp;
+
+	tmp = cmd;
+	tmp = tmp->next;
+	tmp->redirect->type = REDIRDR;
+	tmp = tmp->next;
+	tmp->redirect->type = REDIRL;
+	tmp->redirect->next->type = REDIRDR;
+	//tmp->redirect->next->next = NULL;
+	tmp->next = NULL;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -44,7 +58,7 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	while (1)
 	{
-		printf("MON PID MAINNNNN EST : %d\n", getpid());
+		//fprintf(stderr, "MON PID MAINNNNN EST : %d\n", getpid());
 		i = 0;
 		line = readline("minishell> ");
 		//Cas de CTRL D : av et cmd = NULL parce que s'ils ont ete free a la boucle d'avant
@@ -80,6 +94,7 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		shell->cmd = init_cmd(shell->av);
+		change_redir(shell->cmd);
 		if (!shell->cmd)
 		{
 			free(line);
@@ -90,7 +105,7 @@ int	main(int ac, char **av, char **envp)
 		shell->nbr_cmd = count_list(shell->cmd);
 		while (shell->cmd)
 		{
-			printf("Etape 1 : start_exec au rang [%d]\n", i);
+			//printf("Etape 1 : start_exec au rang [%d]\n", i);
 			if (is_builtin(shell->cmd->args[0]) && shell->nbr_cmd == 1)
 				is_cmd = 0;
 			start_exec(shell, i);
@@ -109,7 +124,7 @@ int	main(int ac, char **av, char **envp)
 		free_cmd(shell->cmd);
 		free_split(shell->av);
 		free(shell->line);
-		printf("%d\n", shell->exit_status);
+		fprintf(stderr, "%d\n", shell->exit_status);
 	}
 	if (shell->exit_status != 0)
 	{

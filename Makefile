@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/09/22 12:20:17 by lenakach         ###   ########.fr        #
+#    Updated: 2025/09/23 17:13:40 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ FLAGS = -Wall -Wextra -Werror -g3
 BUITLINS_DIR = builtins
 UTILS_DIR = utils
 EXEC_DIR = exec
+REDIR_DIR = redir
 LIBFT_DIR = libft
 
 #Includes
@@ -38,7 +39,8 @@ UTILS = $(UTILS_DIR)/init_struct.c $(UTILS_DIR)/divers.c $(UTILS_DIR)/free.c $(U
 EXEC = $(EXEC_DIR)/exec_builtins.c $(EXEC_DIR)/exec_start.c $(EXEC_DIR)/path.c $(EXEC_DIR)/first_pipe.c \
 		$(EXEC_DIR)/last_pipe.c $(EXEC_DIR)/exec_utils.c $(EXEC_DIR)/one_cmd.c $(EXEC_DIR)/inter_pipe.c \
 		$(EXEC_DIR)/exit_exec.c
-SRCS = $(EXEC) $(BUITLINS) $(UTILS) main.c
+REDIR = $(REDIR_DIR)/redir_one_cmd.c
+SRCS = $(EXEC) $(BUITLINS) $(UTILS) $(REDIR) main.c
 OBJS = $(SRCS:.c=.o)
  
 #Commandes

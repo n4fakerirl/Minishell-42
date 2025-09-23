@@ -6,11 +6,20 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:58:00 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/22 17:28:19 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/23 20:29:10 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
+void	free_redir(t_redir *redir)
+{
+	if (redir->file)
+		free(redir->file);
+	if (redir)
+		free(redir);
+}
 
 void	free_split(char **split)
 {
@@ -35,7 +44,6 @@ void	free_cmd(t_cmd *cmd)
 	tmp = cmd;
 	while (tmp)
 	{
-		fprintf(stderr, "FREE CMD (PID=%d)\n", getpid());
 		if (tmp->args)
 		{
 			i = 0;
@@ -43,6 +51,7 @@ void	free_cmd(t_cmd *cmd)
 				free(tmp->args[i++]);
 			free(tmp->args);
 		}
+		//free_redir(tmp->redirect);
 		next = tmp->next;
 		free(tmp);
 		tmp = next;

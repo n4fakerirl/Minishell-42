@@ -6,12 +6,29 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 14:11:46 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/20 17:00:14 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/23 20:43:02 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+t_redir	*init_redir(void)
+{
+	t_redir	*redir;
+
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return (NULL);
+	redir->file = ft_strdup("sortie.txt");
+	if (!redir->file)
+	{
+		free(redir);
+		return (NULL);
+	}
+	redir->type = REDIRDR;
+	//redir->next = NULL;
+	return (redir);
+}
 
 t_cmd	*create_node(char **split, int start, int end)
 {
@@ -24,20 +41,12 @@ t_cmd	*create_node(char **split, int start, int end)
 	new_node = malloc(sizeof(t_cmd));
 	if (!new_node)
 		return (NULL);
-	/* new_node->name = ft_strdup(split[start]);
-	if (!new_node->name)
-	{
-		free_cmd(new_node);
-		return (NULL);
-	} */
-	//new_node->args = malloc(sizeof(char *) * len);
 	new_node->args = malloc(sizeof(char *) * (len + 1));
 	if (!new_node->args)
 	{
 		free_cmd(new_node);
 		return (NULL);
 	}
-	//start++;
 	while (start < end)
 	{
 		new_node->args[i] = ft_strdup(split[start]);
@@ -45,9 +54,9 @@ t_cmd	*create_node(char **split, int start, int end)
 		start++;
 	}
 	new_node->args[i] = 0;
-	new_node->redirect = 0;
 	new_node->here_doc = 0;
 	new_node->next = NULL;
+	new_node->redirect = init_redir();
 	return (new_node);
 }	
 

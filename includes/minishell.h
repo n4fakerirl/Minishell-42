@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/22 17:26:00 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:10:09 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,28 @@
 // Structures
 
 // Contient ma commande et mes arguments
+typedef enum e_token_type
+{
+	WORD,
+	PIPE,    // |
+	REDIRL,  // <
+	REDIRR,  // >
+	REDIRDR, // >>
+	REDIRDL, // <<
+	ARGEDIR
+}					t_token_type;
+
+typedef struct s_redir
+{
+	t_token_type	type;
+	char			*file;
+	struct s_redir	*next;
+}					t_redir;
+
 typedef struct s_cmd
 {
 	char			**args;
-	int				redirect;
+	t_redir			*redirect;
 	int				here_doc;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -114,5 +132,8 @@ void				first_child(t_shell *shell, char **envp_initial);
 void				last_child(t_shell *shell, char **envp_initial, int i);
 void				inter_child(t_shell *shell, char **envp_initial, int i);
 void				fail_fork(t_shell *shell, int i);
+
+// Redir
+void				check_redir(t_cmd *cmd);
 
 #endif

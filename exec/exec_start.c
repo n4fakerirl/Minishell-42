@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/23 13:51:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/23 20:24:43 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	piping(t_shell *shell, int i)
 		shell->exit_status = 1;
 		return (1);
 	}
-	printf("Etape 2 : piping au rang [%d]\n", i);
 	return (0);
 }
 
@@ -62,27 +61,23 @@ void	start_exec(t_shell *shell, int i)
 	if (i != shell->nbr_cmd - 1)
 		if (piping(shell, i))
 			return ;
-	fprintf(stderr, "Etape 3 : Je fork au rang [%d]\n", i);
 	shell->pipe_infos->pid[i] = fork();
 	printf("MON PID EST : %d au rang %d\n", getpid(), i);
 	if (shell->pipe_infos->pid[i] < 0)
 		return (fail_fork(shell, i));
 	else if (shell->pipe_infos->pid[i] == 0)
 	{
+		check_redir(shell->cmd);
 		if (is_builtin(shell->cmd->args[0]))
 		{
-			fprintf(stderr, "Etape 4 : Je suis un builtin au rang [%d]\n", i);
 			redir(shell, i);
-			fprintf(stderr, "Etape 5 : je fais mes redirections au rang [%d]\n", i);
 			shell->exit_status = exec_builtin(shell, &(shell->env));
 			exit_status = shell->exit_status;
 			free_shell(shell);
-			fprintf(stderr, "Etape 6 : exec_builtin au rang [%d]\n", i);
 			exit(exit_status);
 		}
 		else
 		{
-			fprintf(stderr, "Etape 4 : Je suis une commande au rang [%d]\n", i);
 			if (i == 0)
 				first_child(shell, shell->envp_initial);
 			else if (i == shell->nbr_cmd - 1)
