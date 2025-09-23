@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/22 16:03:09 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/23 13:51:48 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	redir(t_shell *shell, int i)
 {
-	int	nbr_cmd;
-
-	nbr_cmd = count_list(shell->cmd);
 	if (i == 0)
 	{
 		fprintf(stdin, "Mon i == 0 dans redir\n");
@@ -25,11 +22,12 @@ void	redir(t_shell *shell, int i)
 		close(shell->pipe_infos->pipe_fd[0][0]);
 		return ;
 	}
-	if (i == nbr_cmd - 1)
+	if (i == shell->nbr_cmd - 1)
 	{
-		dup2(shell->pipe_infos->pipe_fd[i][0], 0);
-		close(shell->pipe_infos->pipe_fd[1][0]);
-		close(shell->pipe_infos->pipe_fd[1][1]);
+		fprintf(stderr, "REDIR DE MA [%d]eme commande\n", i);
+		dup2(shell->pipe_infos->pipe_fd[i - 1][0], 0);
+		close(shell->pipe_infos->pipe_fd[i - 1][0]);
+		close(shell->pipe_infos->pipe_fd[i - 1][1]);
 		return ;
 	}
 	else

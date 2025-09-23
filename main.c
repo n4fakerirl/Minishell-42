@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/22 17:53:30 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/23 13:54:55 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ int	main(int ac, char **av, char **envp)
 	int	exit_status;
 	int	status;
 	int	i;
+	int	is_cmd;
 	t_cmd	*tmp;
 
+	is_cmd = 1;
 	(void)av;
 	i = 0;
 	if (ac != 1)
@@ -51,6 +53,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			shell->av = NULL;
 			shell->cmd = NULL;
+			shell->line = NULL;
 			printf("CTRL D\n");
 			break;
 		}
@@ -63,6 +66,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			shell->av = NULL;
 			shell->cmd = NULL;
+			shell->line = NULL;
 			printf("shell->line strdup failed\n");
 			break;
 		}
@@ -73,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 			shell->cmd = NULL; //si jamais il a ete free au tour d'avant, pour pas que ca segfault dans le free_shell
 			//Pas besoin de shell->av = NULL puisqu'il est deja NULL dans cette condition
 			printf("shell->av split failed\n");
-			break;
+			continue ;
 		}
 		shell->cmd = init_cmd(shell->av);
 		if (!shell->cmd)
@@ -87,19 +91,24 @@ int	main(int ac, char **av, char **envp)
 		while (shell->cmd)
 		{
 			printf("Etape 1 : start_exec au rang [%d]\n", i);
+			if (is_builtin(shell->cmd->args[0]) && shell->nbr_cmd == 1)
+				is_cmd = 0;
 			start_exec(shell, i);
 			free_move_cmd(shell->cmd);
 			tmp = shell->cmd->next;
 			free(shell->cmd);
 			shell->cmd = tmp;
+			if (is_cmd == 1)
+				waitpid(shell->pipe_infos->pid[i], &status, 2);		
 			i++;
 		}
-		i = -1;
-		while (++i < shell->nbr_cmd)
-			waitpid(shell->pipe_infos->pid[i], &status, 2);
+		//i = -1;
+		//while (++i < shell->nbr_cmd)
+		//	waitpid(shell->pipe_infos->pid[i], &status, 2);
 		free(line);
 		free_cmd(shell->cmd);
 		free_split(shell->av);
+		free(shell->line);
 		printf("%d\n", shell->exit_status);
 	}
 	if (shell->exit_status != 0)
@@ -107,10 +116,12 @@ int	main(int ac, char **av, char **envp)
 		exit_status = shell->exit_status;
 		shell->av = NULL;
 		shell->cmd = NULL;
+		shell->line = NULL;
 		free_shell(shell);
 		return (exit_status);
 	}
 	rl_clear_history();
+	printf("ICI JJE DOIS FREE QQCHOSE ??\n");
 	free_shell(shell);
 	return (0);
 }

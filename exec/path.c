@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 15:21:30 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/21 12:12:17 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/23 11:30:54 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ char	*fill_path(char **path, char *cmd)
 }
 char	*get_cmd(t_shell *shell)
 {
-	char	**path;
-	char	*path_tmp;
-	char	*cmd_finale;
+	char	**path = NULL;
+	char	*path_tmp = NULL;
+	char	*cmd_finale = NULL;
 
 	if (!shell->cmd->args[0])
 	{
@@ -78,6 +78,7 @@ char	*get_cmd(t_shell *shell)
 	path_tmp = find_path(shell->env);
 	if (!path_tmp)
 	{
+		free(cmd_finale);
 		printf("PAS TROUVE LE CHEMIN\n");
 		return (NULL);
 	}
@@ -85,8 +86,12 @@ char	*get_cmd(t_shell *shell)
 	if (!path)
 	{
 		printf("SPLIT POUR AVOIR PATH ** FAILED\n");
+		free(cmd_finale);
+		free(path_tmp);
 		return (NULL);
 	}
 	cmd_finale = fill_path(path, shell->cmd->args[0]);
+	free(path_tmp);
+	//free_split(path);
 	return (cmd_finale);
 }
