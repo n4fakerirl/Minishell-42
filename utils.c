@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:17:24 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/18 04:34:05 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/23 10:40:08 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	add_cmds(t_cmd **cmds, t_cmd *cmd)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = cmd;
+	cmd->next = NULL;
 }
 
 int	lstlen(t_token **toklist)

@@ -13,6 +13,20 @@
 
 #include "minishell.h"
 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
+/*   Updated: 2025/09/18 03:00:00 by ocviller         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
 void	need_expand(t_token *tokens)
 {
 	t_token	*tmp;
@@ -36,44 +50,117 @@ void	need_expand(t_token *tokens)
 	}
 }
 
-char	*expand(t_token *token, t_env *env)
+int	skippable(char c)
+{
+	if (ft_isalnum(c) || c == '_')
+		return (1);
+	else
+		return (0);
+}
+
+char	*joinword(int i, int y, char *var_name, char *envalue)
+{
+	char	*first;
+	char	*last;
+	char	*tmp;
+	int		len;
+
+	len = ft_strlen(var_name);
+	first = NULL;
+	last = NULL;
+	first = ft_substr(var_name, 0, i);
+	last = ft_substr(var_name, y, len - y);
+	if (first && last)
+	{
+		tmp = ft_strjoin(first, envalue);
+		free(first);
+		first = ft_strjoin(tmp, last);
+		return (ft_strdup(first));
+	}
+	else if (first && !last)
+	{
+		tmp = ft_strjoin(first, envalue);
+		return (ft_strdup(tmp));
+	}
+	else if (!first && last)
+	{
+		tmp = ft_strjoin(envalue, last);
+		return (ft_strdup(tmp));
+	}
+	return (ft_strdup(""));
+}
+
+char	*get_var_value(char *var_name, t_env *env)
 {
 	int		i;
-	int		y;
-	char	*var;
-	char	*first;
 	int		len;
-	char	*final;
+	int		y;
+	char	*tmp;
 
-	final = NULL;
-	first = NULL;
 	i = 0;
-	y = 0;
-	len = ft_strlen(token->value);
-	while (token->value[i] != '\0' && token->value[i] != '$')
+	len = ft_strlen(var_name);
+	y = len;
+	while (var_name[i] != '$')
 		i++;
-	if (i > 0)
-		first = ft_substr(token->value, 0, i);
-	while (token->value[i + y] && token->value[i + y] != ' ' && token->value[i
-		+ y] != '\"')
-		y++;
-	var = ft_substr(token->value, i + 1, y - 1);
+	while (y > i + 1 && !skippable(var_name[y - 1]))
+		y--;
+	tmp = ft_substr(var_name, i + 1, y - (i + 1));
+	printf("---TMP %s---\n", tmp);
 	while (env)
 	{
-		if (env->key && ft_strcmp(env->key, var) == 0)
-		{
-			if (first)
-				first = ft_strjoin(first, env->value);
-			else
-				first = ft_strdup(env->value);
-		}
+		if (env->key && ft_strcmp(env->key, tmp) == 0)
+			return (joinword(i, y, var_name, env->value));
 		env = env->next;
 	}
-	if (token->value[i + y] != '\0')
-		final = ft_substr(token->value, i + y, len - y - i);
-	if (final)
+	return (ft_strdup(""));
+}
+
+char	*joinall(char **split)
+{
+	char	*tmp;
+	char	*test;
+	int		i;
+
+	tmp = NULL;
+	i = -1;
+	while (split[++i])
 	{
-		first = ft_strjoin(first, final);
+		if (!tmp)
+			tmp = ft_strjoin(split[i], " ");
+		else
+		{
+			test = ft_strjoin(tmp, split[i]);
+			free(tmp);
+			tmp = ft_strjoin(test, " ");
+		}
 	}
-	return (first);
+	i = ft_strlen(tmp);
+	if (tmp[i - 1] == ' ')
+		tmp[i - 1] = '\0';
+	return (tmp);
+}
+
+char	*expand_simple_var(char *str, t_env *env)
+{
+	char	**split;
+	int		i;
+	char	*tmp;
+
+	split = ft_split(str, ' ');
+	i = -1;
+	while (split[++i])
+	{
+		if (ft_strchr(split[i], '$'))
+			split[i] = get_var_value(split[i], env);
+	}
+	tmp = joinall(split);
+	free(split);
+	return (tmp);
+}
+
+char	*expand(t_token *token, t_env *env)
+{
+	if (!token || !token->value || !token->need_exp)
+		return (ft_strdup(token->value));
+	return (expand_simple_var(token->value, env));
 }

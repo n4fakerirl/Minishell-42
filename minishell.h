@@ -83,7 +83,7 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
-	int				pipe_nbr;
+	
 }					t_shell;
 
 t_token				*tokenize(char *input);

@@ -2,6 +2,7 @@
     "files.associations": {
         "string.h": "c",
         "signal.h": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "type_traits": "c"
     }
 }

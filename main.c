@@ -6,17 +6,17 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:45:47 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/18 02:25:45 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/23 12:46:59 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int	main(int ac, char **av, char **envp)
+// int	main(int ac, char **av)
 // {
 // 	char *str;
 // 	t_token *tokens;
-// 	t_cmd *cmds;
+// 	t_token *tmp;
 
 // 	(void)av;
 // 	(void)ac;
@@ -26,13 +26,15 @@
 // 		if (!str)
 // 			break ;
 // 		tokens = tokenize(str);
-// 		if (tokens)
+// 		new_type(tokens);
+// 		//parse_args(tokens);
+// 		//need_expand(tokens);
+// 		//trim_words(tokens);
+// 		tmp = tokens;
+// 		while (tmp)
 // 		{
-// 			new_type(tokens);
-// 			cmds = NULL;
-// 			trim_words(tokens);
-// 			cmd_list(tokens, &cmds);
-// 			parse_args(tokens);
+// 			printf("token[] : %s\n", tmp->value);
+// 			tmp = tmp->next;
 // 		}
 // 	}
 // 	return (0);
@@ -42,7 +44,6 @@ int	main(int ac, char **av, char **envp)
 {
 	char *str;
 	t_token *tokens;
-	//t_token *tmp;
 	t_cmd *cmds;
 	t_cmd *test;
 	t_env *env;
@@ -62,12 +63,12 @@ int	main(int ac, char **av, char **envp)
 		cmds = NULL;
 		need_expand(tokens);
 		trim_words(tokens);
-		//tmp = tokens;
 		cmd_list(tokens, &cmds, env);
 		test = cmds;
 		while (test)
 		{
 			int i = 0;
+			printf("cmd[] : ");
 			while (test->args[i])
 			{
 				printf("%s ", test->args[i]);

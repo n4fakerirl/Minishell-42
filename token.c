@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:54:09 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/18 01:59:47 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/23 11:04:42 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,22 @@ int	wording(char *input, t_token **tokens)
 	int	i;
 
 	i = 0;
-	if (input[i] == '"')
+	if (input[i] == '\"')
 	{
-		while (input[i])
+		i++;
+		while (input[i] && input[i] != '\"')
 			i++;
+		i++;
 		if (i > 0)
 			ft_lstadd_back(tokens, create_token(WORD, ft_substr(input, 0, i),
 					DOUBLE_QUOTE));
 	}
 	else if (input[i] == '\'')
 	{
-		while (input[i])
+		i++;
+		while (input[i] && input[i] != '\'')
 			i++;
+		i++;
 		if (i > 0)
 			ft_lstadd_back(tokens, create_token(WORD, ft_substr(input, 0, i),
 					SINGLE_QUOTE));
