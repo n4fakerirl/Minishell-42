@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 17:16:34 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/21 16:44:27 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 12:15:23 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	inter_child(t_shell *shell, char **envp_initial, int i)
 {	
 	char	*cmd_finale;
-
+	(void)i;
+	
 	cmd_finale = get_cmd(shell);
 	if (!cmd_finale)
 	{
@@ -23,12 +24,12 @@ void	inter_child(t_shell *shell, char **envp_initial, int i)
 		shell->exit_status = 127;
 		return ;
 	}
-	dup2(shell->pipe_infos->pipe_fd[i][1], 1);
+	/* dup2(shell->pipe_infos->pipe_fd[i][1], 1);
 	dup2(shell->pipe_infos->pipe_fd[i - 1][0], 0);
 	close(shell->pipe_infos->pipe_fd[i][1]);
 	close(shell->pipe_infos->pipe_fd[i][0]);
 	close(shell->pipe_infos->pipe_fd[i - 1][0]);
-	close(shell->pipe_infos->pipe_fd[i - 1][1]);
+	close(shell->pipe_infos->pipe_fd[i - 1][1]); */
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))
 	{
 		perror("execve");

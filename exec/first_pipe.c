@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 18:46:19 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/21 16:35:25 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:14:12 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ void	first_child(t_shell *shell, char **envp_initial)
 		shell->exit_status = 127;
 		return ;
 	}
-	dup2(shell->pipe_infos->pipe_fd[0][1], 1);
+	fprintf(stderr, "JE VIAS EXECVE\n");
+/* 	dup2(shell->pipe_infos->pipe_fd[0][1], 1);
 	close(shell->pipe_infos->pipe_fd[0][1]);
-	close(shell->pipe_infos->pipe_fd[0][0]);
+	close(shell->pipe_infos->pipe_fd[0][0]); */
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))
 	{
 		perror("execve");

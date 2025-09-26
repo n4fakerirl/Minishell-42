@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/23 20:42:15 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:22:02 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,15 @@ void	change_redir(t_cmd *cmd)
 
 	tmp = cmd;
 	tmp = tmp->next;
-	tmp->redirect->type = REDIRDR;
-	tmp = tmp->next;
-	tmp->redirect->type = REDIRL;
-	tmp->redirect->next->type = REDIRDR;
+	tmp->redirect->type = REDIRR;
+	tmp->redirect->next = NULL;
+	//tmp = tmp->next;
+	//tmp->redirect = NULL;
+	//tmp = tmp->next;
+	//tmp->redirect->type = REDIRL;
+	//tmp->redirect->next->type = REDIRDR;
 	//tmp->redirect->next->next = NULL;
-	tmp->next = NULL;
+	//tmp->next = NULL;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -46,7 +49,6 @@ int	main(int ac, char **av, char **envp)
 	int	status;
 	int	i;
 	int	is_cmd;
-	t_cmd	*tmp;
 
 	is_cmd = 1;
 	(void)av;
@@ -74,8 +76,6 @@ int	main(int ac, char **av, char **envp)
 		if (*line)
 			add_history(line);
 		shell->line = ft_strdup(line);
-		//Protection du malloc du ft_strdup
-		//Meme chose que cas CTRL D;shell->cmd
 		if (!shell->line)
 		{
 			shell->av = NULL;
@@ -87,14 +87,13 @@ int	main(int ac, char **av, char **envp)
 		shell->av = ft_split(line, ' ');
 		if (!shell->av)
 		{
-			free(line); //ne vas pas passer par le free(line) de fin de while, direct fin du main donc il faut free(line)
-			shell->cmd = NULL; //si jamais il a ete free au tour d'avant, pour pas que ca segfault dans le free_shell
-			//Pas besoin de shell->av = NULL puisqu'il est deja NULL dans cette condition
+			free(line);
+			shell->cmd = NULL;
 			printf("shell->av split failed\n");
 			continue ;
 		}
 		shell->cmd = init_cmd(shell->av);
-		change_redir(shell->cmd);
+		//change_redir(shell->cmd);
 		if (!shell->cmd)
 		{
 			free(line);
@@ -103,9 +102,14 @@ int	main(int ac, char **av, char **envp)
 			break;
 		}
 		shell->nbr_cmd = count_list(shell->cmd);
-		while (shell->cmd)
+		start_exec(shell);
+		while (i < shell->nbr_cmd)
 		{
-			//printf("Etape 1 : start_exec au rang [%d]\n", i);
+			waitpid(shell->pipe_infos->pid[i], &status, 2);
+			i++;
+		}
+		/* while (shell->cmd)
+		{
 			if (is_builtin(shell->cmd->args[0]) && shell->nbr_cmd == 1)
 				is_cmd = 0;
 			start_exec(shell, i);
@@ -114,9 +118,10 @@ int	main(int ac, char **av, char **envp)
 			free(shell->cmd);
 			shell->cmd = tmp;
 			if (is_cmd == 1)
-				waitpid(shell->pipe_infos->pid[i], &status, 2);		
+				waitpid(shell->pipe_infos->pid[i], &status, 2);
+			fprintf(stderr, "OK JE VAIS I++\n");	
 			i++;
-		}
+		} */
 		//i = -1;
 		//while (++i < shell->nbr_cmd)
 		//	waitpid(shell->pipe_infos->pid[i], &status, 2);
@@ -124,7 +129,7 @@ int	main(int ac, char **av, char **envp)
 		free_cmd(shell->cmd);
 		free_split(shell->av);
 		free(shell->line);
-		fprintf(stderr, "%d\n", shell->exit_status);
+		// printf("%d\n", shell->exit_status);
 	}
 	if (shell->exit_status != 0)
 	{
@@ -136,7 +141,6 @@ int	main(int ac, char **av, char **envp)
 		return (exit_status);
 	}
 	rl_clear_history();
-	printf("ICI JJE DOIS FREE QQCHOSE ??\n");
 	free_shell(shell);
 	return (0);
 }

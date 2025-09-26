@@ -6,11 +6,29 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 14:11:46 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/23 20:43:02 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:31:17 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+t_redir	*new_redir(void)
+{
+	t_redir	*redir;
+	
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return (NULL);
+	redir->file = ft_strdup("sortie.txt");
+	if (!redir->file)
+	{
+		free(redir);
+		return (NULL);
+	}
+	redir->type = REDIRDR;
+	redir->next = NULL;
+	return (redir);
+}
 
 t_redir	*init_redir(void)
 {
@@ -25,8 +43,9 @@ t_redir	*init_redir(void)
 		free(redir);
 		return (NULL);
 	}
-	redir->type = REDIRDR;
-	//redir->next = NULL;
+	redir->type = REDIRR;
+	redir->next = NULL;
+	//redir->next = new_redir();
 	return (redir);
 }
 
@@ -55,8 +74,9 @@ t_cmd	*create_node(char **split, int start, int end)
 	}
 	new_node->args[i] = 0;
 	new_node->here_doc = 0;
-	new_node->next = NULL;
 	new_node->redirect = init_redir();
+	//new_node->redirect = NULL;
+	new_node->next = NULL;
 	return (new_node);
 }	
 

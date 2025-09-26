@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:41:22 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/15 13:45:29 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:33:10 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	ft_echo(char **split)
 		i++;
 	while (split[i])
 	{
-		printf("%s", split[i]);
+		// printf("%s", split[i]);
+		write(STDOUT_FILENO, split[i], ft_strlen(split[i]));
 		if (split[i + 1])
 			printf(" ");
 		i++;

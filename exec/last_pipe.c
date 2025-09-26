@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 09:32:36 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/21 16:41:27 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:16:14 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	last_child(t_shell *shell, char **envp_initial, int i)
 {
-	int	nbr_cmd;
+	//int	nbr_cmd;
+	(void)i;
 	char *cmd_finale;
 	
 	cmd_finale = get_cmd(shell);
@@ -24,10 +25,11 @@ void	last_child(t_shell *shell, char **envp_initial, int i)
 		shell->exit_status = 127;
 		return ;
 	}
-	nbr_cmd = count_list(shell->cmd);
+	/* nbr_cmd = count_list(shell->cmd);
 	dup2(shell->pipe_infos->pipe_fd[i - 1][0], 0);
 	close(shell->pipe_infos->pipe_fd[i - 1][0]);
-	close(shell->pipe_infos->pipe_fd[i - 1][1]);
+	close(shell->pipe_infos->pipe_fd[i - 1][1]); */
+	fprintf(stderr, "DERNIER COMMANDE  EXECVE\n");
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))
 	{
 		perror("execve");

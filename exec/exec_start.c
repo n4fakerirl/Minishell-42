@@ -6,13 +6,13 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/23 20:24:43 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:28:26 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	redir(t_shell *shell, int i)
+/* void	redir(t_shell *shell, int i)
 {
 	if (i == 0)
 	{
@@ -39,7 +39,7 @@ void	redir(t_shell *shell, int i)
 		close(shell->pipe_infos->pipe_fd[i - 1][0]);
 		return ;
 	}
-}
+} */
 
 int	piping(t_shell *shell, int i)
 {
@@ -52,58 +52,73 @@ int	piping(t_shell *shell, int i)
 	return (0);
 }
 
-void	start_exec(t_shell *shell, int i)
+void	start_exec(t_shell *shell)
 {
 	int	exit_status;
+	int	i;
 
+	i = 0;
 	if (shell->nbr_cmd == 1)
 		return (one_cmd(shell, shell->envp_initial));
-	if (i != shell->nbr_cmd - 1)
-		if (piping(shell, i))
-			return ;
-	shell->pipe_infos->pid[i] = fork();
-	printf("MON PID EST : %d au rang %d\n", getpid(), i);
-	if (shell->pipe_infos->pid[i] < 0)
-		return (fail_fork(shell, i));
-	else if (shell->pipe_infos->pid[i] == 0)
+	while (shell->cmd)
 	{
-		check_redir(shell->cmd);
-		if (is_builtin(shell->cmd->args[0]))
-		{
-			redir(shell, i);
-			shell->exit_status = exec_builtin(shell, &(shell->env));
-			exit_status = shell->exit_status;
-			free_shell(shell);
-			exit(exit_status);
+		if (i != shell->nbr_cmd - 1)
+		{	
+			printf("JE PIPE AU RANG %d\n", i);
+			if (piping(shell, i))
+				return ;
 		}
-		else
+		shell->pipe_infos->pid[i] = fork();
+		printf("JE FORK ET MON PID EST : %d au rang %d\n", getpid(), i);
+		if (shell->pipe_infos->pid[i] < 0)
+			return (fail_fork(shell, i));
+		else if (shell->pipe_infos->pid[i] == 0)
+		{
+			check_redir(shell, i);
+			if (is_builtin(shell->cmd->args[0]))
+			{
+				//redir(shell, i);
+				shell->exit_status = exec_builtin(shell, &(shell->env));
+				exit_status = shell->exit_status;
+				free_shell(shell);
+				exit(exit_status);
+			}
+			else
+			{
+				if (i == 0)
+				{
+					fprintf(stderr, "FIRST COMMANDE\n");
+					first_child(shell, shell->envp_initial);
+				}
+				else if (i == shell->nbr_cmd - 1)
+				{
+					fprintf(stderr, "LAST COMMANDE\n");
+					last_child(shell, shell->envp_initial, i);
+				}
+				else
+				{
+					fprintf(stderr, "INTER COMMANDE\n");
+					inter_child(shell, shell->envp_initial, i);
+				}
+			}
+		}
+		else if (shell->pipe_infos->pid[i] > 0)
 		{
 			if (i == 0)
-				first_child(shell, shell->envp_initial);
-			else if (i == shell->nbr_cmd - 1)
-				last_child(shell, shell->envp_initial, i);
-			else
-				inter_child(shell, shell->envp_initial, i);
-		}
-	}
-	else if (shell->pipe_infos->pid[i] > 0)
-	{
-		if (i == 0)
-		{
-			fprintf(stdout, "i == 0 : Le parent ferme les bons fd\n");
 			close(shell->pipe_infos->pipe_fd[0][1]);
+			else if (i == shell->nbr_cmd - 1)
+			{
+				close(shell->pipe_infos->pipe_fd[i - 1][0]);
+				close(shell->pipe_infos->pipe_fd[i - 1][1]);
+			}
+			else
+			{
+				close(shell->pipe_infos->pipe_fd[i][1]);
+				close(shell->pipe_infos->pipe_fd[i - 1][0]);
+			}
 		}
-		else if (i == shell->nbr_cmd - 1)
-		{
-			close(shell->pipe_infos->pipe_fd[i - 1][0]);
-			close(shell->pipe_infos->pipe_fd[i - 1][1]);
-		}
-		else
-		{
-			close(shell->pipe_infos->pipe_fd[i][1]);
-			close(shell->pipe_infos->pipe_fd[i - 1][0]);
-		}
+		i++;
+		shell->cmd = shell->cmd->next;
 	}
-	fprintf(stdout, "Je sors de mon exec\n");
 	return ;
 }

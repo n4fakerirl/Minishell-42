@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:34:26 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/16 15:59:33 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 15:10:33 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	ft_env(char **split, t_env *env, bool egal)
 	}
 	while (env)
 	{
-		printf("COUOUC\n");
 		if (!env->value && egal)
 			printf("%s=\n", env->key);
 		else if (env->value)

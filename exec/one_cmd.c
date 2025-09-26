@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/23 19:04:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:29:26 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@ void	one_cmd(t_shell *shell, char **envp_initial)
 	
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
-	check_redir(shell->cmd);
+	check_redir(shell, -1);
 	if (is_builtin(shell->cmd->args[0]))
-	{
-		fprintf(stderr, "JE RENTRE DANS BUILTIN\n");
 		shell->exit_status = exec_builtin(shell, &(shell->env));
-	}
 	else
 		one_child(shell, envp_initial);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
 }
 
 void	one_child(t_shell *shell, char **envp_initial)

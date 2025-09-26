@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/23 18:10:09 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:28:17 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@
 // Contient ma commande et mes arguments
 typedef enum e_token_type
 {
-	WORD,
-	PIPE,    // |
-	REDIRL,  // <
-	REDIRR,  // >
-	REDIRDR, // >>
-	REDIRDL, // <<
-	ARGEDIR
+	WORD,    // 0
+	PIPE,    // | 1
+	REDIRL,  // < 2
+	REDIRR,  // > 3
+	REDIRDR, // >> 4
+	REDIRDL, // << 5
+	ARGEDIR  // 6
 }					t_token_type;
 
 typedef struct s_redir
@@ -123,7 +123,7 @@ void				exit_lit(char *message);
 void				exit_num(char *message);
 
 // Exec
-void				start_exec(t_shell *shell, int i);
+void				start_exec(t_shell *shell);
 void				one_child(t_shell *shell, char **envp_initial);
 void				one_cmd(t_shell *shell, char **envp_initial);
 char				*get_cmd(t_shell *shell);
@@ -134,6 +134,6 @@ void				inter_child(t_shell *shell, char **envp_initial, int i);
 void				fail_fork(t_shell *shell, int i);
 
 // Redir
-void				check_redir(t_cmd *cmd);
+void				check_redir(t_shell *shell, int i);
 
 #endif

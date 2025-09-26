@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:31:17 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/22 16:44:47 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:13:04 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,28 @@ char	**dup_split(char **src)
 void	print_cmd(t_cmd *cmd)
 {
 	int	i;
-
+	int	j;
+	int	k;
+	t_redir	*tmp;
+	
+	k = 0;
+	j = 0;
 	while (cmd)
 	{
-		//printf("NAME : %s\n", cmd->name);
+		tmp = cmd->redirect;
 		i = 0;
 		while (cmd->args[i])
 		{
-			fprintf(stderr, "CMD ARGS : %s\n", cmd->args[i]);
+			fprintf(stderr, "CMD ARGS [%d]: %s\n", j, cmd->args[i]);
 			i++;
 		}
+		while (tmp)
+		{
+			fprintf(stderr, "TYPE [%d]: %d\n", k, tmp->type);
+			k++;
+			tmp = tmp->next;
+		}
+		j++;
 		cmd = cmd->next;
 	}
 }
