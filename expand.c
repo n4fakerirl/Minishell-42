@@ -1,27 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand->c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student->42->fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/18 01:39:57 by ocviller         ###   ########->fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "minishell.h"
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/18 03:00:00 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:12:57 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +124,8 @@ char	*get_var_value(char *var_name, t_env *env)
 	int		len;
 	int		y;
 	char	*tmp;
+	char	*first;
+	char	*last;
 
 	i = 0;
 	len = ft_strlen(var_name);
@@ -147,35 +134,72 @@ char	*get_var_value(char *var_name, t_env *env)
 		i++;
 	while (y > i + 1 && !skippable(var_name[y - 1]))
 		y--;
+	first = ft_substr(var_name, 0, i);
+	last = ft_substr(var_name, y, len - y);
 	tmp = ft_substr(var_name, i + 1, y - (i + 1));
-	printf("---TMP %s---\n", tmp);
 	while (env)
 	{
 		if (env->key && ft_strcmp(env->key, tmp) == 0)
 			return (joinword(i, y, var_name, env->value));
 		env = env->next;
 	}
-	return (ft_strdup(""));
+	if (first && last)
+		return (ft_strjoin(first, last));
+	else if (!first && last)
+		return (ft_strdup(last));
+	else if (first && !last)
+		return (ft_strdup(first));
+	else
+		return (ft_strdup(""));
 }
 
-char	*joinall(char **split)
+int	put_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (isspace(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*joinall(char **split, char **space)
 {
 	char	*tmp;
 	char	*test;
 	int		i;
 
 	tmp = NULL;
-	i = -1;
-	while (split[++i])
+	i = 0;
+	while (split[i])
 	{
-		if (!tmp)
-			tmp = ft_strjoin(split[i], " ");
+		if (space[i + 1] && space[i + 1][0] == ' ')
+		{
+			if (!tmp)
+				tmp = ft_strjoin(split[i], " ");
+			else
+			{
+				test = ft_strjoin(tmp, split[i]);
+				free(tmp);
+				tmp = ft_strjoin(test, " ");
+			}
+		}
 		else
 		{
-			test = ft_strjoin(tmp, split[i]);
-			free(tmp);
-			tmp = ft_strjoin(test, " ");
+			if (!tmp)
+				tmp = ft_strdup(split[i]);
+			else
+			{
+				test = ft_strjoin(tmp, split[i]);
+				free(tmp);
+				tmp = test;
+			}
 		}
+		i++;
 	}
 	i = ft_strlen(tmp);
 	if (tmp[i - 1] == ' ')
@@ -188,15 +212,17 @@ char	*expand_simple_var(char *str, t_env *env)
 	char	**split;
 	int		i;
 	char	*tmp;
+	char	**space;
 
 	split = ft_split_d(str, " $");
+	space = ft_split_s(str, " ");
 	i = -1;
 	while (split[++i])
 	{
 		if (ft_strchr(split[i], '$'))
-			split[i] = get_var_value(split[i], env, str);
+			split[i] = get_var_value(split[i], env);
 	}
-	tmp = joinall(split);
+	tmp = joinall(split, space);
 	free(split);
 	return (tmp);
 }

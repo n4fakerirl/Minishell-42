@@ -98,4 +98,5 @@ void				need_expand(t_token *tokens);
 int					parse_args(t_token *tokens);
 char				*del_back(t_token *token);
 char				**ft_split_d(char *str, char *charset);
+char				**ft_split_s(char *str, char *charset);
 #endif

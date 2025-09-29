@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split2.c                                           :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:34:40 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/29 14:34:54 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:00:46 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	separator(char c, char *charset)
+static int	separator(char c, char *charset)
 {
 	while (*charset)
 	{
@@ -24,7 +24,7 @@ int	separator(char c, char *charset)
 	return (0);
 }
 
-int	len_words(char *str, char *charset)
+static int	len_words(char *str, char *charset)
 {
 	int	word;
 
@@ -41,7 +41,7 @@ int	len_words(char *str, char *charset)
 	return (word);
 }
 
-char	*ft_strdup_sep(char *str, char *charset)
+static char	*ft_strdup_sep(char *str, char *charset)
 {
 	int		len;
 	int		i;
@@ -49,7 +49,7 @@ char	*ft_strdup_sep(char *str, char *charset)
 
 	len = 0;
 	i = 0;
-	if (str[0] == '$')
+	if (str[0] == ' ')
 		len++;
 	while (str[len] && !separator(str[len], charset))
 		len++;
@@ -65,7 +65,7 @@ char	*ft_strdup_sep(char *str, char *charset)
 	return (word);
 }
 
-char	**ft_split_d(char *str, char *charset)
+char	**ft_split_s(char *str, char *charset)
 {
 	int		words;
 	int		i;
@@ -82,7 +82,7 @@ char	**ft_split_d(char *str, char *charset)
 			str++;
 		if (*str)
 		{
-			if (*(str - 1) == '$')
+			if (*(str - 1) == ' ')
 				result[i] = ft_strdup_sep(str - 1, charset);
 			else
 				result[i] = ft_strdup_sep(str, charset);

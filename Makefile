@@ -6,7 +6,7 @@
 #    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 12:51:02 by ocviller          #+#    #+#              #
-#    Updated: 2025/09/18 01:42:52 by ocviller         ###   ########.fr        #
+#    Updated: 2025/09/29 16:55:34 by ocviller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LIBFT_INC = -I$(LIBFT_DIR)
 OBJ_DIR     = obj
 
 # Fichiers sources
-SRC         = main.c token.c utils.c parsing.c expand.c
+SRC         = main.c token.c utils.c parsing.c expand.c split2.c test.c
 
 # Objets générés dans le dossier obj/
 OBJ         = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

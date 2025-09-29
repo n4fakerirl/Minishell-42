@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 20:45:47 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/29 11:24:24 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:36:15 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		str = readline("minishell$ ");
+		add_history(str);
 		if (!str)
 			break ;
 		tokens = tokenize(str);
