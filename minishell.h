@@ -83,7 +83,6 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
-	
 }					t_shell;
 
 t_token				*tokenize(char *input);
@@ -97,6 +96,6 @@ void				add_cmds(t_cmd **cmds, t_cmd *cmd);
 void				trim_words(t_token *tokens);
 void				need_expand(t_token *tokens);
 int					parse_args(t_token *tokens);
-char	*ft_triplejoin(char const *s1, char const *s2, char const *s3);
-
+char				*del_back(t_token *token);
+char				**ft_split_d(char *str, char *charset);
 #endif

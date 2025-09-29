@@ -41,13 +41,56 @@ void	need_expand(t_token *tokens)
 			i = 0;
 			while (tmp->value[i])
 			{
-				if (tmp->value[i] == '$')
+				if (tmp->value[i - 1] != '\\' && tmp->value[i] == '$')
 					tmp->need_exp = true;
 				i++;
 			}
 		}
 		tmp = tmp->next;
 	}
+}
+
+int	backspecial(char c)
+{
+	if (c == '\\' || c == '"' || c == '$' || c == '\n')
+		return (1);
+	else
+		return (0);
+}
+
+char	*del_back(t_token *token)
+{
+	int		len;
+	char	*buf;
+	int		i;
+	int		j;
+
+	j = 0;
+	if (token->state == SINGLE_QUOTE)
+		return (ft_strdup(token->value));
+	len = ft_strlen(token->value);
+	buf = malloc(sizeof(char) * (len + 1));
+	if (!buf)
+		return (NULL);
+	i = 0;
+	while (token->value[i])
+	{
+		if (token->value[i] == '\\')
+		{
+			i++;
+			if (!token->value[i])
+				break ;
+			if (token->state == DOUBLE_QUOTE && backspecial(token->value[i]))
+				buf[j++] = token->value[i];
+			else
+				buf[j++] = token->value[i];
+		}
+		else
+			buf[j++] = token->value[i];
+		i++;
+	}
+	buf[j] = '\0';
+	return (buf);
 }
 
 int	skippable(char c)
@@ -146,12 +189,12 @@ char	*expand_simple_var(char *str, t_env *env)
 	int		i;
 	char	*tmp;
 
-	split = ft_split(str, ' ');
+	split = ft_split_d(str, " $");
 	i = -1;
 	while (split[++i])
 	{
 		if (ft_strchr(split[i], '$'))
-			split[i] = get_var_value(split[i], env);
+			split[i] = get_var_value(split[i], env, str);
 	}
 	tmp = joinall(split);
 	free(split);

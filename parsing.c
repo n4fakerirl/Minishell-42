@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 16:30:28 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/23 10:44:44 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/09/29 11:27:28 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env)
 					current->args[i++] = ft_strdup(str);
 			}
 			else
-				current->args[i++] = ft_strdup(tmp->value);
+				current->args[i++] = del_back(tmp);
 			tmp = tmp->next;
 		}
 		current->args[i] = NULL;
