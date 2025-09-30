@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:00:55 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/26 17:28:17 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/27 12:52:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ typedef struct s_shell
 	t_env			*env;
 	t_cmd			*cmd;
 	t_pipe			*pipe_infos;
+	int				saved_stdin;
+	int				saved_stdout;
 }					t_shell;
 
 // Builtins
@@ -106,14 +108,9 @@ void				free_shell(t_shell *shell);
 void				free_move_cmd(t_cmd *cmd);
 
 // Utils
-t_env				*init_env(char **envp);
-t_shell				*init_shell(char **envp);
-t_cmd				*init_cmd(char **split);
 long				ft_atol(char *str, int *limit);
 int					ft_strcmp(const char *s1, const char *s2);
-void				new_node(t_env **env, char *str);
-char				**dup_split(char **src);
-void				print_cmd(t_cmd *cmd);
+int					split_len(char **split);
 
 // Exits
 void				chdir_exit(char *message, char *path);
@@ -129,11 +126,24 @@ void				one_cmd(t_shell *shell, char **envp_initial);
 char				*get_cmd(t_shell *shell);
 int					count_list(t_cmd *cmd);
 void				first_child(t_shell *shell, char **envp_initial);
-void				last_child(t_shell *shell, char **envp_initial, int i);
-void				inter_child(t_shell *shell, char **envp_initial, int i);
+void				last_child(t_shell *shell, char **envp_initial);
+void				inter_child(t_shell *shell, char **envp_initial);
 void				fail_fork(t_shell *shell, int i);
 
 // Redir
 void				check_redir(t_shell *shell, int i);
+
+// heredoc
+void				check_heredoc(t_shell *shell);
+
+// Temp ou parsing
+void				print_cmd(t_cmd *cmd);
+void				print_split(char **split);
+void				change_redir(t_cmd *cmd);
+t_env				*init_env(char **envp);
+t_shell				*init_shell(char **envp);
+t_cmd				*init_cmd(char **split);
+void				new_node(t_env **env, char *str);
+char				**dup_split(char **src);
 
 #endif

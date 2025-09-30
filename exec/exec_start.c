@@ -6,40 +6,11 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/26 17:28:26 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/27 15:25:41 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/* void	redir(t_shell *shell, int i)
-{
-	if (i == 0)
-	{
-		fprintf(stdin, "Mon i == 0 dans redir\n");
-		dup2(shell->pipe_infos->pipe_fd[0][1], 1);
-		close(shell->pipe_infos->pipe_fd[0][1]);
-		close(shell->pipe_infos->pipe_fd[0][0]);
-		return ;
-	}
-	if (i == shell->nbr_cmd - 1)
-	{
-		fprintf(stderr, "REDIR DE MA [%d]eme commande\n", i);
-		dup2(shell->pipe_infos->pipe_fd[i - 1][0], 0);
-		close(shell->pipe_infos->pipe_fd[i - 1][0]);
-		close(shell->pipe_infos->pipe_fd[i - 1][1]);
-		return ;
-	}
-	else
-	{
-		dup2(shell->pipe_infos->pipe_fd[i][1], 1);
-		dup2(shell->pipe_infos->pipe_fd[i - 1][0], 0);
-		close(shell->pipe_infos->pipe_fd[i][0]);
-		close(shell->pipe_infos->pipe_fd[i][1]);
-		close(shell->pipe_infos->pipe_fd[i - 1][0]);
-		return ;
-	}
-} */
 
 int	piping(t_shell *shell, int i)
 {
@@ -56,20 +27,20 @@ void	start_exec(t_shell *shell)
 {
 	int	exit_status;
 	int	i;
+	int	status;
 
 	i = 0;
+	shell->saved_stdin = dup(STDIN_FILENO);
+	shell->saved_stdout = dup(STDOUT_FILENO);
+	check_heredoc(shell);
 	if (shell->nbr_cmd == 1)
 		return (one_cmd(shell, shell->envp_initial));
 	while (shell->cmd)
 	{
 		if (i != shell->nbr_cmd - 1)
-		{	
-			printf("JE PIPE AU RANG %d\n", i);
 			if (piping(shell, i))
 				return ;
-		}
 		shell->pipe_infos->pid[i] = fork();
-		printf("JE FORK ET MON PID EST : %d au rang %d\n", getpid(), i);
 		if (shell->pipe_infos->pid[i] < 0)
 			return (fail_fork(shell, i));
 		else if (shell->pipe_infos->pid[i] == 0)
@@ -77,7 +48,6 @@ void	start_exec(t_shell *shell)
 			check_redir(shell, i);
 			if (is_builtin(shell->cmd->args[0]))
 			{
-				//redir(shell, i);
 				shell->exit_status = exec_builtin(shell, &(shell->env));
 				exit_status = shell->exit_status;
 				free_shell(shell);
@@ -86,26 +56,23 @@ void	start_exec(t_shell *shell)
 			else
 			{
 				if (i == 0)
-				{
-					fprintf(stderr, "FIRST COMMANDE\n");
 					first_child(shell, shell->envp_initial);
-				}
 				else if (i == shell->nbr_cmd - 1)
-				{
-					fprintf(stderr, "LAST COMMANDE\n");
-					last_child(shell, shell->envp_initial, i);
-				}
+					last_child(shell, shell->envp_initial);
 				else
-				{
-					fprintf(stderr, "INTER COMMANDE\n");
-					inter_child(shell, shell->envp_initial, i);
-				}
+					inter_child(shell, shell->envp_initial);
 			}
 		}
 		else if (shell->pipe_infos->pid[i] > 0)
 		{
+			dup2(shell->saved_stdout, STDOUT_FILENO);
+			dup2(shell->saved_stdin, STDIN_FILENO);
+			close(shell->saved_stdin);
+			close(shell->saved_stdout);
+			if (shell->cmd->redirect->type == REDIRDL)
+				unlink("a");
 			if (i == 0)
-			close(shell->pipe_infos->pipe_fd[0][1]);
+				close(shell->pipe_infos->pipe_fd[0][1]);
 			else if (i == shell->nbr_cmd - 1)
 			{
 				close(shell->pipe_infos->pipe_fd[i - 1][0]);
@@ -119,6 +86,12 @@ void	start_exec(t_shell *shell)
 		}
 		i++;
 		shell->cmd = shell->cmd->next;
+	}
+	i = 0;
+	while (i < shell->nbr_cmd)
+	{
+		waitpid(shell->pipe_infos->pid[i], &status, 2);
+		i++;
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:12:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/26 16:33:05 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/27 15:50:23 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ void	check_redir(t_shell *shell, int i)
 	fd = 0;
 	if (shell->cmd->redirect == NULL && i != -1)
 	{
-		//fprintf(stderr, "JE N'AI PAS DE REDIR\n");
-		//Redir de pipe si pas de redirections
 		redir(shell, i);
 		return ;
 	}
@@ -83,8 +81,8 @@ void	check_redir(t_shell *shell, int i)
 		//fprintf(stderr, "J'AI UNE REDIR\n");
 		if (shell->cmd->redirect->type == REDIRR || shell->cmd->redirect->type == REDIRDR)
 		{
-			//fprintf(stderr, "TYPE : %d\n", shell->cmd->redirect->type);
-			//fprintf(stderr, "NAME OF FILE : %s\n", shell->cmd->redirect->file);
+			fprintf(stderr, "TYPE : %d\n", shell->cmd->redirect->type);
+			fprintf(stderr, "NAME OF FILE : %s\n", shell->cmd->redirect->file);
 			if (shell->cmd->redirect->type == REDIRR)
 				fd = open(shell->cmd->redirect->file, O_WRONLY | O_CREAT | O_TRUNC,
 						0644);
@@ -108,8 +106,21 @@ void	check_redir(t_shell *shell, int i)
 				perror("");
 				return ;
 			}
-			//fprintf(stderr, "REDIRL\n");
+			fprintf(stderr, "REDIRL\n");
 			dup2(fd, 0);
+			close(fd);
+		}
+		else if(shell->cmd->redirect->type == REDIRDL)
+		{
+			fprintf(stderr, "HEREDOC\n");
+			fd = shell->cmd->here_doc;
+			if (fd < 0)
+			{
+				perror("");
+				return ;
+			}
+			dup2(fd, 0);
+			fprintf(stderr, "DANS CHECK REDIR\n");
 			close(fd);
 		}
 		shell->cmd->redirect = shell->cmd->redirect->next;

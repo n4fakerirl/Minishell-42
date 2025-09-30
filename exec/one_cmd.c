@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/26 17:29:26 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/27 15:32:38 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,22 @@
 
 void	one_cmd(t_shell *shell, char **envp_initial)
 {
-	int	saved_stdout;
-	int	saved_stdin;
-	
-	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDOUT_FILENO);
 	check_redir(shell, -1);
 	if (is_builtin(shell->cmd->args[0]))
 		shell->exit_status = exec_builtin(shell, &(shell->env));
 	else
 		one_child(shell, envp_initial);
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
+	fprintf(stderr, "JE SUI SORTIE\n");
+	dup2(shell->saved_stdout, STDOUT_FILENO);
+	dup2(shell->saved_stdin, STDIN_FILENO);
+	close(shell->saved_stdin);
+	close(shell->saved_stdout);
 }
 
 void	one_child(t_shell *shell, char **envp_initial)
 {
 	char	*cmd_finale;
+	int	status;
 
 	shell->pipe_infos->pid[0] = fork();
 	if (shell->pipe_infos->pid[0] < 0)
@@ -46,15 +43,27 @@ void	one_child(t_shell *shell, char **envp_initial)
 		cmd_finale = get_cmd(shell);
 		if (!cmd_finale)
 		{
+			dup2(shell->saved_stdout, STDOUT_FILENO);
+			dup2(shell->saved_stdin, STDIN_FILENO);
+			close(shell->saved_stdin);
+			close(shell->saved_stdout);
 			printf("bash: %s: command not found\n", shell->cmd->args[0]);
 			shell->exit_status = 127;
 			return ;
 		}
 		if (execve(cmd_finale, shell->cmd->args, envp_initial))
 		{
+			dup2(shell->saved_stdout, STDOUT_FILENO);
+			dup2(shell->saved_stdin, STDIN_FILENO);
+			close(shell->saved_stdin);
+			close(shell->saved_stdout);
 			perror("execve");
 			free(cmd_finale);
 			exit (127);
 		}
+	}
+	else
+	{
+		waitpid(shell->pipe_infos->pid[0], &status, 2);
 	}
 }

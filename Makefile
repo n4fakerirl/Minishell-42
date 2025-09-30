@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/09/23 17:13:40 by lenakach         ###   ########.fr        #
+#    Updated: 2025/09/27 12:37:25 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ UTILS_DIR = utils
 EXEC_DIR = exec
 REDIR_DIR = redir
 LIBFT_DIR = libft
+HEREDOC_DIR = heredoc
 
 #Includes
 INCLUDES = -Iincludes -I$(LIBFT_DIR)
@@ -40,7 +41,9 @@ EXEC = $(EXEC_DIR)/exec_builtins.c $(EXEC_DIR)/exec_start.c $(EXEC_DIR)/path.c $
 		$(EXEC_DIR)/last_pipe.c $(EXEC_DIR)/exec_utils.c $(EXEC_DIR)/one_cmd.c $(EXEC_DIR)/inter_pipe.c \
 		$(EXEC_DIR)/exit_exec.c
 REDIR = $(REDIR_DIR)/redir_one_cmd.c
-SRCS = $(EXEC) $(BUITLINS) $(UTILS) $(REDIR) main.c
+HEREDOC = $(HEREDOC_DIR)/check_heredoc.c
+
+SRCS = $(EXEC) $(BUITLINS) $(UTILS) $(REDIR) $(HEREDOC) main.c
 OBJS = $(SRCS:.c=.o)
  
 #Commandes

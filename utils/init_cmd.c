@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 14:11:46 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/26 16:31:17 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/27 15:47:40 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ t_redir	*new_redir(void)
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
-	redir->file = ft_strdup("sortie.txt");
+	redir->file = ft_strdup("b");
 	if (!redir->file)
 	{
 		free(redir);
 		return (NULL);
 	}
-	redir->type = REDIRDR;
+	redir->type = REDIRDL;
 	redir->next = NULL;
 	return (redir);
 }
@@ -37,16 +37,33 @@ t_redir	*init_redir(void)
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
-	redir->file = ft_strdup("sortie.txt");
+	redir->file = ft_strdup("a");
 	if (!redir->file)
 	{
 		free(redir);
 		return (NULL);
 	}
-	redir->type = REDIRR;
-	redir->next = NULL;
-	//redir->next = new_redir();
+	redir->type = REDIRDL;
+	//redir->next = NULL;
+	redir->next = new_redir();
 	return (redir);
+}
+
+void	change_redir(t_cmd *cmd)
+{
+	t_cmd *tmp;
+
+	tmp = cmd;
+	tmp = tmp->next;
+	tmp->redirect = NULL;
+	//tmp->redirect->next = NULL;
+	//tmp = tmp->next;
+	//tmp->redirect = NULL;
+	//tmp = tmp->next;
+	//tmp->redirect->type = REDIRL;
+	//tmp->redirect->next->type = REDIRDR;
+	//tmp->redirect->next->next = NULL;
+	//tmp->next = NULL;
 }
 
 t_cmd	*create_node(char **split, int start, int end)
@@ -79,16 +96,6 @@ t_cmd	*create_node(char **split, int start, int end)
 	new_node->next = NULL;
 	return (new_node);
 }	
-
-int	split_len(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split[i])
-		i++;
-	return (i);
-}
 
 t_cmd	*init_cmd(char **split)
 {

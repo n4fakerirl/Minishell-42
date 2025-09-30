@@ -6,12 +6,11 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:58:00 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/23 20:29:10 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/27 11:19:07 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 void	free_redir(t_redir *redir)
 {
@@ -70,40 +69,6 @@ void	free_move_cmd(t_cmd *cmd)
 		free(cmd->args);
 	}
 }
-
-/* void	free_cmd(t_cmd *cmd)
-{
-	int	i;
-	t_cmd	*tmp;
-
-	i = 0;
-
-	if (!cmd)
-		return;
-	fprintf(stderr,"HEYYYY MON PID POUR FREE CMD EST : %d\n", getpid());
-	tmp = cmd;		
-	while (tmp)
-	{
-		i = 0;
-		fprintf(stderr, "FREE CMD \n");
-		if (!tmp->args)
-		{
-			free(tmp);
-			 ;
-		}
-		while (tmp->args[i])
-		{
-			if (tmp->args[i])
-				free(tmp->args[i]);
-			i++;
-		}
-		if (tmp->args)
-			free(tmp->args);
-		tmp = tmp->next;
-	}
-	if (cmd)
-		free(cmd);
-} */
 
 void	free_env(t_env *env)
 {

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 16:31:17 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/26 13:13:04 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/09/27 11:16:32 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,26 @@ void	print_cmd(t_cmd *cmd)
 		j++;
 		cmd = cmd->next;
 	}
+}
+
+void	print_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+	{
+		printf("%s\n", split[i]);
+		i++;	
+	}
+}
+
+int	split_len(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+		i++;
+	return (i);
 }
