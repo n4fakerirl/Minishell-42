@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:17:24 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/29 14:41:33 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:57:39 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,22 @@ void	add_cmds(t_cmd **cmds, t_cmd *cmd)
 		tmp = tmp->next;
 	tmp->next = cmd;
 	cmd->next = NULL;
+}
+
+void	add_sp(t_space **spaces, t_space *space)
+{
+	t_space	*tmp;
+
+	tmp = *spaces;
+	if (!*spaces)
+	{
+		*spaces = space;
+		return ;
+	}
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = space;
+	space->next = NULL;
 }
 
 int	lstlen(t_token **toklist)

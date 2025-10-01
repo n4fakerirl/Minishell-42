@@ -81,6 +81,13 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+typedef struct s_space
+{
+	int				index;
+	int				space_nbr;
+	struct s_space	*next;
+}					t_space;
+
 typedef struct s_shell
 {
 }					t_shell;
@@ -99,4 +106,6 @@ int					parse_args(t_token *tokens);
 char				*del_back(t_token *token);
 char				**ft_split_d(char *str, char *charset);
 char				**ft_split_s(char *str, char *charset);
+void				add_sp(t_space **spaces, t_space *space);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/29 17:12:57 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:07:23 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,44 +167,79 @@ int	put_space(char *str)
 	return (0);
 }
 
-char	*joinall(char **split, char **space)
+char	*addspace(char **split, t_space *space)
 {
-	char	*tmp;
-	char	*test;
 	int		i;
+	int		y;
+	char	*tmp;
+	char	*new_str;
+	t_space	*current;
 
-	tmp = NULL;
 	i = 0;
+	current = space;
 	while (split[i])
 	{
-		if (space[i + 1] && space[i + 1][0] == ' ')
+		if (current && current->space_nbr > 0)
 		{
-			if (!tmp)
+			y = 0;
+			while (y < current->space_nbr)
+			{
+				printf("current space %d\n", space->space_nbr);
 				tmp = ft_strjoin(split[i], " ");
-			else
-			{
-				test = ft_strjoin(tmp, split[i]);
-				free(tmp);
-				tmp = ft_strjoin(test, " ");
-			}
-		}
-		else
-		{
-			if (!tmp)
-				tmp = ft_strdup(split[i]);
-			else
-			{
-				test = ft_strjoin(tmp, split[i]);
-				free(tmp);
-				tmp = test;
+				if (!tmp)
+					return (NULL);
+				free(split[i]);
+				split[i] = ft_strdup(tmp);
+				y++;
 			}
 		}
 		i++;
+		if (current)
+			current = current->next;
 	}
-	i = ft_strlen(tmp);
-	if (tmp[i - 1] == ' ')
-		tmp[i - 1] = '\0';
+	tmp = ft_strdup(split[0]);
+	if (!tmp)
+		return (NULL);
+	i = 1;
+	while (split[i])
+	{
+		new_str = ft_strjoin(tmp, split[i]);
+		free(tmp);
+		if (!new_str)
+			return (NULL);
+		tmp = ft_strdup(new_str);
+		i++;
+	}
 	return (tmp);
+}
+
+t_space	*create_sp(char *str, t_space *space)
+{
+	int		i;
+	int		y;
+	int		count;
+	t_space	*tmp;
+
+	i = 0;
+	count = 0;
+	tmp = malloc(sizeof(t_space));
+	while (str[i])
+	{
+		y = 0;
+		while (ft_isspace(str[i + y]) && str[i + y] != '\0')
+			y++;
+		if (y > 0)
+		{
+			tmp = malloc(sizeof(t_space));
+			tmp->index = count++;
+			tmp->space_nbr = y;
+			add_sp(&space, tmp);
+			i += y;
+			continue ;
+		}
+		i++;
+	}
+	return (space);
 }
 
 char	*expand_simple_var(char *str, t_env *env)
@@ -212,17 +247,18 @@ char	*expand_simple_var(char *str, t_env *env)
 	char	**split;
 	int		i;
 	char	*tmp;
-	char	**space;
+	t_space	*space;
 
+	space = NULL;
 	split = ft_split_d(str, " $");
-	space = ft_split_s(str, " ");
 	i = -1;
 	while (split[++i])
 	{
 		if (ft_strchr(split[i], '$'))
 			split[i] = get_var_value(split[i], env);
 	}
-	tmp = joinall(split, space);
+	space = create_sp(str, space);
+	tmp = addspace(split, space);
 	free(split);
 	return (tmp);
 }
