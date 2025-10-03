@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 16:30:28 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/03 17:37:04 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:50:26 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, t_redir *redirs)
 {
 	t_token	*tmp;
 	t_cmd	*current;
+	t_token *start;
 	char	*str;
 	int		i;
 
@@ -32,21 +33,24 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, t_redir *redirs)
 		if (!current->args)
 			return ;
 		i = 0;
+		start = tmp;
 		while (tmp && tmp->type != PIPE)
 		{
-			if (tmp->need_exp == true)
+			if (tmp->type == WORD)
 			{
-				str = expand(tmp, env);
-				if (str != NULL)
-					current->args[i++] = ft_strdup(str);
+				if (tmp->need_exp == true)
+				{
+					str = expand(tmp, env);
+					if (str != NULL)
+						current->args[i++] = ft_strdup(str);
+				}
+				else
+					current->args[i++] = del_back(tmp);
 			}
-			else if (tmp->type == WORD)
-				current->args[i++] = del_back(tmp);
-			else if (tmp->type >= 2 && tmp->type <= 5)
-				current->redir = redirections(current, tmp, redirs);
 			tmp = tmp->next;
 		}
 		current->args[i] = NULL;
+		current->redir = redirections(current, start, redirs);
 		if (tmp && tmp->type == PIPE)
 		{
 			current->is_pipe = true;

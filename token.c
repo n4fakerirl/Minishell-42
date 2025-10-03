@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:54:09 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/03 17:37:21 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:51:30 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,26 +164,24 @@ t_token	*new_type(t_token *tokens)
 t_redir *redirections(t_cmd *cmd, t_token *token, t_redir *redirs)
 {
 	t_redir *node;
+	t_token *tmp;
 	
-	node = malloc(sizeof(t_redir));
-	while (token)
+	tmp = token;
+	(void)redirs;
+	while (tmp && tmp->type != PIPE)
 	{
-		if (token->type >= 2 && token->type <= 5)
+		if (tmp->type >= 2 && tmp->type <= 5)
 		{
-			node = malloc(sizeof(t_redir));
-			node->type = token->type;
-			if (token->next && token->next->type == ARGREDIR)
+			if (tmp->next && tmp->next->type == ARGREDIR)
 			{
-				token = token->next;
-				node->file = ft_strdup(token->value);
-				if (!node->file)
-					return (NULL);
-				add_redir(&redirs, node);
-				cmd->redir = redirs;
-				cmd->redir = cmd->redir->next;
+				node = malloc(sizeof(t_redir));
+				node->type = tmp->type;
+				node->file = ft_strdup(tmp->next->value);
+				add_redir(&(cmd->redir), node);
+				tmp = tmp->next;
 			}
 		}
-		token = token->next;	
+		tmp = tmp->next;
 	}
-	return (redirs);
+	return (cmd->redir);
 }
