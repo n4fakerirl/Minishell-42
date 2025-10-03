@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/01 17:07:23 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:04:17 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int	put_space(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (isspace(str[i]))
+		if (ft_isspace(str[i]))
 			return (1);
 		i++;
 	}

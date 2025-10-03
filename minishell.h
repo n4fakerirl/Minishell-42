@@ -98,14 +98,14 @@ t_token				*new_type(t_token *token);
 t_env				*init_env(char **envp);
 char				*expand(t_token *token, t_env *env);
 int					lstlen(t_token **toklist);
-void				cmd_list(t_token *tokens, t_cmd **cmds, t_env *env);
+void				cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, t_redir *redir);
 void				add_cmds(t_cmd **cmds, t_cmd *cmd);
 void				trim_words(t_token *tokens);
 void				need_expand(t_token *tokens);
 int					parse_args(t_token *tokens);
 char				*del_back(t_token *token);
 char				**ft_split_d(char *str, char *charset);
-char				**ft_split_s(char *str, char *charset);
 void				add_sp(t_space **spaces, t_space *space);
-
+void	add_redir(t_redir **redirs, t_redir *node);
+t_redir *redirections(t_cmd *cmd, t_token *token, t_redir *redirs);
 #endif

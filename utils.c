@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 19:17:24 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/01 15:57:39 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:00:33 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,22 @@ void	add_sp(t_space **spaces, t_space *space)
 		tmp = tmp->next;
 	tmp->next = space;
 	space->next = NULL;
+}
+
+void	add_redir(t_redir **redirs, t_redir *node)
+{
+	t_redir	*tmp;
+
+	tmp = *redirs;
+	if (!*redirs)
+	{
+		*redirs = node;
+		return ;
+	}
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = node;
+	node->next = NULL;
 }
 
 int	lstlen(t_token **toklist)

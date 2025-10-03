@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 11:54:09 by ocviller          #+#    #+#             */
-/*   Updated: 2025/09/23 11:04:42 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:37:21 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,31 @@ t_token	*new_type(t_token *tokens)
 		tmp = tmp->next;
 	}
 	return (tokens);
+}
+
+t_redir *redirections(t_cmd *cmd, t_token *token, t_redir *redirs)
+{
+	t_redir *node;
+	
+	node = malloc(sizeof(t_redir));
+	while (token)
+	{
+		if (token->type >= 2 && token->type <= 5)
+		{
+			node = malloc(sizeof(t_redir));
+			node->type = token->type;
+			if (token->next && token->next->type == ARGREDIR)
+			{
+				token = token->next;
+				node->file = ft_strdup(token->value);
+				if (!node->file)
+					return (NULL);
+				add_redir(&redirs, node);
+				cmd->redir = redirs;
+				cmd->redir = cmd->redir->next;
+			}
+		}
+		token = token->next;	
+	}
+	return (redirs);
 }
