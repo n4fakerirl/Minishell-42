@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 14:11:46 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/27 15:47:40 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:52:17 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ t_cmd	*create_node(char **split, int start, int end)
 	}
 	new_node->args[i] = 0;
 	new_node->here_doc = 0;
-	new_node->redirect = init_redir();
-	//new_node->redirect = NULL;
+	//new_node->redirect = init_redir();
+	new_node->redirect = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }	

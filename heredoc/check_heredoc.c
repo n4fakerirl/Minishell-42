@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/27 15:47:23 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:06:42 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	check_heredoc(t_shell *shell)
 		{
 			if (tmp_r->type == REDIRDL)
 			{
-				fprintf(stderr, "PREMIER HDC\n");
 				if (pipe(fd) == -1)
 				{
 					perror("pipe");

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:58:02 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/27 12:16:36 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 14:52:46 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int ac, char **av, char **envp)
 		shell->cmd = init_cmd(shell->av);
 		//change_redir(shell->cmd);
 		shell->nbr_cmd = count_list(shell->cmd);
+		print_cmd(shell->cmd);
 		start_exec(shell);
 		free(line);
 		free_cmd(shell->cmd);

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:09:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/15 14:40:27 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:11:21 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*get_pwd(t_env *env, char *pwd)
 	return (NULL);
 }
 
-int	new_pwd(t_env **env, char *pwd)
+/* int	new_pwd(t_env **env, char *pwd)
 {
 	t_env	*new;
 	t_env	*tmp;
@@ -57,7 +57,7 @@ int	new_pwd(t_env **env, char *pwd)
 		tmp = tmp->next;
 	tmp->next = new;
 	return (1);
-}
+} */
 
 void	maj_pwd(t_env **env, char *pwd, char *old_path)
 {
