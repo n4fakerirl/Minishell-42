@@ -1,0 +1,220 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
+/*   Updated: 2025/10/04 14:30:39 by lenakach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+// Librairies communes
+# include "../libft/includes/libft.h"
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <unistd.h>
+
+// Librairies parsing
+# include <dirent.h>
+# include <signal.h>
+# include <sys/ioctl.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <term.h>
+# include <termios.h>
+
+// Libraries  exec
+# include <errno.h>
+# include <limits.h>
+# include <sys/types.h>
+
+// Structures
+typedef enum e_token_type
+{
+	WORD,
+	PIPE,
+	REDIRL,
+	REDIRR,
+	REDIRDR,
+	REDIRDL,
+	ARGREDIR
+}					t_token_type;
+
+typedef enum e_quote_state
+{
+	NO_QUOTE,     // 0
+	SINGLE_QUOTE, // 1
+	DOUBLE_QUOTE, // 2
+}					t_quote_state;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+	bool			need_exp;
+	t_quote_state	state;
+	struct s_token	*prev;
+	struct s_token	*next;
+}					t_token;
+
+typedef struct s_redir
+{
+	t_token_type	type;
+	char			*file;
+	struct s_redir	*next;
+}					t_redir;
+
+typedef struct s_cmd
+{
+	char			**args;
+	t_redir			*redirect;
+	int				is_pipe;
+	int				here_doc;
+	struct s_cmd	*next;
+}					t_cmd;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
+
+typedef struct s_pipe
+{
+	int				nbr_pipe;
+	int				pid[1024];
+	int				pipe_fd[1024][2];
+}					t_pipe;
+
+typedef struct s_space
+{
+	int				index;
+	int				space_nbr;
+	struct s_space	*next;
+}					t_space;
+
+typedef struct s_shell
+{
+	int				exit_status;
+	int				nbr_cmd;
+	int				saved_stdin;
+	int				saved_stdout;
+	char			**envp_initial;
+	t_env			*env;
+	t_cmd			*cmd;
+	t_pipe			*pipe_infos;
+}					t_shell;
+
+// PRINT A SUPP
+void				print_cmd(t_cmd *cmd);
+void				print_token(t_token *token);
+
+// ETAPE 1 : PARSING
+// 1.1 START PARSING
+t_shell				*start_parsing(char *str, char **envp);
+t_shell				*init_shell(char **envp);
+t_env				*env_conv(char *str);
+t_env				*init_env(char **envp);
+
+// 1.2 TOKEN & TOKEN_UTILS
+t_token				*tokenize(char *input);
+t_token				*new_type(t_token *tokens);
+t_token				*create_token(t_token_type type, char *value,
+						t_quote_state state);
+
+// 1.3 PARSE ARGS
+int					parse_args(t_token *tokens);
+
+// 1.4 EXPAND $ EXPAND UTILS
+void				need_expand(t_token *tokens);
+char				*expand(t_token *token, t_env *env);
+char				*addspace(char **split, t_space *space);
+void				add_sp(t_space **spaces, t_space *space);
+t_space				*create_sp(char *str, t_space *space);
+int					put_space(char *str);
+char				*del_back(t_token *token);
+
+// 1.5 TRIM WORDS
+void				trim_words(t_token *tokens);
+
+// UTILS
+int					backspecial(char c);
+int					is_special_char(char c);
+int					ft_isspace(int c);
+int					skippable(char c);
+void				ft_lstadd_back_new(t_token **toklist, t_token *token);
+int					lstlen(t_token **toklist);
+
+void				cmd_list(t_token *tokens, t_cmd **cmds, t_env *env);
+
+// UTILS
+char				**ft_split_d(char *str, char *charset);
+
+// Free
+void				free_shell(t_shell *shell);
+void				free_cmd(t_cmd *cmd);
+void				free_redir(t_redir *redir);
+void				free_split(char **split);
+void				free_env(t_env *env);
+void				free_token(t_token *token);
+
+// Exec
+void	start_exec(t_shell *shell);
+void				one_cmd(t_shell *shell, char **envp_initial);
+void				first_child(t_shell *shell, char **envp_initial);
+void				inter_child(t_shell *shell, char **envp_initial);
+void				last_child(t_shell *shell, char **envp_initial);
+void				fail_fork(t_shell *shell, int i);
+int					count_pipe(char *str);
+int					count_list(t_cmd *cmd);
+int					is_builtin(char *cmd);
+int					exec_builtin(t_shell *shell, t_env **env);
+char				*find_path(t_env *env);
+char				*fill_path(char **path, char *cmd);
+char				*get_cmd(t_shell *shell);
+void				chdir_exit(char *message, char *path);
+void				cwd_exit(char *message);
+void				getpwd_exit(char *message);
+void				exit_lit(char *message);
+void				exit_num(char *message);
+char				**dup_split(char **src);
+long				ft_atol(char *str, int *limit);
+void				new_node(t_env **env, char *str);
+int					split_len(char **split);
+int					ft_cd(char **split, t_env **env);
+int					ft_pwd(void);
+int					ft_echo(char **split);
+int					ft_exit(char **split, int *exit_flag);
+int					ft_export(char **split, t_env **env, int *exit_code);
+int					ft_unset(char **split, t_env **env);
+t_env				*env_conv(char *str);
+int					check_var(char *str);
+int					check_node(char *str, t_env *env);
+int					ft_env(char **split, t_env *env, bool egal);
+void				check_heredoc(t_shell *shell);
+void				redir(t_shell *shell, int i);
+void				open_fd(t_cmd *cmd);
+void				check_redir(t_shell *shell, int i);
+
+// TO DO
+// CHECKER LES CODES RETOURS DE PARSE ARGS, CE N'EST PAS 0, C'EST SOUVENT 2
+// JE NE PENSE PAS QUE TOUS LES CAS SOIENT CORRECTS
+// EXEMPLE : si c'est REDIRR et que !tmp->prev dans bash ca fonctionne quand meme
+// ET LA ON RENVOIE UNE ERREUR
+//LEAKS : fichier tokenize chiant leaker pour moi, il faut check tous les retours de ft)_lst_add_back et donc de create token puisque le malloc pourrait echouer
+//sauf que tu retournes un int que tu attribues a i donc la comme ca je sais pas trop comment faire sans devoir changer des trucs
+
+
+#endif
