@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 09:32:36 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/27 11:20:20 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 22:09:18 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	last_child(t_shell *shell, char **envp_initial)
 {
-	char *cmd_finale;
-	
+	char	*cmd_finale;
+
 	cmd_finale = get_cmd(shell);
 	if (!cmd_finale)
 	{
@@ -36,6 +36,6 @@ void	last_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdout);
 		perror("execve");
 		free(cmd_finale);
-		exit (127);
+		exit(127);
 	}
 }

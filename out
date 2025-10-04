@@ -3,7 +3,9 @@ exec
 free
 includes
 libft
+lol
 main.c
+main.o
 Makefile
 minishell
 out

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 15:21:30 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/27 11:19:42 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 22:15:21 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*find_path(t_env *env)
 {
 	char	*result_path;
+
 	while (env)
 	{
 		if (!ft_strcmp(env->key, "PATH"))
@@ -54,44 +55,32 @@ char	*fill_path(char **path, char *cmd)
 	free_split(path);
 	return (NULL);
 }
+
 char	*get_cmd(t_shell *shell)
 {
-	char	**path = NULL;
-	char	*path_tmp = NULL;
-	char	*cmd_finale = NULL;
+	char	**path;
+	char	*path_tmp;
+	char	*cmd_finale;
 
+	path = NULL;
+	path_tmp = NULL;
+	cmd_finale = NULL;
 	if (!shell->cmd->args[0])
-	{
-		fprintf(stderr, "PAS DE COMMANDE\n");
 		return (NULL);
-	}
 	if (access(shell->cmd->args[0], X_OK) == 0)
 	{
 		cmd_finale = ft_strdup(shell->cmd->args[0]);
 		if (!cmd_finale)
-		{
-			printf("strdup de cmd failed\n");
 			return (NULL);
-		}
 		return (cmd_finale);
 	}
 	path_tmp = find_path(shell->env);
 	if (!path_tmp)
-	{
-		free(cmd_finale);
-		printf("PAS TROUVE LE CHEMIN\n");
-		return (NULL);
-	}
+		return (free(cmd_finale), NULL);
 	path = ft_split(path_tmp, ':');
 	if (!path)
-	{
-		printf("SPLIT POUR AVOIR PATH ** FAILED\n");
-		free(cmd_finale);
-		free(path_tmp);
-		return (NULL);
-	}
+		return (free(cmd_finale), free(path_tmp), NULL);
 	cmd_finale = fill_path(path, shell->cmd->args[0]);
 	free(path_tmp);
-	//free_split(path);
 	return (cmd_finale);
 }

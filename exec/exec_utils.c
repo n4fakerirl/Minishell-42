@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 09:35:32 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 18:17:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 22:08:35 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	count_pipe(char *str)
 	while (str[i])
 	{
 		if (str[i] == '|')
-			pipe++;	
+			pipe++;
 		i++;
 	}
 	return (pipe);
@@ -33,12 +33,37 @@ int	count_list(t_cmd *cmd)
 	int	i;
 
 	i = 0;
-	// if (!cmd || !cmd->args[0][0])
-	// 	return (0);
+	if (!cmd)
+		return (0);
 	while (cmd)
 	{
 		i++;
 		cmd = cmd->next;
 	}
 	return (i);
+}
+
+void	waiting(t_shell *shell)
+{
+	int	status;
+	int	i;
+
+	i = -1;
+	while (++i < shell->nbr_cmd)
+	{
+		waitpid(shell->pipe_infos->pid[0], &status, 2);
+		if (WIFEXITED(status))
+		{
+			shell->exit_status = WEXITSTATUS(status);
+			printf("status code = %d\n", shell->exit_status);
+		}
+	}
+}
+
+void	fail_fork(t_shell *shell, int i)
+{
+	perror("First fork failed\n");
+	close(shell->pipe_infos->pipe_fd[i][1]);
+	close(shell->pipe_infos->pipe_fd[i - 1][0]);
+	shell->exit_status = 1;
 }

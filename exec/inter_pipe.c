@@ -6,16 +6,16 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 17:16:34 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/27 11:21:51 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 22:09:06 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 void	inter_child(t_shell *shell, char **envp_initial)
-{	
+{
 	char	*cmd_finale;
-	
+
 	cmd_finale = get_cmd(shell);
 	if (!cmd_finale)
 	{

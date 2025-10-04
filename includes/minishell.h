@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 19:18:25 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/04 22:02:55 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int					parse_args(t_token *tokens);
 
 // 1.4 EXPAND $ EXPAND UTILS
 void				need_expand(t_token *tokens);
-char	*expand(t_token *token, t_env *env, int exit_status);
+char				*expand(t_token *token, t_env *env, int exit_status);
 char				*addspace(char **split, t_space *space);
 void				add_sp(t_space **spaces, t_space *space);
 t_space				*create_sp(char *str, t_space *space);
@@ -157,7 +157,8 @@ int					skippable(char c);
 void				ft_lstadd_back_new(t_token **toklist, t_token *token);
 int					lstlen(t_token **toklist);
 
-void				cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status);
+void				cmd_list(t_token *tokens, t_cmd **cmds, t_env *env,
+						int exit_status);
 
 // UTILS
 char				**ft_split_d(char *str, char *charset);
@@ -171,7 +172,7 @@ void				free_env(t_env *env);
 void				free_token(t_token *token);
 
 // Exec
-void	start_exec(t_shell *shell);
+void				start_exec(t_shell *shell);
 void				one_cmd(t_shell *shell, char **envp_initial);
 void				first_child(t_shell *shell, char **envp_initial);
 void				inter_child(t_shell *shell, char **envp_initial);
@@ -207,14 +208,6 @@ void				check_heredoc(t_shell *shell);
 void				redir(t_shell *shell, int i);
 void				open_fd(t_cmd *cmd);
 void				check_redir(t_shell *shell, int i);
-
-// TO DO
-// CHECKER LES CODES RETOURS DE PARSE ARGS, CE N'EST PAS 0, C'EST SOUVENT 2
-// JE NE PENSE PAS QUE TOUS LES CAS SOIENT CORRECTS
-// EXEMPLE : si c'est REDIRR et que !tmp->prev dans bash ca fonctionne quand meme
-// ET LA ON RENVOIE UNE ERREUR
-//LEAKS : fichier tokenize chiant leaker pour moi, il faut check tous les retours de ft)_lst_add_back et donc de create token puisque le malloc pourrait echouer
-//sauf que tu retournes un int que tu attribues a i donc la comme ca je sais pas trop comment faire sans devoir changer des trucs
-
+void				waiting(t_shell *shell);
 
 #endif
