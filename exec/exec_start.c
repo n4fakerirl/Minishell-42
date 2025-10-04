@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 18:37:55 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 21:51:48 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ int	piping(t_shell *shell, int i)
 		return (1);
 	}
 	return (0);
+}
+
+void	forking(t_shell *shell, int i)
+{
+	shell->pipe_infos->pid[i] = fork();
+	if (shell->pipe_infos->pid[i] < 0)
+		return (fail_fork(shell, i));	
 }
 
 void	start_exec(t_shell *shell)
@@ -40,10 +47,8 @@ void	start_exec(t_shell *shell)
 		if (i != shell->nbr_cmd - 1)
 			if (piping(shell, i))
 				return ;
-		shell->pipe_infos->pid[i] = fork();
-		if (shell->pipe_infos->pid[i] < 0)
-			return (fail_fork(shell, i));
-		else if (shell->pipe_infos->pid[i] == 0)
+		forking(shell, i);
+		if (shell->pipe_infos->pid[i] == 0)
 		{
 			check_redir(shell, i);
 			if (is_builtin(shell->cmd->args[0]))
