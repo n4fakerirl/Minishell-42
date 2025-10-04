@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 09:35:32 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/21 12:48:22 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 18:17:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	count_list(t_cmd *cmd)
 	int	i;
 
 	i = 0;
+	// if (!cmd || !cmd->args[0][0])
+	// 	return (0);
 	while (cmd)
 	{
 		i++;

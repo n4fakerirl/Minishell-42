@@ -6,12 +6,11 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 14:05:50 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 18:47:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 void	one_child(t_shell *shell, char **envp_initial)
 {
@@ -52,6 +51,11 @@ void	one_child(t_shell *shell, char **envp_initial)
 	else
 	{
 		waitpid(shell->pipe_infos->pid[0], &status, 2);
+		if (WIFEXITED(status))
+		{
+			shell->exit_status = WEXITSTATUS(status);
+			printf("status code = %d\n", shell->exit_status);
+		}
 	}
 }
 

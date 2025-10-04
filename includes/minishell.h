@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 14:30:39 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 18:11:13 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ void				print_token(t_token *token);
 
 // ETAPE 1 : PARSING
 // 1.1 START PARSING
-t_shell				*start_parsing(char *str, char **envp);
-t_shell				*init_shell(char **envp);
+t_shell				*start_parsing(char *str, char **envp, int exit_status);
+t_shell				*init_shell(char **envp, int exit_status);
 t_env				*env_conv(char *str);
 t_env				*init_env(char **envp);
 

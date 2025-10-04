@@ -1,0 +1,11 @@
+builtins
+exec
+free
+includes
+libft
+main.c
+Makefile
+minishell
+out
+parsing
+readline.supp

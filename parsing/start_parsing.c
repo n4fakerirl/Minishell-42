@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 14:43:52 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 18:19:56 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void	trim_words(t_token *tokens)
 	}
 }
 
-t_shell	*start_parsing(char *str, char **envp)
+t_shell	*start_parsing(char *str, char **envp, int exit_status)
 {
 	t_shell	*shell;
 	t_token	*tokens;
 
-	shell = init_shell(envp);
+	shell = init_shell(envp, exit_status);
 	if (!shell)
 		return (NULL);
 	tokens = tokenize(str);
@@ -63,7 +63,7 @@ t_shell	*start_parsing(char *str, char **envp)
 	need_expand(tokens);
 	trim_words(tokens);
 	cmd_list(tokens, &shell->cmd, shell->env);
-	//print_token(tokens);
-	//free_token(tokens);
+	// print_token(tokens);
+	// free_token(tokens);
 	return (shell);
 }

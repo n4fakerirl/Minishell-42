@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 14:55:25 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 18:37:55 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,32 +37,20 @@ void	start_exec(t_shell *shell)
 		return (one_cmd(shell, shell->envp_initial));
 	while (shell->cmd)
 	{
-		printf("PLUSIEURS CMDS :\n");
 		if (i != shell->nbr_cmd - 1)
-		{
-			printf("JE PIPE \n");
 			if (piping(shell, i))
-			{
-				printf("PIPE FAILED\n");
 				return ;
-			}
-		}
 		shell->pipe_infos->pid[i] = fork();
 		if (shell->pipe_infos->pid[i] < 0)
-		{
-			printf("FORK FAILED\n");
 			return (fail_fork(shell, i));
-		}
 		else if (shell->pipe_infos->pid[i] == 0)
 		{
-			printf("JE SUIS DANS L'ENFANT\n");
 			check_redir(shell, i);
 			if (is_builtin(shell->cmd->args[0]))
 			{
 				shell->exit_status = exec_builtin(shell, &(shell->env));
 				exit_status = shell->exit_status;
 				free_shell(shell);
-				fprintf(stderr, "JE SUIS UN BUILTIN\n");
 				exit(exit_status);
 			}
 			else
@@ -106,6 +94,7 @@ void	start_exec(t_shell *shell)
 		shell->cmd = shell->cmd->next;
 	}
 	i = 0;
+	// printf("QWJHRKJWQEJHRKQWE\n");
 	while (i < shell->nbr_cmd)
 	{
 		waitpid(shell->pipe_infos->pid[i], &status, 2);
