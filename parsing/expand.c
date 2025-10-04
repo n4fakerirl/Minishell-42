@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/04 19:23:37 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/04 20:11:18 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	need_expand(t_token *tokens)
 			i = 0;
 			while (tmp->value[i])
 			{
-				if (tmp->value[i - 1] != '\\' && tmp->value[i] == '$')
+				if (i > 0 && tmp->value[i - 1] != '\\' && tmp->value[i] == '$')
 					tmp->need_exp = true;
 				i++;
 			}
