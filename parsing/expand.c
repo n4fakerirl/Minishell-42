@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/04 20:11:18 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/04 23:08:23 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,14 @@ char	*expand_simple_var(char *str, t_env *env, int exit_status)
 	t_space	*space;
 
 	space = NULL;
-	split = ft_split_d(str, " $");
+	split = ft_split_d(str, " $\\");
 	i = -1;
 	while (split[++i])
 	{
 		if (ft_strcmp(split[i], "$?") == 0)
 			split[i] = ft_itoa(exit_status);
+		else if (split[i][0] == '\\')
+			split[i] = ft_strtrim(split[i], "\\");
 		else if (ft_strchr(split[i], '$'))
 			split[i] = get_var_value(split[i], env);
 	}

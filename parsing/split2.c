@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:09:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/03 18:10:07 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 23:06:30 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_strdup_sep(char *str, char *charset)
 
 	len = 0;
 	i = 0;
-	if (str[0] == '$')
+	while (str[len] == '$' || str[len] == '\\')
 		len++;
 	while (str[len] && !separator(str[len], charset))
 		len++;
@@ -82,7 +82,9 @@ char	**ft_split_d(char *str, char *charset)
 			str++;
 		if (*str)
 		{
-			if (*(str - 1) == '$')
+			if (*(str - 2) && *(str - 2) == '\\')
+				result[i] = ft_strdup_sep(str - 2, charset);
+			else if (*(str - 1) == '$')
 				result[i] = ft_strdup_sep(str - 1, charset);
 			else
 				result[i] = ft_strdup_sep(str, charset);
