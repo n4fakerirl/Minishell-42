@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:39:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 15:40:47 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:55:26 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	parse_args(t_token *tokens)
 		{
 			if (!tmp->prev || !tmp->next || !(tmp->prev->type == WORD || tmp->prev->type == ARGREDIR))
 				return (printf("minishell: syntax error near unexpected token `|'\n"),
-					2);
+					0);
 		}
 		else if (tmp->type == REDIRR || tmp->type == REDIRL)
 		{

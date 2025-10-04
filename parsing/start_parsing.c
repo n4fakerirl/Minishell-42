@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 19:47:37 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:50:41 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_shell	*start_parsing(char *str, char **envp, int exit_status)
 		return (free_shell(shell), NULL);
 	new_type(tokens);
 	if (!parse_args(tokens))
-		return (free_shell(shell), NULL);
+		return (free_shell(shell), free_token(tokens), NULL);
 	need_expand(tokens);
 	trim_words(tokens);
 	cmd_list(tokens, &shell->cmd, shell->env, exit_status);
