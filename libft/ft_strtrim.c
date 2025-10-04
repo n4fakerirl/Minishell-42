@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:49:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/07/21 14:00:12 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:36:08 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ char	*ft_strtrim(const char *s1, const char *set)
 {
 	int		i;
 	size_t	j;
-	int		k;
 
 	i = 0;
 	j = ft_strlen(s1) -1;
-	k = 0;
 	if (ft_strlen(s1) == 0)
 		return (ft_strdup(""));
 	while (to_trim(set, s1[i]))
