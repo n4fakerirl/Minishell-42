@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/04 23:08:23 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/04 23:17:14 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,13 @@ void	need_expand(t_token *tokens)
 			i = 0;
 			while (tmp->value[i])
 			{
-				if (i > 0 && tmp->value[i - 1] != '\\' && tmp->value[i] == '$')
-					tmp->need_exp = true;
+				if (tmp->value[i] == '$')
+				{
+					if (i > 0 && tmp->value[i - 1] != '\\')
+						tmp->need_exp = false;
+					else
+						tmp->need_exp = true;
+				}
 				i++;
 			}
 		}
@@ -112,6 +117,12 @@ char	*expand_simple_var(char *str, t_env *env, int exit_status)
 	space = NULL;
 	split = ft_split_d(str, " $\\");
 	i = -1;
+	int y = 0;
+	while (split[y])
+	{
+		printf("split[%d] : %s\n", y, split[y]);
+		y++;
+	}
 	while (split[++i])
 	{
 		if (ft_strcmp(split[i], "$?") == 0)

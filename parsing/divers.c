@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   divers.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:45:23 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/03 19:14:19 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 23:13:42 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	print_token(t_token *token)
 	{
 		printf("VALUE AU RANG [%d]: %s\n", i, tmp->value);
 		printf("TYPE AU RANG [%d]: %d\n", i, (int)tmp->type);
+		printf("NEED EXPAND AU RANG [%d]: %d\n", i, tmp->need_exp);
 		i++;
 		tmp = tmp->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 22:02:55 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/05 00:01:46 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ t_token				*tokenize(char *input);
 t_token				*new_type(t_token *tokens);
 t_token				*create_token(t_token_type type, char *value,
 						t_quote_state state);
+char *token_glue(char *value);
+
 
 // 1.3 PARSE ARGS
 int					parse_args(t_token *tokens);
@@ -152,6 +154,7 @@ void				trim_words(t_token *tokens);
 // UTILS
 int					backspecial(char c);
 int					is_special_char(char c);
+char				*glue_words(char *value);
 int					ft_isspace(int c);
 int					skippable(char c);
 void				ft_lstadd_back_new(t_token **toklist, t_token *token);

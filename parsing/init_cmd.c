@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 19:17:07 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/04 23:38:03 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	add_redir(t_redir **redirs, t_redir *node)
 	node->next = NULL;
 }
 
-t_redir *redirections(t_cmd *cmd, t_token *token)
+t_redir	*redirections(t_cmd *cmd, t_token *token)
 {
-	t_redir *node;
-	t_token *tmp;
-	
+	t_redir	*node;
+	t_token	*tmp;
+
 	tmp = token;
 	while (tmp && tmp->type != PIPE)
 	{
@@ -72,7 +72,7 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status)
 {
 	t_token	*tmp;
 	t_cmd	*current;
-	t_token *start;
+	t_token	*start;
 	char	*str;
 	int		i;
 
@@ -98,10 +98,18 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status)
 				{
 					str = expand(tmp, env, exit_status);
 					if (str != NULL)
-						current->args[i++] = ft_strdup(str);
+						current->args[i] = ft_strdup(str);
+					i++;
 				}
 				else
-					current->args[i++] = del_back(tmp);
+				{
+					if (tmp->value && tmp->value[0] != '\0' && !ft_isspace(tmp->value[0]))
+					{
+						current->args[i] = del_back(tmp);
+						printf("TEST ICI : [%s]\n", current->args[i]);
+						i++;
+					}
+				}
 			}
 			tmp = tmp->next;
 		}
