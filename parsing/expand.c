@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/04 12:21:53 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:23:37 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*get_var_value(char *var_name, t_env *env)
 		return (ft_strdup(""));
 }
 
-char	*expand_simple_var(char *str, t_env *env)
+char	*expand_simple_var(char *str, t_env *env, int exit_status)
 {
 	char	**split;
 	int		i;
@@ -114,7 +114,9 @@ char	*expand_simple_var(char *str, t_env *env)
 	i = -1;
 	while (split[++i])
 	{
-		if (ft_strchr(split[i], '$'))
+		if (ft_strcmp(split[i], "$?") == 0)
+			split[i] = ft_itoa(exit_status);
+		else if (ft_strchr(split[i], '$'))
 			split[i] = get_var_value(split[i], env);
 	}
 	space = create_sp(str, space);
@@ -123,9 +125,9 @@ char	*expand_simple_var(char *str, t_env *env)
 	return (tmp);
 }
 
-char	*expand(t_token *token, t_env *env)
+char	*expand(t_token *token, t_env *env, int exit_status)
 {
 	if (!token || !token->value || !token->need_exp)
 		return (ft_strdup(token->value));
-	return (expand_simple_var(token->value, env));
+	return (expand_simple_var(token->value, env, exit_status));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 18:11:13 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:18:25 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int					parse_args(t_token *tokens);
 
 // 1.4 EXPAND $ EXPAND UTILS
 void				need_expand(t_token *tokens);
-char				*expand(t_token *token, t_env *env);
+char	*expand(t_token *token, t_env *env, int exit_status);
 char				*addspace(char **split, t_space *space);
 void				add_sp(t_space **spaces, t_space *space);
 t_space				*create_sp(char *str, t_space *space);
@@ -157,7 +157,7 @@ int					skippable(char c);
 void				ft_lstadd_back_new(t_token **toklist, t_token *token);
 int					lstlen(t_token **toklist);
 
-void				cmd_list(t_token *tokens, t_cmd **cmds, t_env *env);
+void				cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status);
 
 // UTILS
 char				**ft_split_d(char *str, char *charset);

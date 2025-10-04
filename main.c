@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 18:22:51 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:12:12 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	main(int ac, char **av, char **envp)
 		}
 		shell = start_parsing(str, envp, exit_status);
 		if (!shell)
+		{
+			exit_status = 2;
 			continue;
+		}
 		shell->nbr_cmd = count_list(shell->cmd);
 		printf("exit status avant exec = %d\n", shell->exit_status);
 		start_exec(shell);
@@ -41,6 +44,6 @@ int	main(int ac, char **av, char **envp)
 		free(str);
 		free_shell(shell);
 	}
-	rl_clear_history();
+	//rl_clear_history();
 	return (0);
 }

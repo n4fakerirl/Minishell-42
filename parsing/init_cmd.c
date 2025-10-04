@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/03 19:22:38 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:17:07 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	add_cmds(t_cmd **cmds, t_cmd *cmd)
 	cmd->next = NULL;
 }
 
-void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env)
+void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status)
 {
 	t_token	*tmp;
 	t_cmd	*current;
@@ -96,7 +96,7 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env)
 			{
 				if (tmp->need_exp == true)
 				{
-					str = expand(tmp, env);
+					str = expand(tmp, env, exit_status);
 					if (str != NULL)
 						current->args[i++] = ft_strdup(str);
 				}

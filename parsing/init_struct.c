@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:19:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 18:10:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:11:43 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,7 @@ t_env	*init_env(char **envp)
 t_shell	*init_shell(char **envp, int exit_status)
 {
 	t_shell	*new_shell;
-	int	i;
 
-	i = 0;
 	new_shell = malloc(sizeof(t_shell));
 	if (!new_shell)
 		return (NULL);
