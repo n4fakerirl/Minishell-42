@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
+#    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/04 22:32:08 by lenakach         ###   ########.fr        #
+#    Updated: 2025/10/05 22:09:20 by ocviller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,7 @@ BUITLINS = $(BUITLINS_DIR)/env.c $(BUITLINS_DIR)/echo.c $(BUITLINS_DIR)/pwd.c $(
 
 FREE = $(FREE_DIR)/free.c $(FREE_DIR)/free_tokens.c
 PARSING = $(PARS_DIR)/expand.c $(PARS_DIR)/expand_utils.c $(PARS_DIR)/init_cmd.c $(PARS_DIR)/init_struct.c $(PARS_DIR)/parsing.c \
-			$(PARS_DIR)/start_parsing.c $(PARS_DIR)/token.c $(PARS_DIR)/token_utils.c $(PARS_DIR)/utils.c $(PARS_DIR)/divers.c \
-			$(PARS_DIR)/split2.c
+			$(PARS_DIR)/start_parsing.c $(PARS_DIR)/token.c $(PARS_DIR)/token_utils.c $(PARS_DIR)/utils.c $(PARS_DIR)/divers.c
 
 EXEC = $(EXEC_DIR)/exec_builtins.c $(EXEC_DIR)/exec_start.c $(EXEC_DIR)/path.c $(EXEC_DIR)/first_pipe.c \
 		$(EXEC_DIR)/last_pipe.c $(EXEC_DIR)/exec_utils.c $(EXEC_DIR)/one_cmd.c $(EXEC_DIR)/inter_pipe.c \

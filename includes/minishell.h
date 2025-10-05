@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 21:37:30 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 22:07:48 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,6 @@ typedef struct s_pipe
 	int				pipe_fd[1024][2];
 }					t_pipe;
 
-typedef struct s_space
-{
-	int				index;
-	int				space_nbr;
-	struct s_space	*next;
-}					t_space;
-
 typedef struct s_shell
 {
 	int				exit_status;
@@ -143,10 +136,6 @@ int					parse_args(t_token *tokens);
 // 1.4 EXPAND $ EXPAND UTILS
 void				need_expand(t_token *tokens);
 char				*expand(t_token *token, t_env *env, int exit_status);
-char				*addspace(char **split, t_space *space);
-void				add_sp(t_space **spaces, t_space *space);
-t_space				*create_sp(char *str, t_space *space);
-int					put_space(char *str);
 char				*del_back(t_token *token);
 
 // 1.5 TRIM WORDS

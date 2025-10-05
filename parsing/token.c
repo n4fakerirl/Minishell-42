@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 21:37:15 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 22:30:15 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 int	redirect(char *input, t_token **tokens)
 {
 	if (input[0] == '|')
-		return (ft_lstadd_back_new(tokens, create_token(PIPE, ft_strdup("|"), 0)),
-			1);
+		return (ft_lstadd_back_new(tokens, create_token(PIPE, ft_strdup("|"),
+					0)), 1);
 	if (input[0] == '<' && input[1] == '<')
-		return (ft_lstadd_back_new(tokens, create_token(REDIRDL, ft_strdup("<<"),
-					0)), 2);
+		return (ft_lstadd_back_new(tokens, create_token(REDIRDL,
+					ft_strdup("<<"), 0)), 2);
 	if (input[0] == '>' && input[1] == '>')
-		return (ft_lstadd_back_new(tokens, create_token(REDIRDR, ft_strdup(">>"),
-					0)), 2);
+		return (ft_lstadd_back_new(tokens, create_token(REDIRDR,
+					ft_strdup(">>"), 0)), 2);
 	if (input[0] == '<')
-		return (ft_lstadd_back_new(tokens, create_token(REDIRL, ft_strdup("<"), 0)),
-			1);
+		return (ft_lstadd_back_new(tokens, create_token(REDIRL, ft_strdup("<"),
+					0)), 1);
 	if (input[0] == '>')
-		return (ft_lstadd_back_new(tokens, create_token(REDIRR, ft_strdup(">"), 0)),
-			1);
+		return (ft_lstadd_back_new(tokens, create_token(REDIRR, ft_strdup(">"),
+					0)), 1);
 	return (0);
 }
 
@@ -64,101 +64,105 @@ int	check_match(char *input)
 	return (1);
 }
 
-
-char *trim_q(char *str, char c)
+char	*trim_q(char *str, char c)
 {
-	int trim = 0;
-	int i = 0;
-	int j = 0;
-	int len = ft_strlen(str);
-	
-	while (str[i])
-	{
-		if ((i != 0 && i != (len - 1)) && str[i] == c)
-			trim++;
-		i++;
-	}
-	i -= trim;
-	char *res = malloc(sizeof(char) * (i + 1));
+	int		i;
+	int		j;
+	char	*res;
+
 	i = 0;
+	j = 0;
+	res = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (!res)
+		return (NULL);
 	while (str[i])
 	{
-		if (i > 0 && i < (len - 1) && str[i] != c)
+		if (str[i] != c)
 		{
 			res[j] = str[i];
-			i++;
 			j++;
 		}
-		else
-			i++;
+		i++;
 	}
 	res[j] = '\0';
 	return (res);
 }
 
-int quotes_d(char *input, t_token **tokens, int i, char *tmp)
+char	*new_cut(char *input, int i)
 {
+	char	*str;
+	char	*tmp;
 
+	str = ft_substr(input, 0, i);
+	tmp = ft_strdup(str);
+	free(str);
+	str = trim_q(tmp, '\'');
+	free(tmp);
+	tmp = ft_strdup(str);
+	free(str);
+	str = trim_q(tmp, '\"');
+	free(tmp);
+	return (str);
+}
+
+int	quotes_d(char *input, t_token **tokens, int i, char *tmp)
+{
+	i++;
+	while (input[i] && input[i] != '\"')
 		i++;
-		while (input[i] && input[i] != '\"')
+	if (input[i + 1] != '\0' && (input[i + 1] == '\'' || input[i + 1] == '\"'))
+	{
+		while (input[i] == '\'' || input[i] == '\"')
 			i++;
-		if (input[i + 1] != '\0' && input[i + 1] == '\"')
-		{
-			while (input[i] == '\"')
-				i++;
-			while (input[i] && input[i] != '\"')
-				i++;
+		while (input[i] && input[i] != '\'' && input[i + 1] != '\"')
 			i++;
-			tmp = ft_substr(input, 0, i);
-			tmp = trim_q(tmp, '\"');																																													
-			if (i > 0)
-				ft_lstadd_back_new(tokens, create_token(WORD, tmp,
-					DOUBLE_QUOTE));
-		}
-		else
-		{
-			i++;
-			if (i > 0)
-				ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i),
-					DOUBLE_QUOTE));
-		}
+		i++;
+		tmp = new_cut(input, i);
+		if (i > 0)
+			ft_lstadd_back_new(tokens, create_token(WORD, tmp, DOUBLE_QUOTE));
+	}
+	else
+	{
+		i++;
+		if (i > 0)
+			ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0,
+						i), DOUBLE_QUOTE));
+	}
 	return (i);
 }
 
-int quotes_s(char *input, t_token **tokens, int i, char *tmp)
+int	quotes_s(char *input, t_token **tokens, int i, char *tmp)
 {
+	i++;
+	while (input[i] && input[i] != '\'')
 		i++;
-		while (input[i] && input[i] != '\'')
+	if (input[i + 1] != '\0' && (input[i + 1] == '\'' || input[i + 1] == '\"'))
+	{
+		while (input[i] == '\'' || input[i] == '\"')
 			i++;
-		if (input[i + 1] != '\0' && input[i + 1] == '\'')
-		{
-			while (input[i] == '\'')
-				i++;
-			while (input[i] && input[i] != '\'')
-				i++;
+		while (input[i] && input[i] != '\'' && input[i + 1] != '\"')
 			i++;
-			tmp = ft_substr(input, 0, i);
-			tmp = trim_q(tmp, '\'');																																													
-			if (i > 0)
-				ft_lstadd_back_new(tokens, create_token(WORD, tmp,
-					SINGLE_QUOTE));
-		}
-		else
-		{
-			i++;
-			if (i > 0)
-				ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i),
-					SINGLE_QUOTE));
-		}
-		return (i);
+		i++;
+		tmp = new_cut(input, i);
+		if (i > 0)
+			ft_lstadd_back_new(tokens, create_token(WORD, tmp, SINGLE_QUOTE));
+	}
+	else
+	{
+		i++;
+		if (i > 0)
+			ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0,
+						i), SINGLE_QUOTE));
+	}
+	return (i);
 }
-
 
 int	wording(char *input, t_token **tokens)
 {
-	int	i;
-	char *tmp = ft_strdup("");
+	int		i;
+	char	*tmp;
 
+	tmp = ft_strdup("");
 	i = 0;
 	if (input[i] == '\"')
 		i += quotes_d(input, tokens, i, tmp);
@@ -169,8 +173,8 @@ int	wording(char *input, t_token **tokens)
 		while (input[i] && !is_special_char(input[i]) && !ft_isspace(input[i]))
 			i++;
 		if (i > 0)
-			ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i),
-					NO_QUOTE));
+			ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0,
+						i), NO_QUOTE));
 	}
 	return (i);
 }
@@ -196,9 +200,11 @@ t_token	*tokenize(char *input)
 	return (tokens);
 }
 
-int find_allq(char *str)
+int	find_allq(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] != '\'' && str[i] != '\"')
@@ -208,11 +214,12 @@ int find_allq(char *str)
 	return (1);
 }
 
-void del_quotes(t_token *tokens)
+void	del_quotes(t_token *tokens)
 {
-	t_token *tmp;
-	int i = 0;
-	
+	t_token	*tmp;
+	int		i;
+
+	i = 0;
 	tmp = tokens;
 	while (tmp)
 	{

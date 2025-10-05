@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:41:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 14:41:09 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/05 22:11:39 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,3 @@ int	lstlen(t_token **toklist)
 	}
 	return (i);
 }
-
-
-
