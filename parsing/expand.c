@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/05 15:46:56 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 20:49:25 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	need_expand(t_token *tokens)
 {
 	t_token	*tmp;
 	int		i;
+	int count = 0;
 
 	tmp = tokens;
 	while (tmp)
@@ -30,10 +31,13 @@ void	need_expand(t_token *tokens)
 				{
 					if (i > 0 && tmp->value[i - 1] == '\\')
 						tmp->need_exp = false;
-					else if (tmp->value[i + 1] == '\0' || !ft_isalnum(tmp->value[i + 1]))
+					else if (count == 0 && !ft_isalnum(tmp->value[i + 1]) && tmp->value[i + 1] != '?')
 						tmp->need_exp = false;
 					else
+					{
+						count++;
 						tmp->need_exp = true;
+					}
 				}
 				i++;
 			}
@@ -88,7 +92,7 @@ char *expand_simple_var(char *str, t_env *env, int exit_status)
     
     while (str[i])
     {
-        if (str[i] == '$' && (i == 0 || str[i - 1] != '\\'))
+        if (str[i] == '$' && (i == 0 || str[i - 1] != '\\') && str[i + 1] != '\0')
         {
             if (str[i + 1] != '\0' && str[i + 1] == '?')
             {

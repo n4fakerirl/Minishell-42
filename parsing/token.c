@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 15:42:12 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:37:15 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,61 +196,31 @@ t_token	*tokenize(char *input)
 	return (tokens);
 }
 
-char *glue_words(char *value)
+int find_allq(char *str)
 {
 	int i = 0;
-	int count = 0;
-	while (value[i])
+	while (str[i])
 	{
-		if (value[i + 1] != '\0' && value[i] == '\'' && value[i + 1] == '\'')
-			count += 2;
-		else if (value[i + 1] != '\0' && value[i] == '\"' && value[i + 1] == '\"')
-			count += 2;
+		if (str[i] != '\'' && str[i] != '\"')
+			return (0);
 		i++;
 	}
-	i = i - count;
-	char *res = malloc(sizeof(char) * (i + 1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	int y = 0;
-	while (value[i])
+	return (1);
+}
+
+void del_quotes(t_token *tokens)
+{
+	t_token *tmp;
+	int i = 0;
+	
+	tmp = tokens;
+	while (tmp)
 	{
-		if (value[i + 1] != '\0' && value[i] == '\'' && value[i + 1] == '\'')
-			i += 2;
-		else if (value[i + 1] != '\0' && value[i] == '\"' && value[i + 1] == '\"')
-			i += 2;
-		else
-		{
-			res[y] = value[i];
+		i = 0;
+		while (tmp->value[i] && tmp->value[i] != '\"' && tmp->value[i] != '\'')
 			i++;
-			y++;
-		}
+		if (find_allq(tmp->value + i) == 1)
+			tmp->value[i] = '\0';
+		tmp = tmp->next;
 	}
-	res[y] = '\0';
-	return (res);
-}
-
-int two_q(char *value)
-{
-	int i = 0;
-	while (value[i])
-	{
-		if (value[i + 1] != '\0' && value[i] == '\'' && value[i + 1] == '\'')
-			return (1);
-		else if (value[i + 1] != '\0' && value[i] == '\"' && value[i + 1] == '\"')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char *token_glue(char *value)
-{
-	if (two_q(value))
-	{
-		printf("TEST\n");
-		value = glue_words(value);
-	}
-	return (value);
 }
