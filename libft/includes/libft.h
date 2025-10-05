@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 04:51:07 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/03 18:26:06 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/05 02:19:19 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int					ft_atoi(const char *str);
 void				*ft_calloc(size_t nmemb, size_t size);
 char				*ft_strdup(const char *s);
 int					ft_strcmp(const char *s1, const char *s2);
+int					count_int(long n);
 // Additional functions
 
 char				*ft_substr(const char *s, unsigned int start, size_t len);

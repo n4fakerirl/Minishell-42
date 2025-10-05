@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 23:38:03 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 02:33:54 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status)
 					if (tmp->value && tmp->value[0] != '\0' && !ft_isspace(tmp->value[0]))
 					{
 						current->args[i] = del_back(tmp);
-						printf("TEST ICI : [%s]\n", current->args[i]);
 						i++;
 					}
 				}

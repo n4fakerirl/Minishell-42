@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/04 23:17:14 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 02:36:22 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	need_expand(t_token *tokens)
 			{
 				if (tmp->value[i] == '$')
 				{
-					if (i > 0 && tmp->value[i - 1] != '\\')
+					if (i > 0 && tmp->value[i - 1] == '\\')
 						tmp->need_exp = false;
 					else
 						tmp->need_exp = true;
@@ -40,102 +40,84 @@ void	need_expand(t_token *tokens)
 	}
 }
 
-char	*joinword(int i, int y, char *var_name, char *envalue)
+char	*get_var_value(char *var_name, t_env *env)
 {
-	char	*first;
-	char	*last;
-	char	*tmp;
-	int		len;
-
-	len = ft_strlen(var_name);
-	first = NULL;
-	last = NULL;
-	first = ft_substr(var_name, 0, i);
-	last = ft_substr(var_name, y, len - y);
-	if (first && last)
+	while (env)
 	{
-		tmp = ft_strjoin(first, envalue);
-		free(first);
-		first = ft_strjoin(tmp, last);
-		return (ft_strdup(first));
-	}
-	else if (first && !last)
-	{
-		tmp = ft_strjoin(first, envalue);
-		return (ft_strdup(tmp));
-	}
-	else if (!first && last)
-	{
-		tmp = ft_strjoin(envalue, last);
-		return (ft_strdup(tmp));
+		if (env->key && ft_strcmp(env->key, var_name) == 0)
+			return (env->value);
+		env = env->next;
 	}
 	return (ft_strdup(""));
 }
 
-char	*get_var_value(char *var_name, t_env *env)
+char	*joinchar(const char *s1, char c)
 {
+	char	*res;
 	int		i;
-	int		len;
-	int		y;
-	char	*tmp;
-	char	*first;
-	char	*last;
+	int		j;
 
 	i = 0;
-	len = ft_strlen(var_name);
-	y = len;
-	while (var_name[i] != '$')
-		i++;
-	while (y > i + 1 && !skippable(var_name[y - 1]))
-		y--;
-	first = ft_substr(var_name, 0, i);
-	last = ft_substr(var_name, y, len - y);
-	tmp = ft_substr(var_name, i + 1, y - (i + 1));
-	while (env)
+	j = 0;
+	if (!s1)
+		return (NULL);
+	res = malloc((ft_strlen(s1) + 2) * sizeof(char));
+	if (!res)
+		return (NULL);
+	while (s1[i])
 	{
-		if (env->key && ft_strcmp(env->key, tmp) == 0)
-			return (joinword(i, y, var_name, env->value));
-		env = env->next;
+		res[j] = s1[i];
+		i++;
+		j++;
 	}
-	if (first && last)
-		return (ft_strjoin(first, last));
-	else if (!first && last)
-		return (ft_strdup(last));
-	else if (first && !last)
-		return (ft_strdup(first));
-	else
-		return (ft_strdup(""));
+	res[j] = c;
+	j++;
+	res[j] = '\0';
+	return (res);
 }
 
-char	*expand_simple_var(char *str, t_env *env, int exit_status)
+char *expand_simple_var(char *str, t_env *env, int exit_status)
 {
-	char	**split;
-	int		i;
-	char	*tmp;
-	t_space	*space;
-
-	space = NULL;
-	split = ft_split_d(str, " $\\");
-	i = -1;
-	int y = 0;
-	while (split[y])
-	{
-		printf("split[%d] : %s\n", y, split[y]);
-		y++;
-	}
-	while (split[++i])
-	{
-		if (ft_strcmp(split[i], "$?") == 0)
-			split[i] = ft_itoa(exit_status);
-		else if (split[i][0] == '\\')
-			split[i] = ft_strtrim(split[i], "\\");
-		else if (ft_strchr(split[i], '$'))
-			split[i] = get_var_value(split[i], env);
-	}
-	space = create_sp(str, space);
-	tmp = addspace(split, space);
-	free(split);
-	return (tmp);
+    int i = 0;
+    int y = 0;
+    char *result = ft_strdup("");
+    char *test;
+    char *tmp;
+    
+    while (str[i])
+    {
+        if (str[i] == '$' && (i == 0 || str[i - 1] != '\\'))
+        {
+            if (str[i + 1] != '\0' && str[i + 1] == '?')
+            {
+                tmp = ft_itoa(exit_status);
+                test = ft_strjoin(result, tmp);
+                free(result);
+                free(tmp);
+                result = test;
+                i += 2;
+                continue;
+            }
+            y = 1;
+            while (str[i + y] && ft_isalnum(str[i + y]))
+                y++;
+            test = ft_substr(str, i + 1, y - 1);
+            char *value = get_var_value(test, env);
+            free(test);
+            tmp = ft_strjoin(result, value);
+            free(result);
+            result = tmp;
+            i += y;
+        }
+        else
+        {
+            test = joinchar(result, str[i]);
+            free(result);
+            result = test;
+            i++;
+        }
+    }
+    return (result);
 }
 
 char	*expand(t_token *token, t_env *env, int exit_status)

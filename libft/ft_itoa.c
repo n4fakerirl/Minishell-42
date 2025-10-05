@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:09:13 by lenakach          #+#    #+#             */
-/*   Updated: 2025/07/21 13:58:16 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/05 02:18:48 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*pre_conv(int len)
 	return (tmp);
 }
 
-static int	count_int(long n)
+int	count_int(long n)
 {
 	int	count;
 
