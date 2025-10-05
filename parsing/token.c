@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 03:03:02 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 03:21:04 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int	wording(char *input, t_token **tokens)
 			i++;
 		if (input[i + 1] != '\0' && input[i + 1] == '\"')
 		{
-			i += 2;
+			while (input[i] == '\"')
+				i++;
 			while (input[i] && input[i] != '\"')
 				i++;
 			i++;
@@ -134,7 +135,8 @@ int	wording(char *input, t_token **tokens)
 			i++;
 		if (input[i + 1] != '\0' && input[i + 1] == '\'')
 		{
-			i += 2;
+			while (input[i] == '\'')
+				i++;
 			while (input[i] && input[i] != '\'')
 				i++;
 			i++;
