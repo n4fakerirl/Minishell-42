@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 00:07:11 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 03:03:02 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,42 @@ int	check_match(char *input)
 	return (1);
 }
 
+
+char *trim_q(char *str, char c)
+{
+	int trim = 0;
+	int i = 0;
+	int j = 0;
+	int len = ft_strlen(str);
+	
+	while (str[i])
+	{
+		if ((i != 0 && i != (len - 1)) && str[i] == c)
+			trim++;
+		i++;
+	}
+	i -= trim;
+	char *res = malloc(sizeof(char) * (i + 1));
+	i = 0;
+	while (str[i])
+	{
+		if (i > 0 && i < (len - 1) && str[i] != c)
+		{
+			res[j] = str[i];
+			i++;
+			j++;
+		}
+		else
+			i++;
+	}
+	res[j] = '\0';
+	return (res);
+}
+
 int	wording(char *input, t_token **tokens)
 {
 	int	i;
+	char *tmp = ft_strdup("");
 
 	i = 0;
 	if (input[i] == '\"')
@@ -74,20 +107,50 @@ int	wording(char *input, t_token **tokens)
 		i++;
 		while (input[i] && input[i] != '\"')
 			i++;
-		i++;
-		if (i > 0)
-			ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i),
+		if (input[i + 1] != '\0' && input[i + 1] == '\"')
+		{
+			i += 2;
+			while (input[i] && input[i] != '\"')
+				i++;
+			i++;
+			tmp = ft_substr(input, 0, i);
+			tmp = trim_q(tmp, '\"');																																													
+			if (i > 0)
+				ft_lstadd_back_new(tokens, create_token(WORD, tmp,
 					DOUBLE_QUOTE));
+		}
+		else
+		{
+			i++;
+			if (i > 0)
+				ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i),
+					DOUBLE_QUOTE));
+		}
 	}
 	else if (input[i] == '\'')
 	{
 		i++;
 		while (input[i] && input[i] != '\'')
 			i++;
-		i++;
-		if (i > 0)
-			ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i),
+		if (input[i + 1] != '\0' && input[i + 1] == '\'')
+		{
+			i += 2;
+			while (input[i] && input[i] != '\'')
+				i++;
+			i++;
+			tmp = ft_substr(input, 0, i);
+			tmp = trim_q(tmp, '\'');																																													
+			if (i > 0)
+				ft_lstadd_back_new(tokens, create_token(WORD, tmp,
 					SINGLE_QUOTE));
+		}
+		else
+		{
+			i++;
+			if (i > 0)
+				ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i),
+					SINGLE_QUOTE));
+		}
 	}
 	else
 	{
