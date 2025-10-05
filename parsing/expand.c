@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/05 20:49:25 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:52:35 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	need_expand(t_token *tokens)
 {
 	t_token	*tmp;
 	int		i;
-	int count = 0;
 
 	tmp = tokens;
 	while (tmp)
@@ -24,22 +23,18 @@ void	need_expand(t_token *tokens)
 		if (tmp->type == WORD && (tmp->state == DOUBLE_QUOTE
 				|| tmp->state == NO_QUOTE))
 		{
-			i = 0;
-			while (tmp->value[i])
+			i = -1;
+			while (tmp->value[++i])
 			{
 				if (tmp->value[i] == '$')
 				{
 					if (i > 0 && tmp->value[i - 1] == '\\')
 						tmp->need_exp = false;
-					else if (count == 0 && !ft_isalnum(tmp->value[i + 1]) && tmp->value[i + 1] != '?')
-						tmp->need_exp = false;
-					else
-					{
-						count++;
+					else if (tmp->value[i + 1] && (ft_isalnum(tmp->value[i + 1])
+							|| tmp->value[i + 1] == '_' || tmp->value[i
+							+ 1] == '?'))
 						tmp->need_exp = true;
-					}
 				}
-				i++;
 			}
 		}
 		tmp = tmp->next;
@@ -82,48 +77,53 @@ char	*joinchar(const char *s1, char c)
 	return (res);
 }
 
-char *expand_simple_var(char *str, t_env *env, int exit_status)
+char	*expand_simple_var(char *str, t_env *env, int exit_status)
 {
-    int i = 0;
-    int y = 0;
-    char *result = ft_strdup("");
-    char *test;
-    char *tmp;
-    
-    while (str[i])
-    {
-        if (str[i] == '$' && (i == 0 || str[i - 1] != '\\') && str[i + 1] != '\0')
-        {
-            if (str[i + 1] != '\0' && str[i + 1] == '?')
-            {
-                tmp = ft_itoa(exit_status);
-                test = ft_strjoin(result, tmp);
-                free(result);
-                free(tmp);
-                result = test;
-                i += 2;
-                continue;
-            }
-            y = 1;
-            while (str[i + y] && ft_isalnum(str[i + y]))
-                y++;
-            test = ft_substr(str, i + 1, y - 1);
-            char *value = get_var_value(test, env);
-            free(test);
-            tmp = ft_strjoin(result, value);
-            free(result);
-            result = tmp;
-            i += y;
-        }
-        else
-        {
-            test = joinchar(result, str[i]);
-            free(result);
-            result = test;
-            i++;
-        }
-    }
-    return (result);
+	int		i;
+	int		y;
+	char	*result;
+	char	*test;
+	char	*tmp;
+	char	*value;
+
+	i = 0;
+	y = 0;
+	result = ft_strdup("");
+	while (str[i])
+	{
+		if (str[i] == '$' && (i == 0 || str[i - 1] != '\\') && str[i
+			+ 1] != '\0')
+		{
+			if (str[i + 1] != '\0' && str[i + 1] == '?')
+			{
+				tmp = ft_itoa(exit_status);
+				test = ft_strjoin(result, tmp);
+				free(result);
+				free(tmp);
+				result = test;
+				i += 2;
+				continue ;
+			}
+			y = 1;
+			while (str[i + y] && ft_isalnum(str[i + y]))
+				y++;
+			test = ft_substr(str, i + 1, y - 1);
+			value = get_var_value(test, env);
+			free(test);
+			tmp = ft_strjoin(result, value);
+			free(result);
+			result = tmp;
+			i += y;
+		}
+		else
+		{
+			test = joinchar(result, str[i]);
+			free(result);
+			result = test;
+			i++;
+		}
+	}
+	return (result);
 }
 
 char	*expand(t_token *token, t_env *env, int exit_status)
