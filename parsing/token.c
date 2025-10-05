@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 03:21:04 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/05 15:42:12 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,9 @@ char *trim_q(char *str, char c)
 	return (res);
 }
 
-int	wording(char *input, t_token **tokens)
+int quotes_d(char *input, t_token **tokens, int i, char *tmp)
 {
-	int	i;
-	char *tmp = ft_strdup("");
 
-	i = 0;
-	if (input[i] == '\"')
-	{
 		i++;
 		while (input[i] && input[i] != '\"')
 			i++;
@@ -127,9 +122,11 @@ int	wording(char *input, t_token **tokens)
 				ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i),
 					DOUBLE_QUOTE));
 		}
-	}
-	else if (input[i] == '\'')
-	{
+	return (i);
+}
+
+int quotes_s(char *input, t_token **tokens, int i, char *tmp)
+{
 		i++;
 		while (input[i] && input[i] != '\'')
 			i++;
@@ -153,7 +150,20 @@ int	wording(char *input, t_token **tokens)
 				ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i),
 					SINGLE_QUOTE));
 		}
-	}
+		return (i);
+}
+
+
+int	wording(char *input, t_token **tokens)
+{
+	int	i;
+	char *tmp = ft_strdup("");
+
+	i = 0;
+	if (input[i] == '\"')
+		i += quotes_d(input, tokens, i, tmp);
+	else if (input[i] == '\'')
+		i += quotes_s(input, tokens, i, tmp);
 	else
 	{
 		while (input[i] && !is_special_char(input[i]) && !ft_isspace(input[i]))
