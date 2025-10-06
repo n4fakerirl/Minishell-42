@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 20:59:59 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/06 18:37:56 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,16 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status)
 				if (tmp->need_exp == true)
 				{
 					str = expand(tmp, env, exit_status);
-					if (str != NULL)
+					if (str != NULL && str[0] != '\0')
+					{
 						current->args[i] = ft_strdup(str);
-					printf("args[%d] : %s\n", i, current->args[i]);
-					i++;
+						printf("args[%d] : %s\n", i, current->args[i]);
+						i++;
+					}
 				}
 				else
 				{
-					if (tmp->value[0] != '\0' && tmp->value != NULL)
+					if (tmp->value != NULL && tmp->value[0] != '\0')
 					{
 						current->args[i] = del_back(tmp);
 						printf("args[%d] : %s\n", i, current->args[i]);

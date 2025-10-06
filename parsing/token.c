@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 22:30:15 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/06 19:35:09 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,10 @@ int	redirect(char *input, t_token **tokens)
 	return (0);
 }
 
-int	check_match(char *input)
+int	check_match(char *input, int singleq, int doubleq)
 {
-	int	doubleq;
-	int	singleq;
-	int	i;
-
-	doubleq = 0;
-	singleq = 0;
+	int i;
+	
 	i = 0;
 	while (input[i])
 	{
@@ -114,9 +110,10 @@ int	quotes_d(char *input, t_token **tokens, int i, char *tmp)
 	{
 		while (input[i] == '\'' || input[i] == '\"')
 			i++;
-		while (input[i] && input[i] != '\'' && input[i + 1] != '\"')
+		while (input[i] && !ft_isspace(input[i]) && input[i] != '\'' && input[i + 1] != '\"')
 			i++;
-		i++;
+		if (!ft_isspace(input[i]))
+			i++;
 		tmp = new_cut(input, i);
 		if (i > 0)
 			ft_lstadd_back_new(tokens, create_token(WORD, tmp, DOUBLE_QUOTE));
@@ -140,9 +137,10 @@ int	quotes_s(char *input, t_token **tokens, int i, char *tmp)
 	{
 		while (input[i] == '\'' || input[i] == '\"')
 			i++;
-		while (input[i] && input[i] != '\'' && input[i + 1] != '\"')
+		while (input[i] && !ft_isspace(input[i]) && input[i] != '\'' && input[i + 1] != '\"')
 			i++;
-		i++;
+		if (!ft_isspace(input[i]))
+			i++;
 		tmp = new_cut(input, i);
 		if (i > 0)
 			ft_lstadd_back_new(tokens, create_token(WORD, tmp, SINGLE_QUOTE));
@@ -186,7 +184,7 @@ t_token	*tokenize(char *input)
 
 	i = 0;
 	tokens = NULL;
-	if (!check_match(input))
+	if (!check_match(input, 0, 0))
 		return (NULL);
 	while (input[i])
 	{

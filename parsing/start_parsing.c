@@ -6,44 +6,42 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 21:37:19 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/06 19:35:57 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void util_trim(t_token *tmp, char *new_value, char c)
+{
+	int len;
+	
+	len = ft_strlen(tmp->value);
+	if (len >= 2 && tmp->value[0] == c && tmp->value[len - 1] == c)
+	{
+		new_value = ft_substr(tmp->value, 1, len - 2);
+		free(tmp->value);
+		tmp->value = ft_strdup(new_value);
+		free(new_value);
+	}
+}
+
 void	trim_words(t_token *tokens)
 {
 	t_token	*tmp;
 	char	*new_value;
-	int		len;
 
 	tmp = tokens;
 	while (tmp)
 	{
+		new_value = ft_strdup("");
 		if (tmp->type == WORD && tmp->state == DOUBLE_QUOTE)
-		{
-			len = ft_strlen(tmp->value);
-			if (len >= 2 && tmp->value[0] == '"' && tmp->value[len - 1] == '"')
-			{
-				new_value = ft_substr(tmp->value, 1, len - 2);
-				free(tmp->value);
-				tmp->value = new_value;
-			}
-		}
+			util_trim(tmp, new_value, '\"');
 		else if (tmp->type == WORD && tmp->state == SINGLE_QUOTE)
-		{
-			len = ft_strlen(tmp->value);
-			if (len >= 2 && tmp->value[0] == '\'' && tmp->value[len
-				- 1] == '\'')
-			{
-				new_value = ft_substr(tmp->value, 1, len - 2);
-				free(tmp->value);
-				tmp->value = new_value;
-			}
-		}
+			util_trim(tmp, new_value, '\'');
 		tmp = tmp->next;
 	}
+	free(new_value);
 }
 
 t_shell	*start_parsing(char *str, char **envp, int exit_status)
