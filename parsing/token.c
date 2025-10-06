@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/06 20:27:44 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/06 20:38:24 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	quotes_d(char *input, t_token **tokens, int i, char *tmp)
 			i++;
 		while (input[i] && !ft_isspace(input[i]) && input[i] != '\'' && input[i + 1] != '\"')
 			i++;
-		if (!ft_isspace(input[i]))
+		while (!ft_isspace(input[i]))
 			i++;
 		tmp = new_cut(input, i);
 		if (i > 0)
@@ -120,6 +120,8 @@ int	quotes_d(char *input, t_token **tokens, int i, char *tmp)
 	}
 	else
 	{
+		while (input[i] && !ft_isspace(input[i]))
+			i++;
 		i++;
 		if (i > 0)
 			ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0,
@@ -139,7 +141,7 @@ int	quotes_s(char *input, t_token **tokens, int i, char *tmp)
 			i++;
 		while (input[i] && !ft_isspace(input[i]) && input[i] != '\'' && input[i + 1] != '\"')
 			i++;
-		if (!ft_isspace(input[i]))
+		while (!ft_isspace(input[i]))
 			i++;
 		tmp = new_cut(input, i);
 		if (i > 0)
