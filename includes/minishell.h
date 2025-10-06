@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 22:07:48 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/06 20:23:10 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ int					ft_isspace(int c);
 int					skippable(char c);
 void				ft_lstadd_back_new(t_token **toklist, t_token *token);
 int					lstlen(t_token **toklist);
+int					ft_isquote(int c);
+int					isquoteend(int c);
 
 void				cmd_list(t_token *tokens, t_cmd **cmds, t_env *env,
 						int exit_status);

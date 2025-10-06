@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:41:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 22:11:39 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/06 20:23:40 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ int	is_special_char(char c)
 int	ft_isspace(int c)
 {
 	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_isquote(int c)
+{
+	if (c == '\'' || c == '\"')
+		return (1);
+	else
+		return (0);
+}
+
+int	isquoteend(int c)
+{
+	if (c == '\0' || c == '\'' || c == '\"')
 		return (1);
 	else
 		return (0);
