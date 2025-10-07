@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 22:02:32 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:42:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,15 @@ void	forking_child(t_shell *shell, int i)
 	else
 	{
 		if (i == 0)
+		{
+			fprintf(stderr, "je rentre dans first child pour cat -e\n");
 			first_child(shell, shell->envp_initial);
+		}
 		else if (i == shell->nbr_cmd - 1)
+		{
+			fprintf(stderr, "je rentre dans last child pour wc -l\n");
 			last_child(shell, shell->envp_initial);
+		}
 		else
 			inter_child(shell, shell->envp_initial);
 	}
@@ -70,7 +76,8 @@ void	forking_parent(t_shell *shell, int i)
 		close(shell->pipe_infos->pipe_fd[0][1]);
 	}
 	else if (i == shell->nbr_cmd - 1)
-	{
+	{		
+		fprintf(stderr, "JE CLOSE DANS MON PARENT POUR MON LAST\n");
 		close(shell->pipe_infos->pipe_fd[i - 1][0]);
 		close(shell->pipe_infos->pipe_fd[i - 1][1]);
 	}
@@ -88,17 +95,24 @@ void	start_exec(t_shell *shell)
 	i = 0;
 	shell->saved_stdin = dup(STDIN_FILENO);
 	shell->saved_stdout = dup(STDOUT_FILENO);
-	check_heredoc(shell);
+	//check_heredoc(shell);
 	if (shell->nbr_cmd == 1)
 		return (one_cmd(shell, shell->envp_initial));
 	while (shell->cmd)
 	{
 		if (i != shell->nbr_cmd - 1)
-			if (piping(shell, i))
+		{
+			if (piping(shell, i) < 0)
 				return ;
+			printf("PIPING POUR CAT -e\n");
+		}
 		forking(shell, i);
+		printf("J'AI FORKE AU RANG %d\n", i);
 		if (shell->pipe_infos->pid[i] == 0)
+		{
+			printf("JE SUIS DNAS L'ENFANT AU RANG %d\n", i);
 			forking_child(shell, i);
+		}
 		else if (shell->pipe_infos->pid[i] > 0)
 			forking_parent(shell, i);
 		i++;

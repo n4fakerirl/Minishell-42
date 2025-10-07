@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 19:46:35 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:25:00 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		str = readline("minishell> ");
 		if (!str)
-		{
-			printf("CTRL D\n");
 			break ;
-		}
 		shell = start_parsing(str, envp, exit_status);
 		if (!shell)
 		{
@@ -44,6 +41,5 @@ int	main(int ac, char **av, char **envp)
 		free(str);
 		free_shell(shell);
 	}
-	//rl_clear_history();
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   divers.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:45:23 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 23:13:42 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:35:09 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	print_cmd(t_cmd *cmd)
 	{
 		j = 0;
 		redir_tmp = cmd_tmp->redirect;
-		printf("COMMANDE NBR : %d\n", i);
 		while (cmd_tmp->args[j])
 		{
 			fprintf(stderr, "CMD ARGS [%d]: %s\n", j, cmd_tmp->args[j]);
@@ -56,12 +55,12 @@ void	print_token(t_token *token)
 		return ;
 	while (tmp)
 	{
-		printf("VALUE AU RANG [%d]: %s\n", i, tmp->value);
-		printf("TYPE AU RANG [%d]: %d\n", i, (int)tmp->type);
-		printf("NEED EXPAND AU RANG [%d]: %d\n", i, tmp->need_exp);
+		//printf("VALUE AU RANG [%d]: %s\n", i, tmp->value);
+		//printf("TYPE AU RANG [%d]: %d\n", i, (int)tmp->type);
+		//printf("NEED EXPAND AU RANG [%d]: %d\n", i, tmp->need_exp);
 		i++;
 		tmp = tmp->next;
 	}
-	printf("FIN DE PRINT TOKEN\n\n");
+	//printf("FIN DE PRINT TOKEN\n\n");
 }
 

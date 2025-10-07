@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 18:46:19 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 22:08:51 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:41:56 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	first_child(t_shell *shell, char **envp_initial)
 		shell->exit_status = 127;
 		return ;
 	}
+	fprintf(stderr, "je vais execve pour cat -e\n");
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))
 	{
 		dup2(shell->saved_stdout, STDOUT_FILENO);
