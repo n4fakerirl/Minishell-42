@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 19:29:23 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 20:06:10 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,61 @@ char	*del_back(t_token *token)
 	return (buf);
 }
 
+int count_q(char *str)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char *trim_one(char *str)
+{
+	int i;
+	int j;
+	int len;
+	char *dup;
+	
+	i = 0;
+	j = 0;
+	len = ft_strlen(str);
+	dup = malloc(sizeof(char) * (len));
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			i++;
+		dup[j] = str[i];
+		i++;
+		j++;
+	}
+	dup[j] = '\0';
+	return (dup);
+}
+
 void trim_word(t_token *tokens)
 {
 	t_token *tmp;
 
 	tmp = tokens;
+	int count;
 	while (tmp)
 	{
 		if (tmp->type == WORD)
-			tmp->value = strip_quotes(tmp->value, 0, 0, 0);
+		{
+			count = count_q(tmp->value);
+			if (count > 1)
+				tmp->value = strip_quotes(tmp->value, 0, 0, 0);
+			else if (count == 1)
+				tmp->value = trim_one(tmp->value);
+		}
 		tmp = tmp->next;
 	}
 }

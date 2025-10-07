@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/07 19:41:38 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:49:03 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,17 @@ int is_expandable(char *str)
 void	need_expand(t_token *tokens)
 {
 	t_token	*tmp;
+	int i;
 
+	i = 0;
 	tmp = tokens;
 	while (tmp)
 	{
 		if (ft_strchr(tmp->value, '$'))
 		{
-			if (is_expandable(tmp->value) == 1)
+			while (tmp->value[i] != '$')
+				i++;
+			if (is_expandable(tmp->value + i) == 1)
 				tmp->need_exp = true;
 			else
 				tmp->need_exp = false;
@@ -52,9 +56,6 @@ char	*get_var_value(char *var_name, t_env *env)
 	}
 	return (ft_strdup(""));
 }
-
-
-
 
 char	*joinchar(const char *s1, char c)
 {
@@ -112,6 +113,7 @@ char	*expand_word(char *str, t_env *env, int exit_status)
 			while (str[i + y] && ft_isalnum(str[i + y]))
 				y++;
 			test = ft_substr(str, i + 1, y - 1);
+			printf("test = %s\n", test);
 			value = get_var_value(test, env);
 			free(test);
 			tmp = ft_strjoin(result, value);
