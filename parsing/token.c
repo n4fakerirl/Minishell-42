@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 19:40:16 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 22:57:05 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,33 @@ int	check_match(char *input, int singleq, int doubleq)
 	return (1);
 }
 
+int skip_until_quote(char *input, char c, t_token **tokens)
+{
+	int i;
+
+	i = 1;
+	while (input[i] && input[i] != c)
+		i++;
+	ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i)));
+	return (i);
+}
+
+int wording(char *input, t_token **tokens)
+{
+	int i;
+
+	i = 0;
+	while (input[i])
+		i++;
+	ft_lstadd_back_new(tokens, create_token(WORD, ft_substr(input, 0, i)));
+	return (i);
+}
+
 t_token	*tokenize(char *input)
 {
 	int		i;
 	t_token	*tokens;
 
-	i = 0;
-	int y;
 	i = 0;
 	tokens = NULL;
 	if (!check_match(input, 0, 0))
@@ -74,16 +94,12 @@ t_token	*tokenize(char *input)
 			i++;
 		if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 			i += redirect(input + i, &tokens);
-		else
-		{
-			y = 0;
-			while (input[i + y] && !is_special_char(input[i + y]) && !ft_isspace(input[i + y]))
-				y++;
-			if (y > 0)
-				ft_lstadd_back_new(&tokens, create_token(WORD, ft_substr(input, i,
-						y)));
-			i += y;
-		}
+		if (input[i] == '\'')
+            i += skip_until_quote(input + i, '\'', &tokens);
+        else if (input[i] == '"')
+            i += skip_until_quote(input + i, '\"', &tokens);
+        else
+            i += wording(input + i, &tokens);
 	}
 	return (tokens);
 }
