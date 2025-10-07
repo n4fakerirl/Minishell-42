@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 15:36:52 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:53:12 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,8 @@ t_env							*init_env(char **envp);
 // 1.2 TOKEN & TOKEN_UTILS
 t_token							*tokenize(char *input);
 t_token							*new_type(t_token *tokens);
-t_token							*create_token(t_token_type type, char *value,
-									t_quote_state state);
-void							del_quotes(t_token *tokens);
+t_token							*create_token(t_token_type type, char *value);
+void 							quoting(t_token *tokens);
 
 // 1.3 PARSE ARGS
 int								parse_args(t_token *tokens);

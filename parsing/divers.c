@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   divers.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:45:23 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 11:35:09 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:55:23 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void	print_cmd(t_cmd *cmd)
 {
-	int	i;
 	int	j;
 	int	k;
 	t_redir	*redir_tmp;
 	t_cmd	*cmd_tmp;
 	
 	k = 0;
-	i = 0;
 	cmd_tmp = cmd;
 	while (cmd_tmp)
 	{
@@ -39,7 +37,6 @@ void	print_cmd(t_cmd *cmd)
 			k++;
 			redir_tmp = redir_tmp->next;
 		}
-		i++;
 		cmd_tmp = cmd_tmp->next;
 	}
 }
@@ -55,12 +52,13 @@ void	print_token(t_token *token)
 		return ;
 	while (tmp)
 	{
-		//printf("VALUE AU RANG [%d]: %s\n", i, tmp->value);
-		//printf("TYPE AU RANG [%d]: %d\n", i, (int)tmp->type);
-		//printf("NEED EXPAND AU RANG [%d]: %d\n", i, tmp->need_exp);
+		printf("VALUE AU RANG [%d]: %s\n", i, tmp->value);
+		printf("TYPE AU RANG [%d]: %d\n", i, (int)tmp->type);
+		printf("NEED EXPAND AU RANG [%d]: %d\n", i, tmp->need_exp);
+		printf("QUOTES AU RANG [%d]: %d\n", i, tmp->state);
 		i++;
 		tmp = tmp->next;
 	}
-	//printf("FIN DE PRINT TOKEN\n\n");
+	printf("FIN DE PRINT TOKEN\n\n");
 }
 
