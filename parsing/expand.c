@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/07 19:14:29 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:15:56 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ int is_expandable(char *str)
 void	need_expand(t_token *tokens)
 {
 	t_token	*tmp;
-	int		i;
 
 	tmp = tokens;
 	while (tmp)
 	{
-		if (ft_strchr(tmp->value, "$"))
+		if (ft_strchr(tmp->value, '$'))
 		{
 			if (is_expandable(tmp->value) == 1)
 				tmp->need_exp = true;
