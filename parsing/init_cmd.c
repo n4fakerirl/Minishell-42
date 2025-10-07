@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 19:39:07 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 00:02:36 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	cmd_list(t_token *tokens, t_cmd **cmds)
 					if (tmp->value != NULL && tmp->value[0] != '\0')
 					{
 						current->args[i] = del_back(tmp);
-						printf("args[%d] : %s\n", i, current->args[i]);
+						//printf("args[%d] : %s\n", i, current->args[i]);
 						i++;
 					}
 

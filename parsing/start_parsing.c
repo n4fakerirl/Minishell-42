@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 23:04:55 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 00:24:06 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ char *strip_quotes(char *str, int i, int j, int in_single)
     return (result);
 }
 
+void handle_dollar(t_token *tokens)
+{
+    char *sub;
+    t_token *tmp;
+    
+    tmp = tokens;
+    while (tmp)
+    {
+        if (tmp->value[0] == '$' && (tmp->value[1] == '\"' || tmp->value[1] == '\''))
+        {
+            sub = ft_strdup(tmp->value + 1);
+            free(tmp->value);
+            tmp->value = ft_strdup(sub);
+            free(sub);
+        }
+        tmp = tmp->next;
+    }
+}
+
+
 t_shell	*start_parsing(char *str, char **envp, int exit_status)
 {
 	t_shell	*shell;
@@ -56,9 +76,8 @@ t_shell	*start_parsing(char *str, char **envp, int exit_status)
 	if (!parse_args(tokens))
 		return (free_shell(shell), free_token(tokens), NULL);
 	quoting(tokens);
-    printf("MON TOKEN :\n");
-	print_token(tokens);
 	need_expand(tokens);
+    handle_dollar(tokens);
 	expand_tokens(tokens, shell->env, exit_status);
 	printf("MON TOKEN :\n");
 	print_token(tokens);
