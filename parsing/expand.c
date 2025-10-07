@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/07 20:36:10 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 23:16:14 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ char	*expand_word(char *str, t_env *env, int exit_status)
 			else
 			{
 				y = 1;
-				while (str[i + y] && (ft_isalnum(str[i + y]) || str[i + y] == ' '))
+				while (str[i + y] && (ft_isalnum(str[i + y]) || str[i + y] == '_') && !ft_isspace(str[i + y]))
 					y++;
 				result = expand_var(result, str + i, env, y);
 			}	

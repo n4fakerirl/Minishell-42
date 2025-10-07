@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 19:50:01 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 23:04:55 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ t_shell	*start_parsing(char *str, char **envp, int exit_status)
 	if (!parse_args(tokens))
 		return (free_shell(shell), free_token(tokens), NULL);
 	quoting(tokens);
+    printf("MON TOKEN :\n");
+	print_token(tokens);
 	need_expand(tokens);
 	expand_tokens(tokens, shell->env, exit_status);
 	printf("MON TOKEN :\n");
