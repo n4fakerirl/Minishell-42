@@ -6,11 +6,19 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 13:17:24 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 13:20:26 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:07:18 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	initialise(int *i, long long *res, int *sign, int *digit)
+{
+	*i = -1;
+	*res = 0;
+	*sign = 1;
+	*digit = 0;
+}
 
 long	ft_atol(char *str, int *limit)
 {
@@ -19,11 +27,8 @@ long	ft_atol(char *str, int *limit)
 	int			sign;
 	int			digit;
 
-	i = 0;
-	res = 0;
-	sign = 1;
-	digit = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+	initialise(&i, &res, &sign, &digit);
+	while ((str[++i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '+' || str[i] == '-')
 	{
@@ -35,15 +40,9 @@ long	ft_atol(char *str, int *limit)
 	{
 		digit = str[i] - 48;
 		if (sign == 1 && (res > (LONG_MAX - digit) / 10))
-		{
-			*limit = -1;
-			return (-1);
-		}
+			return (*limit = -1, -1);
 		if (sign == -1 && (-res < (LONG_MIN + digit) / 10))
-		{
-			*limit = -1;
-			return (-1);
-		}
+			return (*limit = -1, -1);
 		res = res * 10 + digit;
 		i++;
 	}

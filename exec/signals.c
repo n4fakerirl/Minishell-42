@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tokens.c                                      :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/03 19:56:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 12:05:48 by lenakach         ###   ########.fr       */
+/*   Created: 2025/10/07 15:24:27 by lenakach          #+#    #+#             */
+/*   Updated: 2025/10/07 15:50:16 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_token(t_token *token)
-{
-	t_token	*tmp;
-	t_token	*next;
+volatile	sig_atomic_t	g_signal = 0;
 
-	tmp = token;
-	while (tmp)
-	{
-		next = tmp->next;
-		if (tmp->value)
-			free(tmp->value);
-		free(tmp);
-		tmp = next;
-	}
+
+//SIGINT : CTRLC
+//SIGQUIT : '\'
+//EOF : CTRL D
+
+void sigint_handler(int sig)
+{
+    (void)sig;
+    g_signal = SIGINT;
+   	write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
 }
+
+

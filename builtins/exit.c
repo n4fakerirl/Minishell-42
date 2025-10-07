@@ -6,13 +6,11 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:41:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 13:16:41 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:05:32 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-
 
 int	all_digit(char *str)
 {

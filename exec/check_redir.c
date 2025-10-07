@@ -6,14 +6,17 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:24:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 11:57:23 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:11:07 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	redir_right(t_shell *shell, int fd)
+void	redir_right(t_shell *shell)
 {
+	int	fd;
+	
+	fd = 0;
 	if (shell->cmd->redirect->type == REDIRR)
 		fd = open(shell->cmd->redirect->file, O_WRONLY | O_CREAT | O_TRUNC,
 				0644);
@@ -26,8 +29,10 @@ void	redir_right(t_shell *shell, int fd)
 	close(fd);
 }
 
-void	redir_simple_left(t_shell *shell, int fd)
+void	redir_simple_left(t_shell *shell)
 {
+	int	fd;
+	
 	fd = open(shell->cmd->redirect->file, O_RDONLY);
 	if (fd < 0)
 		return (perror(""));
@@ -35,8 +40,10 @@ void	redir_simple_left(t_shell *shell, int fd)
 	close(fd);
 }
 
-void	redir_heredoc(t_shell *shell, int fd)
+void	redir_heredoc(t_shell *shell)
 {
+	int	fd;
+	
 	fd = shell->cmd->here_doc;
 	if (fd < 0)
 		return (perror(""));
@@ -46,9 +53,6 @@ void	redir_heredoc(t_shell *shell, int fd)
 
 void	check_redir(t_shell *shell, int i)
 {
-	int	fd;
-
-	fd = 0;
 	//Si one cmd i == -1
 	if (i == -1)
 	{
@@ -66,14 +70,17 @@ void	check_redir(t_shell *shell, int i)
 	{
 		if (shell->cmd->redirect->type == REDIRR
 			|| shell->cmd->redirect->type == REDIRDR)
-			return (redir_right(shell, fd));
+		{
+			fprintf(stderr, "REDIR SORTIE\n");
+			redir_right(shell);
+		}
 		else if (shell->cmd->redirect->type == REDIRL)
 		{
 			printf("J'AI UNE REDIRL\n");
-			return (redir_simple_left(shell, fd));
+			redir_simple_left(shell);
 		}
 		else if (shell->cmd->redirect->type == REDIRDL)
-			return (redir_heredoc(shell, fd));
+			redir_heredoc(shell);
 		shell->cmd->redirect = shell->cmd->redirect->next;
 	}
 	return ;

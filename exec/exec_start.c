@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 11:42:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 15:05:43 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,8 @@ void	start_exec(t_shell *shell)
 			printf("PIPING POUR CAT -e\n");
 		}
 		forking(shell, i);
-		printf("J'AI FORKE AU RANG %d\n", i);
 		if (shell->pipe_infos->pid[i] == 0)
-		{
-			printf("JE SUIS DNAS L'ENFANT AU RANG %d\n", i);
 			forking_child(shell, i);
-		}
 		else if (shell->pipe_infos->pid[i] > 0)
 			forking_parent(shell, i);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:49:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/09 15:46:54 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:36:56 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static char	**ft_free(char **arr)
 	int	i;
 
 	i = 0;
+	if (!arr)
+		return (NULL);
 	while (arr[i])
 	{
 		free(arr[i]);
@@ -24,13 +26,6 @@ static char	**ft_free(char **arr)
 	}
 	free(arr);
 	return (NULL);
-}
-
-static void	ft_initialize(size_t *i, int *j, int *s_word)
-{
-	*i = -1;
-	*j = 0;
-	*s_word = -1;
 }
 
 static int	word_count(const char *s, char c)
@@ -64,55 +59,54 @@ static char	*fill_word(const char *str, int start, int end)
 	if (!word)
 		return (NULL);
 	while (start < end)
-	{
-		word[i] = str[start];
-		i++;
-		start++;
-	}
+		word[i++] = str[start++];
 	word[i] = 0;
 	return (word);
+}
+
+static int	split_words(const char *s, char c, char **arr)
+{
+	size_t	i;
+	int		j;
+	int		s_word;
+
+	i = -1;
+	j = 0;
+	s_word = -1;
+	while (++i <= ft_strlen(s))
+	{
+		if (s[i] != c && s_word < 0)
+			s_word = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && s_word >= 0)
+		{
+			if (s[i] == c)
+				arr[j] = fill_word(s, s_word, i);
+			else
+				arr[j] = fill_word(s, s_word, i + 1);
+			if (!arr[j++])
+				return (-1);
+			s_word = -1;
+		}
+	}
+	arr[j] = NULL;
+	return (0);
 }
 
 char	**ft_split(const char *s, char c)
 {
 	char	**arr;
-	size_t	i;
-	int		j;
-	int		s_word;
-	size_t	len;
 
-	len = ft_strlen(s);
-	ft_initialize(&i, &j, &s_word);
-	if (!s || !*s)
+	if (!s)
 		return (NULL);
 	arr = ft_calloc((word_count(s, c) + 1), sizeof(char *));
 	if (!arr)
 		return (NULL);
-	while (++i < len)
-	{
-		if (s[i] != c && s_word < 0)
-			s_word = i;
-		else if (s[i] == c && s_word >= 0)
-		{
-			arr[j] = fill_word(s, s_word, i);
-			if (!arr[j])
-				return (ft_free(arr));
-			s_word = -1;
-			j++;
-			arr[j] = 0;
-		}
-	}
-	if (s_word >= 0)
-	{
-		arr[j] = fill_word(s, s_word, i);
-		if (!arr[j])
-			return (ft_free(arr));
-		arr[j + 1] = 0;
-	}
+	if (split_words(s, c, arr) == -1)
+		return (ft_free(arr));
 	return (arr);
 }
 
-/* int	main(int ac, char **av)
+/*int	main(int ac, char **av)
 {
 	char c;
 	char **tab;
@@ -136,4 +130,4 @@ char	**ft_split(const char *s, char c)
 		return (-1);
 	}
 	return (0);
-} */
+}*/

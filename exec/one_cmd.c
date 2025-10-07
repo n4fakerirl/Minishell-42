@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 22:12:27 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/07 17:04:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdout);
 		printf("bash: %s: command not found\n", shell->cmd->args[0]);
 		shell->exit_status = 127;
-		return ;
+		exit (127);
 	}
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))
 	{
