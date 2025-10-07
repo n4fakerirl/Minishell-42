@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 20:06:10 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 20:14:04 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,10 @@ void trim_word(t_token *tokens)
 	t_token *tmp;
 
 	tmp = tokens;
-	int count;
 	while (tmp)
 	{
 		if (tmp->type == WORD)
-		{
-			count = count_q(tmp->value);
-			if (count > 1)
-				tmp->value = strip_quotes(tmp->value, 0, 0, 0);
-			else if (count == 1)
-				tmp->value = trim_one(tmp->value);
-		}
+			tmp->value = strip_quotes(tmp->value, 0, 0, 0);
 		tmp = tmp->next;
 	}
 }

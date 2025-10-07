@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/07 19:49:03 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 20:36:10 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	need_expand(t_token *tokens)
 	t_token	*tmp;
 	int i;
 
-	i = 0;
 	tmp = tokens;
 	while (tmp)
 	{
+		i = 0;
 		if (ft_strchr(tmp->value, '$'))
 		{
 			while (tmp->value[i] != '$')
@@ -82,50 +82,76 @@ char	*joinchar(const char *s1, char c)
 	return (res);
 }
 
+char *expand_code(int exit_status, char *result)
+{
+	char *status;
+	char *tmp;
+	
+	status = ft_itoa(exit_status);
+	tmp = ft_strjoin(result, tmp);
+	free(result);
+	free(status);
+	result = ft_strdup(tmp);
+	free(tmp);
+	return (result);
+}
+
+char *expand_var(char *result, char *str, t_env *env, int y)
+{
+	char *sub;
+	char *value;
+	char *tmp;
+	
+	sub = ft_substr(str, 1 , y - 1);
+	value = get_var_value(sub, env);
+	free(sub);
+	tmp = ft_strjoin(result, value);
+	free(result);
+	result = ft_strdup(tmp);
+	return (result);
+}
+
 char	*expand_word(char *str, t_env *env, int exit_status)
 {
 	int		i;
 	int		y;
+	char 	quote;
 	char	*result;
-	char	*test;
-	char	*tmp;
-	char	*value;
 
 	i = 0;
 	y = 0;
 	result = ft_strdup("");
 	while (str[i])
 	{
+   	 if ((str[i] == '"' || str[i] == '\'') && (i == 0 || str[i - 1] != '\\'))
+   	 {
+    	    if (quote == 0)
+     	       quote = str[i];
+       		else if (quote == str[i])
+          	  quote = 0;
+       	 		i++;
+       		 continue;
+   	 }
 		if (str[i] == '$' && (i == 0 || str[i - 1] != '\\') && str[i
-			+ 1] != '\0')
+			+ 1] != '\0' && quote != '\'')
 		{
 			if (str[i + 1] != '\0' && str[i + 1] == '?')
 			{
-				tmp = ft_itoa(exit_status);
-				test = ft_strjoin(result, tmp);
-				free(result);
-				free(tmp);
-				result = test;
-				i += 2;
-				continue ;
+				result = expand_code(exit_status, result);
+				y = 2;
 			}
-			y = 1;
-			while (str[i + y] && ft_isalnum(str[i + y]))
-				y++;
-			test = ft_substr(str, i + 1, y - 1);
-			printf("test = %s\n", test);
-			value = get_var_value(test, env);
-			free(test);
-			tmp = ft_strjoin(result, value);
-			free(result);
-			result = tmp;
+			else
+			{
+				y = 1;
+				while (str[i + y] && (ft_isalnum(str[i + y]) || str[i + y] == ' '))
+					y++;
+				result = expand_var(result, str + i, env, y);
+			}	
 			i += y;
 		}
 		else
 		{
-			test = joinchar(result, str[i]);
-			free(result);
-			result = test;
+			result = joinchar(result, str[i]);
 			i++;
 		}
 	}
