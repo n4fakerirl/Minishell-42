@@ -6,11 +6,23 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/05 21:52:35 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:14:29 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int is_expandable(char *str)
+{
+	if (!str[1] || str[1] == ' ' || str[1] == '\'' || str[1] == '"')
+        return (0);
+    else if (ft_strncmp(str, "$?", 2) == 0)
+        return (1);
+    else if (ft_isalpha(str[1]) || str[1] == '_')
+        return (1);
+	else
+		return (0);
+}
 
 void	need_expand(t_token *tokens)
 {
@@ -20,22 +32,12 @@ void	need_expand(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->type == WORD && (tmp->state == DOUBLE_QUOTE
-				|| tmp->state == NO_QUOTE))
+		if (ft_strchr(tmp->value, "$"))
 		{
-			i = -1;
-			while (tmp->value[++i])
-			{
-				if (tmp->value[i] == '$')
-				{
-					if (i > 0 && tmp->value[i - 1] == '\\')
-						tmp->need_exp = false;
-					else if (tmp->value[i + 1] && (ft_isalnum(tmp->value[i + 1])
-							|| tmp->value[i + 1] == '_' || tmp->value[i
-							+ 1] == '?'))
-						tmp->need_exp = true;
-				}
-			}
+			if (is_expandable(tmp->value) == 1)
+				tmp->need_exp = true;
+			else
+				tmp->need_exp = false;
 		}
 		tmp = tmp->next;
 	}
