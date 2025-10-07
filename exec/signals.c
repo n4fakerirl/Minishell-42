@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:24:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 18:55:39 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:56:25 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void sigint_handler(int sig)
     (void)sig;
     g_signal = SIGINT;
    	write(1, "\n", 1);
-    rl_replace_line("", 0);
+    //rl_replace_line("", 0);
     rl_on_new_line();
     rl_redisplay();
 }

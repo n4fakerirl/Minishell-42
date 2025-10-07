@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 18:55:04 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:01:04 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_token	*tokenize(char *input)
 			if (y > 0)
 				ft_lstadd_back_new(&tokens, create_token(WORD, ft_substr(input, i,
 						y)));
+			i += y;
 		}
 	}
 	return (tokens);
@@ -91,7 +92,11 @@ t_quote_state find_quotes(t_token *token)
 {
 	int len;
 
+	if (!token || !token->value)
+		return (NO_QUOTE);
 	len = ft_strlen(token->value);
+	if (len == 0)
+		return (NO_QUOTE);
 	if (token->value[0] == '\"' && token->value[len - 1] == '\"')
 		return (DOUBLE_QUOTE);
 	else if (token->value[0] == '\'' && token->value[len - 1] == '\'')
@@ -102,10 +107,17 @@ t_quote_state find_quotes(t_token *token)
 
 void quoting(t_token *tokens)
 {
-	while (tokens)
+	t_token *tmp;
+	int i = 0;
+
+	tmp = tokens;
+	while (tmp)
 	{
-		if (tokens->type == WORD)
-			tokens->state = find_quotes(tokens);
-		tokens = tokens->next;
+		printf("Token %d: value='%s', next=%p\n", i, tmp->value, tmp->next);
+		if (tmp->type == WORD && tmp->value)
+			tmp->state = find_quotes(tmp);
+		tmp = tmp->next;
+		i++;
 	}
+	printf("End of quoting\n");
 }
