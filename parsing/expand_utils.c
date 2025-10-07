@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 22:07:10 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:29:23 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,17 @@ char	*del_back(t_token *token)
 	}
 	buf[j] = '\0';
 	return (buf);
+}
+
+void trim_word(t_token *tokens)
+{
+	t_token *tmp;
+
+	tmp = tokens;
+	while (tmp)
+	{
+		if (tmp->type == WORD)
+			tmp->value = strip_quotes(tmp->value, 0, 0, 0);
+		tmp = tmp->next;
+	}
 }

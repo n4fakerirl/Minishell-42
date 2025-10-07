@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/07 19:15:56 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:41:38 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ char	*get_var_value(char *var_name, t_env *env)
 	return (ft_strdup(""));
 }
 
+
+
+
 char	*joinchar(const char *s1, char c)
 {
 	char	*res;
@@ -78,7 +81,7 @@ char	*joinchar(const char *s1, char c)
 	return (res);
 }
 
-char	*expand_simple_var(char *str, t_env *env, int exit_status)
+char	*expand_word(char *str, t_env *env, int exit_status)
 {
 	int		i;
 	int		y;
@@ -127,9 +130,24 @@ char	*expand_simple_var(char *str, t_env *env, int exit_status)
 	return (result);
 }
 
-char	*expand(t_token *token, t_env *env, int exit_status)
+void expand_tokens(t_token *tokens, t_env *env, int exit_status)
 {
-	if (!token || !token->value || !token->need_exp)
-		return (ft_strdup(token->value));
-	return (expand_simple_var(token->value, env, exit_status));
+    t_token *tmp;
+    char    *expanded;
+    
+    tmp = tokens;
+    while (tmp)
+    {
+        if (tmp->type == WORD && tmp->need_exp == true)
+        {
+            expanded = expand_word(tmp->value, env, exit_status);
+            if (expanded)
+            {
+                free(tmp->value);
+                tmp->value = ft_strdup(expanded);
+				free(expanded);
+            }
+        }
+        tmp = tmp->next;
+    }
 }

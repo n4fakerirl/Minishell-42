@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 19:01:04 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:40:16 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,16 +108,12 @@ t_quote_state find_quotes(t_token *token)
 void quoting(t_token *tokens)
 {
 	t_token *tmp;
-	int i = 0;
 
 	tmp = tokens;
 	while (tmp)
 	{
-		printf("Token %d: value='%s', next=%p\n", i, tmp->value, tmp->next);
 		if (tmp->type == WORD && tmp->value)
 			tmp->state = find_quotes(tmp);
 		tmp = tmp->next;
-		i++;
 	}
-	printf("End of quoting\n");
 }

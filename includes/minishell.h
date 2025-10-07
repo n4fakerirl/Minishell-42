@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 18:53:12 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:38:41 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,13 @@ void							need_expand(t_token *tokens);
 char							*expand(t_token *token, t_env *env,
 									int exit_status);
 char							*del_back(t_token *token);
+void 							expand_tokens(t_token *tokens, t_env *env, int exit_status);
+
 
 // 1.5 TRIM WORDS
-void							trim_words(t_token *tokens);
+void 							trim_word(t_token *tokens);
+char 							*strip_quotes(char *str, int i, int j, int in_single);
+
 
 // UTILS
 int								backspecial(char c);
@@ -153,8 +157,7 @@ int								lstlen(t_token **toklist);
 int								ft_isquote(int c);
 int								isquoteend(int c);
 
-void							cmd_list(t_token *tokens, t_cmd **cmds,
-									t_env *env, int exit_status);
+void							cmd_list(t_token *tokens, t_cmd **cmds);
 
 // UTILS
 char							**ft_split_d(char *str, char *charset);

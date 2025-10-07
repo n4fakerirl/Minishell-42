@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/06 18:37:56 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:39:07 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ void	add_cmds(t_cmd **cmds, t_cmd *cmd)
 	cmd->next = NULL;
 }
 
-void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status)
+void	cmd_list(t_token *tokens, t_cmd **cmds)
 {
 	t_token	*tmp;
 	t_cmd	*current;
 	t_token	*start;
-	char	*str;
 	int		i;
 
 	tmp = tokens;
@@ -94,26 +93,14 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status)
 		{
 			if (tmp->type == WORD)
 			{
-				if (tmp->need_exp == true)
-				{
-					str = expand(tmp, env, exit_status);
-					if (str != NULL && str[0] != '\0')
-					{
-						current->args[i] = ft_strdup(str);
-						printf("args[%d] : %s\n", i, current->args[i]);
-						i++;
-					}
-				}
-				else
-				{
+				
 					if (tmp->value != NULL && tmp->value[0] != '\0')
 					{
 						current->args[i] = del_back(tmp);
 						printf("args[%d] : %s\n", i, current->args[i]);
 						i++;
 					}
-				}
-			}
+
 			tmp = tmp->next;
 		}
 		current->args[i] = NULL;
@@ -124,4 +111,5 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, t_env *env, int exit_status)
 			tmp = tmp->next;
 		}
 	}
+}
 }
