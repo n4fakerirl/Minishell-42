@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 16:58:18 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:35:51 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ t_env							*env_conv(char *str);
 int								check_var(char *str);
 int								check_node(char *str, t_env *env);
 int								ft_env(char **split, t_env *env, bool egal);
-void							check_heredoc(t_shell *shell);
+int								check_heredoc(t_shell *shell);
 void							redir(t_shell *shell, int i);
 void							open_fd(t_cmd *cmd);
 void							check_redir(t_shell *shell, int i);

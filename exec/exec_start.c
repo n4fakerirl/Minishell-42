@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 16:27:13 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:36:53 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void	start_exec(t_shell *shell)
 	i = 0;
 	shell->saved_stdin = dup(STDIN_FILENO);
 	shell->saved_stdout = dup(STDOUT_FILENO);
-	//check_heredoc(shell);
+	if (check_heredoc(shell))
+		return ;
 	if (shell->nbr_cmd == 1)
 		return (one_cmd(shell, shell->envp_initial));
 	while (shell->cmd)

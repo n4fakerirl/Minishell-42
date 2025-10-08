@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 16:21:05 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:38:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	fork_heredoc(t_redir *tmp_r, int fd[2])
 	{
 		line = readline("> ");
 		if (!line)
+		{			
+			fprintf(stderr, "minishell: warning: here-document delimited by end-of-file (wanted '%s')\n", tmp_r->file);
 			break ;
+		}
 		if (ft_strcmp(line, tmp_r->file) == 0)
 		{
 			free(line);
@@ -32,8 +35,6 @@ void	fork_heredoc(t_redir *tmp_r, int fd[2])
 	}
 	close(fd[0]);
 	close(fd[1]);
-	if (g_signal == 130)
-		exit (130);
 	exit(0);
 }
 
@@ -47,8 +48,8 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, sigint_heredoc_handler);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		fork_heredoc(tmp_r, fd);
 	}
 	else
@@ -68,7 +69,7 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 	}
 }
 
-void	check_heredoc(t_shell *shell)
+int	check_heredoc(t_shell *shell)
 {
 	t_cmd	*tmp;
 	t_redir	*tmp_r;
@@ -81,14 +82,23 @@ void	check_heredoc(t_shell *shell)
 		while (tmp_r)
 		{
 			if (tmp_r->type == REDIRDL)
+			{
 				do_heredoc(shell, tmp, tmp_r, fd);
+				if (shell->heredoc_interrupted == 1)
+				{
+					fprintf(stderr, "HERE DOC INTERUPT\n");
+					shell->heredoc_interrupted = 0;
+					return (1);
+				}
+			}
 			tmp_r = tmp_r->next;
 		}
 		tmp = tmp->next;
 	}
-	if (shell->heredoc_interrupted == 1)
+	/* if (shell->heredoc_interrupted == 1)
 	{
 		shell->heredoc_interrupted = 0;
 		return ;
-	}
+	}*/
+	return (0);
 }
