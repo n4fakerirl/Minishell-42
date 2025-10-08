@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:24:30 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/08 16:58:52 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 20:03:38 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ char	*expand_var(char *result, char *str, t_env *env, int y)
 	value = get_var_value(sub, env);
 	free(sub);
 	tmp = ft_strjoin(result, value);
-	free(result);
+	if (result)
+		free(result);
 	if (value)
 		free(value);
 	result = ft_strdup(tmp);

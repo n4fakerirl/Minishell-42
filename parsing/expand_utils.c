@@ -6,34 +6,35 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 17:17:26 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 20:16:53 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*del_back(t_token *token, int i, int j)
+char	*del_back(t_token *t, int i, int j)
 {
 	int		len;
 	char	*buf;
 
-	if (token->state == SINGLE_QUOTE)
-		return (ft_strdup(token->value));
-	len = ft_strlen(token->value);
+	if (t->state == SINGLE_QUOTE || t->state == NO_QUOTE)
+		return (ft_strdup(t->value));
+	len = ft_strlen(t->value);
 	buf = malloc(sizeof(char) * (len + 1));
 	if (!buf)
 		return (NULL);
-	while (token->value[i])
+	while (t->value[i])
 	{
-		if (token->value[i] == '\\')
+		if (t->value[i] == '\\' && (t->value[i + 1] == '\\' || t->value[i
+					+ 1] == '"' || t->value[i + 1] == '$'))
 		{
 			i++;
-			if (!token->value[i])
+			if (!t->value[i])
 				break ;
-			buf[j++] = token->value[i];
+			buf[j++] = t->value[i];
 		}
 		else
-			buf[j++] = token->value[i];
+			buf[j++] = t->value[i];
 		i++;
 	}
 	buf[j] = '\0';
@@ -57,7 +58,8 @@ void	trim_word(t_token *tokens)
 			free(tmp->value);
 			tmp->value = new_value;
 		}
-		if ((tmp->type == WORD || tmp->type == ARGREDIR) && ft_strchr(tmp->value, '\\'))
+		if ((tmp->type == WORD || tmp->type == ARGREDIR)
+			&& ft_strchr(tmp->value, '\\'))
 			tmp->value = del_back(tmp, 0, 0);
 		tmp = tmp->next;
 	}
@@ -90,7 +92,7 @@ char	*get_var_value(char *var_name, t_env *env)
 	while (env)
 	{
 		if (env->key && ft_strcmp(env->key, var_name) == 0)
-			return (env->value);
+			return (ft_strdup(env->value));
 		env = env->next;
 	}
 	return (ft_strdup(""));
