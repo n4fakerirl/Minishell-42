@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:19:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 19:11:43 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:00:45 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_shell	*init_shell(char **envp, int exit_status)
 	new_shell->nbr_cmd = 0;
 	new_shell->exit_status = exit_status;
 	new_shell->saved_stdin = 0;
+	new_shell->heredoc_interrupted = 0;
 	new_shell->saved_stdout = 0;
 	new_shell->cmd = NULL;
 	new_shell->pipe_infos = init_pipe();

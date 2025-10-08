@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 14:26:20 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:20:46 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,11 @@ void	one_child(t_shell *shell, char **envp_initial)
 		else if (WIFEXITED(status))
 			shell->exit_status = WEXITSTATUS(status);
 		if (WIFEXITED(status))
-		{
 			shell->exit_status = WEXITSTATUS(status);
-			printf("status code = %d\n", shell->exit_status);
-		}
 		g_signal = 0;
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	/* waitpid(shell->pipe_infos->pid[0], &status, 2);
-	if (WIFEXITED(status))
-	{
-		shell->exit_status = WEXITSTATUS(status);
-		printf("status code = %d\n", shell->exit_status);
-	} */
 }
 
 void	one_cmd(t_shell *shell, char **envp_initial)
@@ -95,7 +86,6 @@ void	one_cmd(t_shell *shell, char **envp_initial)
 		shell->exit_status = exec_builtin(shell, &(shell->env));
 	else
 		one_child(shell, envp_initial);
-	fprintf(stderr, "JE SUI SORTIE\n");
 	dup2(shell->saved_stdout, STDOUT_FILENO);
 	dup2(shell->saved_stdin, STDIN_FILENO);
 	close(shell->saved_stdin);

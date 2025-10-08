@@ -6,20 +6,22 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 22:45:56 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:00:01 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	fork_heredoc(t_redir *tmp_r, int fd[2])
+void	fork_heredoc(t_shell *shell, t_redir *tmp_r, int fd[2])
 {
 	char	*line;
 
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, tmp_r->file) == 0)
+		if (!line)
+			break ;
+		if (ft_strcmp(line, tmp_r->file) == 0)
 		{
 			free(line);
 			break ;
@@ -30,22 +32,39 @@ void	fork_heredoc(t_redir *tmp_r, int fd[2])
 	}
 	close(fd[0]);
 	close(fd[1]);
+	if (g_signal == 130)
+	{
+		shell->
+		exit (130);
 	exit(0);
 }
 
-void	do_heredoc(t_cmd *tmp, t_redir *tmp_r, int fd[2])
+void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 {
 	int	pid;
 	int	status;
-	
+
 	if (pipe(fd) == -1)
 		return (perror("pipe"));
 	pid = fork();
 	if (pid == 0)
-		fork_heredoc(tmp_r, fd);
-	tmp->here_doc = fd[0];
-	close(fd[1]);
-	waitpid(pid, &status, 2);
+	{
+		signal(SIGINT, sigint_heredoc_handler);
+		signal(SIGQUIT, SIG_IGN);
+		fork_heredoc(shell, tmp_r, fd);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		tmp->here_doc = fd[0];
+		close(fd[1]);
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			shell->exit_status = 130;
+		signal(SIGINT, sigint_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
 
 void	check_heredoc(t_shell *shell)
@@ -61,7 +80,7 @@ void	check_heredoc(t_shell *shell)
 		while (tmp_r)
 		{
 			if (tmp_r->type == REDIRDL)
-				do_heredoc(tmp, tmp_r, fd);
+				do_heredoc(shell, tmp, tmp_r, fd);
 			tmp_r = tmp_r->next;
 		}
 		tmp = tmp->next;

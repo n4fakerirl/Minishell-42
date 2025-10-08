@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 15:03:10 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:53:41 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	forking_parent(t_shell *shell, int i)
 	if (shell->cmd->redirect)
 	{
 		if (shell->cmd->redirect->type == REDIRDL)
-			unlink("a");
+			unlink(shell->cmd->redirect->file);
 	}
 	if (i == 0)
 	{

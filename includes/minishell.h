@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 03:01:35 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:00:16 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ typedef enum e_quote_state
 
 typedef struct s_inquote
 {
-	int in_double;
-	int in_single;
+	int							in_double;
+	int							in_single;
 }								t_inquote;
 
 typedef struct s_token
@@ -113,6 +113,7 @@ typedef struct s_shell
 	int							saved_stdin;
 	int							saved_stdout;
 	char						**envp_initial;
+	int							heredoc_interrupted;
 	t_env						*env;
 	t_cmd						*cmd;
 	t_pipe						*pipe_infos;
@@ -134,30 +135,30 @@ t_env							*init_env(char **envp);
 t_token							*tokenize(char *input);
 t_token							*new_type(t_token *tokens);
 t_token							*create_token(t_token_type type, char *value);
-void 							quoting(t_token *tokens);
+void							quoting(t_token *tokens);
 
 // 1.3 PARSE ARGS
 int								parse_args(t_token *tokens);
 
 // 1.4 EXPAND $ EXPAND UTILS
 void							need_expand(t_token *tokens);
-void 							expand_tokens(t_token *tokens, t_env *env, int exit_status);
+void							expand_tokens(t_token *tokens, t_env *env,
+									int exit_status);
 char							*expand_code(int exit_status, char *result);
 char							*get_var_value(char *var_name, t_env *env);
-char							*expand_var(char *result, char *str, t_env *env, int y);
-int								handle_quote_expand(char *str, int i, char *quote);
+char							*expand_var(char *result, char *str, t_env *env,
+									int y);
+int								handle_quote_expand(char *str, int i,
+									char *quote);
 char							*joinchar(const char *s1, char c);
 int								get_var_len(char *str);
 int								is_expandable(char *str);
 char							*joinchar_and_free(char *s1, char c);
 
-
 // 1.5 TRIM WORDS
-void 							trim_word(t_token *tokens);
-char 							*strip_quotes(char *str, int len, int i, int j);
+void							trim_word(t_token *tokens);
+char							*strip_quotes(char *str, int len, int i, int j);
 char							*del_back(t_token *token, int i, int j);
-
-
 
 // UTILS
 int								backspecial(char c);
@@ -167,12 +168,11 @@ int								skippable(char c);
 void							ft_lstadd_back_new(t_token **toklist,
 									t_token *token);
 int								lstlen(t_token **toklist);
-void 							printr(char *message);
+void							printr(char *message);
 
-//CMD
+// CMD
 void							cmd_list(t_token *tokens, t_cmd **cmds, int i);
 t_redir							*redirections(t_cmd *cmd, t_token *token);
-
 
 // Free
 void							free_shell(t_shell *shell);
@@ -225,5 +225,6 @@ void							check_redir(t_shell *shell, int i);
 void							waiting(t_shell *shell);
 
 void							sigint_handler(int sig);
+void							sigint_heredoc_handler(int sig);
 
 #endif
