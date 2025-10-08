@@ -3,21 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:24:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 18:56:25 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:23:18 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 volatile	sig_atomic_t	g_signal = 0;
-
-
-//SIGINT : CTRLC
-//SIGQUIT : '\'
-//EOF : CTRL D
 
 void sigint_handler(int sig)
 {

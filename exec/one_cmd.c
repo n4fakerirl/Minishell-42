@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 17:04:29 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:26:20 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 {
 	char	*cmd_finale;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	cmd_finale = get_cmd(shell);
 	if (!cmd_finale)
 	{
@@ -25,7 +27,7 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdout);
 		printf("bash: %s: command not found\n", shell->cmd->args[0]);
 		shell->exit_status = 127;
-		exit (127);
+		exit(127);
 	}
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))
 	{
@@ -41,7 +43,8 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 
 void	one_child(t_shell *shell, char **envp_initial)
 {
-	int		status;
+	int	status;
+	int	sig;
 
 	shell->pipe_infos->pid[0] = fork();
 	if (shell->pipe_infos->pid[0] < 0)
@@ -54,13 +57,35 @@ void	one_child(t_shell *shell, char **envp_initial)
 		forking_one_child(shell, envp_initial);
 	else
 	{
-		waitpid(shell->pipe_infos->pid[0], &status, 2);
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		waitpid(shell->pipe_infos->pid[0], &status, 0);
+		if (WIFSIGNALED(status))
+		{
+			 sig = WTERMSIG(status);
+			if (sig == SIGINT)
+				write(1, "\n", 1);
+			else if (sig == SIGQUIT)
+				write(1, "Quit (core dumped)\n", 19);
+			shell->exit_status = 128 + sig;
+		}
+		else if (WIFEXITED(status))
+			shell->exit_status = WEXITSTATUS(status);
 		if (WIFEXITED(status))
 		{
 			shell->exit_status = WEXITSTATUS(status);
 			printf("status code = %d\n", shell->exit_status);
 		}
+		g_signal = 0;
+		signal(SIGINT, sigint_handler);
+		signal(SIGQUIT, SIG_IGN);
 	}
+	/* waitpid(shell->pipe_infos->pid[0], &status, 2);
+	if (WIFEXITED(status))
+	{
+		shell->exit_status = WEXITSTATUS(status);
+		printf("status code = %d\n", shell->exit_status);
+	} */
 }
 
 void	one_cmd(t_shell *shell, char **envp_initial)
