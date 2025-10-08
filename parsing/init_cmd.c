@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 00:02:36 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:05:36 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,48 +68,59 @@ void	add_cmds(t_cmd **cmds, t_cmd *cmd)
 	cmd->next = NULL;
 }
 
-void	cmd_list(t_token *tokens, t_cmd **cmds)
+t_cmd *create_cmd(t_cmd **cmds, t_token *tokens)
+{	
+	t_cmd	*current;
+	
+	current = malloc(sizeof(t_cmd));
+	if (!current)
+		return (NULL) ;
+	ft_bzero(current, sizeof(t_cmd));
+	add_cmds(cmds, current);
+	current->args = malloc(sizeof(char *) * (lstlen(&tokens) + 1));
+	if (!current->args)
+		return (NULL);
+	return (current);
+}
+
+int next(t_token *token, t_cmd *cmd)
+{
+	t_token *tmp;
+
+	tmp = token;
+	if (tmp && tmp->type == PIPE)
+	{
+		cmd->is_pipe = true;
+		return (1);
+	}
+	return (0);
+}
+
+void	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 {
 	t_token	*tmp;
 	t_cmd	*current;
 	t_token	*start;
-	int		i;
 
 	tmp = tokens;
 	current = NULL;
 	while (tmp)
 	{
-		current = malloc(sizeof(t_cmd));
-		if (!current)
-			return ;
-		ft_bzero(current, sizeof(t_cmd));
-		add_cmds(cmds, current);
-		current->args = malloc(sizeof(char *) * (lstlen(&tokens) + 1));
-		if (!current->args)
-			return ;
+		current = create_cmd(cmds, tokens);
 		i = 0;
 		start = tmp;
 		while (tmp && tmp->type != PIPE)
 		{
-			if (tmp->type == WORD)
+			if (tmp->type == WORD && tmp->value != NULL && tmp->value[0] != '\0')
 			{
-				
-					if (tmp->value != NULL && tmp->value[0] != '\0')
-					{
-						current->args[i] = del_back(tmp);
-						//printf("args[%d] : %s\n", i, current->args[i]);
-						i++;
-					}
-
+				current->args[i] = del_back(tmp);
+				i++;
+			}
 			tmp = tmp->next;
 		}
 		current->args[i] = NULL;
 		current->redirect = redirections(current, start);
-		if (tmp && tmp->type == PIPE)
-		{
-			current->is_pipe = true;
+		if (next(tmp, current) == 1)
 			tmp = tmp->next;
-		}
 	}
-}
 }

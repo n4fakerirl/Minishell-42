@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 19:38:41 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:06:41 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ typedef enum e_quote_state
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 }								t_quote_state;
+
+typedef struct s_inquote
+{
+	int in_double;
+	int in_single;
+}								t_inquote;
 
 typedef struct s_token
 {
@@ -135,15 +141,12 @@ int								parse_args(t_token *tokens);
 
 // 1.4 EXPAND $ EXPAND UTILS
 void							need_expand(t_token *tokens);
-char							*expand(t_token *token, t_env *env,
-									int exit_status);
-char							*del_back(t_token *token);
 void 							expand_tokens(t_token *tokens, t_env *env, int exit_status);
 
 
 // 1.5 TRIM WORDS
 void 							trim_word(t_token *tokens);
-char 							*strip_quotes(char *str, int i, int j, int in_single);
+char 							*strip_quotes(char *str, int len, int i, int j);
 
 
 // UTILS
@@ -154,13 +157,10 @@ int								skippable(char c);
 void							ft_lstadd_back_new(t_token **toklist,
 									t_token *token);
 int								lstlen(t_token **toklist);
-int								ft_isquote(int c);
-int								isquoteend(int c);
 
-void							cmd_list(t_token *tokens, t_cmd **cmds);
 
-// UTILS
-char							**ft_split_d(char *str, char *charset);
+void							cmd_list(t_token *tokens, t_cmd **cmds, int i);
+
 
 // Free
 void							free_shell(t_shell *shell);

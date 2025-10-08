@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/08 00:28:30 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 01:51:33 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,46 @@ char	*expand_var(char *result, char *str, t_env *env, int y)
 	return (result);
 }
 
+int	handle_quote_expand(char *str, int i, char *quote)
+{
+	if ((str[i] == '"' || str[i] == '\'') && (i == 0 || str[i - 1] != '\\'))
+	{
+		if (*quote == 0)
+			*quote = str[i];
+		else if (*quote == str[i])
+			*quote = 0;
+		return (1);
+	}
+	return (0);
+}
+
+int	get_var_len(char *str)
+{
+	int	y;
+
+	y = 1;
+	while (str[y] && skippable(str[y]))
+		y++;
+	return (y);
+}
+
+int	handle_dollar_expand(char *str, char **result, t_env *env, int exit_status)
+{
+	int	y;
+
+	if (ft_strncmp(str, "$?", 2) == 0)
+	{
+		*result = expand_code(exit_status, *result);
+		return (2);
+	}
+	else
+	{
+		y = get_var_len(str);
+		*result = expand_var(*result, str, env, y);
+	}
+	return (y);
+}
+
 char	*expand_word(char *str, t_env *env, int exit_status)
 {
 	int		i;
@@ -119,48 +159,20 @@ char	*expand_word(char *str, t_env *env, int exit_status)
 	char	*result;
 
 	i = 0;
-	y = 0;
+	quote = 0;
 	result = ft_strdup("");
-	printf("STR == %s\n", str);
 	while (str[i])
 	{
-		if ((str[i] == '"' || str[i] == '\'') && (i == 0 || str[i - 1] != '\\'))
-		{
-			if (quote == 0)
-			{
-				quote = str[i];
-				i++;
-				continue;
-			}
-			else if (quote == str[i])
-			{
-				quote = 0;
-				i++;
-			}
-		}
-		if (str[i] == '$' && (i == 0 || str[i - 1] != '\\') && str[i
+		if (handle_quote_expand(str, i, &quote))
+			i++;
+		else if (str[i] == '$' && (i == 0 || str[i - 1] != '\\') && str[i
 			+ 1] != '\0' && quote != '\'')
 		{
-			if (ft_strncmp(str + i, "$?", 2) == 0)
-			{
-				result = expand_code(exit_status, result);
-				y = 2;
-			}
-			else
-			{
-				y = 1;
-				while (str[i + y] && (ft_isalnum(str[i + y]) || str[i
-						+ y] == '_') && !ft_isspace(str[i + y]))
-					y++;
-				result = expand_var(result, str + i, env, y);
-			}
+			y = handle_dollar_expand(str + i, &result, env, exit_status);
 			i += y;
 		}
 		else
-		{
-			result = joinchar(result, str[i]);
-			i++;
-		}
+			result = joinchar(result, str[i++]);
 	}
 	return (result);
 }
