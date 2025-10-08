@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/08 17:13:29 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:58:44 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ char	*expand_word(char *str, t_env *env, int exit_status)
 			i += y;
 		}
 		else
-			result = joinchar(result, str[i++]);
+		{
+			result = joinchar(result, str[i]);
+			i++;
+		}
 	}
 	return (result);
 }
