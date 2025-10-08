@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 02:51:56 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:04:19 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ t_shell	*start_parsing(char *str, char **envp, int exit_status)
 	need_expand(tokens);
 	handle_dollar(tokens);
 	expand_tokens(tokens, shell->env, exit_status);
-	// printf("MON TOKEN :\n");
-	// print_token(tokens);
+	printf("MON TOKEN :\n");
+	print_token(tokens);
 	trim_word(tokens);
 	cmd_list(tokens, &shell->cmd, 0);
-	// printf("MA CMD :\n");
-	// print_cmd(shell->cmd);
+	printf("MA CMD :\n");
+	print_cmd(shell->cmd);
 	// free_token(tokens);
 	return (shell);
 }

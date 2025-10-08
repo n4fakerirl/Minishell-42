@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 17:06:57 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:04:05 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int	main(int ac, char **av, char **envp)
 		{
 			exit_status = 130;
 			g_signal = 0;
-			free(str);
-			continue ;
 		}
 		if (!*str)
 		{
