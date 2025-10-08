@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:45:23 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 18:55:23 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:22:09 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	print_cmd(t_cmd *cmd)
 {
-	int	j;
-	int	k;
+	int		j;
+	int		k;
 	t_redir	*redir_tmp;
 	t_cmd	*cmd_tmp;
-	
+
 	k = 0;
 	cmd_tmp = cmd;
 	while (cmd_tmp)
@@ -62,3 +62,7 @@ void	print_token(t_token *token)
 	printf("FIN DE PRINT TOKEN\n\n");
 }
 
+void	printr(char *message)
+{
+	printf("minishell: syntax error near unexpected token `%s'\n", message);
+}

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 02:06:41 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:15:52 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,8 @@ void 							expand_tokens(t_token *tokens, t_env *env, int exit_status);
 // 1.5 TRIM WORDS
 void 							trim_word(t_token *tokens);
 char 							*strip_quotes(char *str, int len, int i, int j);
+char							*del_back(t_token *token, int i, int j);
+
 
 
 // UTILS
@@ -157,6 +159,7 @@ int								skippable(char c);
 void							ft_lstadd_back_new(t_token **toklist,
 									t_token *token);
 int								lstlen(t_token **toklist);
+void 							printr(char *message);
 
 
 void							cmd_list(t_token *tokens, t_cmd **cmds, int i);

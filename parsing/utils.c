@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:41:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 01:50:16 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:26:32 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,45 +36,10 @@ int	ft_isspace(int c)
 		return (0);
 }
 
-
 int	skippable(char c)
 {
 	if (ft_isalnum(c) || c == '_')
 		return (1);
 	else
 		return (0);
-}
-
-void	ft_lstadd_back_new(t_token **toklist, t_token *token)
-{
-	t_token	*tmp;
-
-	tmp = *toklist;
-	if (!token)
-		return ;
-	if (!*toklist)
-	{
-		*toklist = token;
-		token->prev = NULL;
-		return ;
-	}
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = token;
-	token->prev = tmp;
-}
-
-int	lstlen(t_token **toklist)
-{
-	t_token	*tmp;
-	int		i;
-
-	tmp = *toklist;
-	i = 0;
-	while (tmp != NULL && tmp->type != PIPE)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	return (i);
 }
