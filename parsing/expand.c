@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/08 02:34:42 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:35:58 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_dollar_expand(char *str, char **result, t_env *env, int exit_status)
 	return (y);
 }
 
-int is_possible(char a, char b, char quote, int i)
+int	is_possible(char a, char b, char quote, int i)
 {
 	if ((i == 0 || b != '\\') && a != '\0' && quote != '\'')
 		return (1);
