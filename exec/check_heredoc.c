@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 18:38:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 19:00:20 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ void	fork_heredoc(t_redir *tmp_r, int fd[2])
 	{
 		line = readline("> ");
 		if (!line)
-		{			
-			fprintf(stderr, "minishell: warning: here-document delimited by end-of-file (wanted '%s')\n", tmp_r->file);
+		{
+			fprintf(stderr, "minishell: warning: ");
+			fprintf(stderr,
+				"here-document delimited by end-of-file (wanted '%s')\n",
+				tmp_r->file);
 			break ;
 		}
 		if (ft_strcmp(line, tmp_r->file) == 0)
@@ -59,11 +62,7 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 		tmp->here_doc = fd[0];
 		close(fd[1]);
 		waitpid(pid, &status, 0);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		{
-			shell->heredoc_interrupted = 1;
-			shell->exit_status = 130;
-		}
+		check_signal_heredoc(shell, &status);
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
@@ -95,10 +94,5 @@ int	check_heredoc(t_shell *shell)
 		}
 		tmp = tmp->next;
 	}
-	/* if (shell->heredoc_interrupted == 1)
-	{
-		shell->heredoc_interrupted = 0;
-		return ;
-	}*/
 	return (0);
 }

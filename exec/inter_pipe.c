@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 17:16:34 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 17:05:30 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:47:18 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	inter_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdout);
 		printf("PROBLEM WITH FIRST PIPE GET CMD\n");
 		shell->exit_status = 127;
-		exit (127) ;
+		exit(127);
 	}
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))
 	{

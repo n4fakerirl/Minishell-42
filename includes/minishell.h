@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 18:45:16 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 19:01:14 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,5 +225,8 @@ void							check_redir(t_shell *shell, int i);
 void							waiting(t_shell *shell);
 
 void							sigint_handler(int sig);
+void							check_signal_exec(t_shell *shell, int *status);
+void							check_signal_heredoc(t_shell *shell,
+									int *status);
 
 #endif

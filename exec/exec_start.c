@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 18:36:53 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:46:46 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,8 @@ void	start_exec(t_shell *shell)
 	while (shell->cmd)
 	{
 		if (i != shell->nbr_cmd - 1)
-		{
 			if (piping(shell, i) < 0)
 				return ;
-			printf("PIPING POUR CAT -e\n");
-		}
 		forking(shell, i);
 		if (shell->pipe_infos->pid[i] == 0)
 			forking_child(shell, i);

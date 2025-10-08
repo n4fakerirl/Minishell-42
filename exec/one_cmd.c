@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 15:20:46 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:52:56 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 void	one_child(t_shell *shell, char **envp_initial)
 {
 	int	status;
-	int	sig;
 
 	shell->pipe_infos->pid[0] = fork();
 	if (shell->pipe_infos->pid[0] < 0)
@@ -60,19 +59,7 @@ void	one_child(t_shell *shell, char **envp_initial)
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		waitpid(shell->pipe_infos->pid[0], &status, 0);
-		if (WIFSIGNALED(status))
-		{
-			 sig = WTERMSIG(status);
-			if (sig == SIGINT)
-				write(1, "\n", 1);
-			else if (sig == SIGQUIT)
-				write(1, "Quit (core dumped)\n", 19);
-			shell->exit_status = 128 + sig;
-		}
-		else if (WIFEXITED(status))
-			shell->exit_status = WEXITSTATUS(status);
-		if (WIFEXITED(status))
-			shell->exit_status = WEXITSTATUS(status);
+		check_signal_exec(shell, &status);
 		g_signal = 0;
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
