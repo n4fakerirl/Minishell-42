@@ -6,13 +6,13 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 16:00:01 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:21:05 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	fork_heredoc(t_shell *shell, t_redir *tmp_r, int fd[2])
+void	fork_heredoc(t_redir *tmp_r, int fd[2])
 {
 	char	*line;
 
@@ -33,8 +33,6 @@ void	fork_heredoc(t_shell *shell, t_redir *tmp_r, int fd[2])
 	close(fd[0]);
 	close(fd[1]);
 	if (g_signal == 130)
-	{
-		shell->
 		exit (130);
 	exit(0);
 }
@@ -51,7 +49,7 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 	{
 		signal(SIGINT, sigint_heredoc_handler);
 		signal(SIGQUIT, SIG_IGN);
-		fork_heredoc(shell, tmp_r, fd);
+		fork_heredoc(tmp_r, fd);
 	}
 	else
 	{
@@ -61,7 +59,10 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 		close(fd[1]);
 		waitpid(pid, &status, 0);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			shell->heredoc_interrupted = 1;
 			shell->exit_status = 130;
+		}
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
@@ -84,5 +85,10 @@ void	check_heredoc(t_shell *shell)
 			tmp_r = tmp_r->next;
 		}
 		tmp = tmp->next;
+	}
+	if (shell->heredoc_interrupted == 1)
+	{
+		shell->heredoc_interrupted = 0;
+		return ;
 	}
 }

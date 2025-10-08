@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:24:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 15:58:09 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:37:39 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void sigint_handler(int sig)
     (void)sig;
     g_signal = SIGINT;
    	write(1, "\n", 1);
-    //rl_replace_line("", 0);
+    rl_replace_line("", 0);
     rl_on_new_line();
     rl_redisplay();
 }
