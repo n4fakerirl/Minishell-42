@@ -112,7 +112,7 @@ t_token	*tokenize(char *input)
 		while (ft_isspace(input[i]) && input[i])
 			i++;
 		if (!input[i])
-			break;
+			break ;
 		if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 			i += redirect(input + i, &tokens);
 		else

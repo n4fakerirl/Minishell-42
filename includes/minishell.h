@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 02:42:29 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 03:01:35 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ int								handle_quote_expand(char *str, int i, char *quote);
 char							*joinchar(const char *s1, char c);
 int								get_var_len(char *str);
 int								is_expandable(char *str);
+char							*joinchar_and_free(char *s1, char c);
 
 
 // 1.5 TRIM WORDS

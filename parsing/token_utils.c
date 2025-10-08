@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:08:52 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 02:22:29 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:59:53 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ t_token	*new_type(t_token *tokens)
 	tmp = tokens;
 	while (tmp != NULL)
 	{
-		if (tmp->type == REDIRDR || tmp->type == REDIRL || tmp->type == REDIRR)
+		if (tmp->type == REDIRDR || tmp->type == REDIRL || tmp->type == REDIRR
+			|| tmp->type == REDIRDL)
 		{
 			if (tmp->next && tmp->next->type == WORD)
 				tmp->next->type = ARGREDIR;
