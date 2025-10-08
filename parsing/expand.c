@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/08 16:58:30 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:13:29 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,18 @@ char	*expand_word(char *str, t_env *env, int exit_status)
 {
 	int		i;
 	int		y;
-	char	quote;
+	char	q;
 	char	*result;
 
 	i = 0;
-	quote = 0;
+	q = 0;
 	result = ft_strdup("");
 	while (str[i])
 	{
-		if (handle_quote_expand(str, i, &quote, &result))
+		if (handle_quote_expand(str, i, &q, &result))
 			i++;
-		else if (str[i] == '$' && is_possible(str[i - 1], str[i + 1], quote, i))
+		else if (str[i] == '$' && ((i == 0 || str[i - 1] != '\\') && str[i
+					+ 1] != '\0' && q != '\''))
 		{
 			y = handle_dollar_expand(str + i, &result, env, exit_status);
 			i += y;

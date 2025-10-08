@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 17:01:00 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:17:26 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,16 @@ void	trim_word(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if ((tmp->type == WORD || tmp->type == ARGREDIR) && tmp->need_exp == false)
+		if ((tmp->type == WORD || tmp->type == ARGREDIR)
+			&& tmp->need_exp == false)
 		{
 			len = ft_strlen(tmp->value);
 			new_value = strip_quotes(tmp->value, len, 0, 0);
 			free(tmp->value);
 			tmp->value = new_value;
 		}
+		if ((tmp->type == WORD || tmp->type == ARGREDIR) && ft_strchr(tmp->value, '\\'))
+			tmp->value = del_back(tmp, 0, 0);
 		tmp = tmp->next;
 	}
 }

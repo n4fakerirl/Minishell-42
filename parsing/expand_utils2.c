@@ -79,4 +79,3 @@ int	get_var_len(char *str)
 		y++;
 	return (y);
 }
-
