@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 16:32:01 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:43:50 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,10 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		shell->nbr_cmd = count_list(shell->cmd);
-		printf("exit status avant exec = %d\n", shell->exit_status);
 		start_exec(shell);
-		printf("exit status apres exec = %d\n", shell->exit_status);
 		exit_status = shell->exit_status;
 		free(str);
 		free_shell(shell);
 	}
-	printf("\n\n\n");
-	printf("JE SUIS TOUT EN BAS\n");
 	return (0);
 }
