@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 18:46:19 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 18:53:36 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 13:13:53 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	first_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdout);
 		perror("execve");
 		free(cmd_finale);
+		free_shell(shell);
 		exit(127);
 	}
 }
