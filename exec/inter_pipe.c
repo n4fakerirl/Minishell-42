@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inter_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 17:16:34 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 15:55:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:42:31 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	inter_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdin);
 		close(shell->saved_stdout);
 		shell->exit_status = 127;
+		free(cmd_finale);
 		free_shell(shell);
 		exit(127);
 	}
@@ -34,7 +35,7 @@ void	inter_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdin);
 		close(shell->saved_stdout);
 		perror("execve");
-		free_shell(shell);
+		// free_shell(shell);
 		free(cmd_finale);
 		free_shell(shell);
 		exit(127);
