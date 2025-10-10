@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/10 17:10:53 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:25:48 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,8 @@ int	expand_tokens(t_token *tokens, t_env *env, int exit_status)
 		if (tmp->type == WORD && tmp->need_exp == true)
 		{
 			expanded = expand_word(tmp->value, env, exit_status);
-			if (!expanded)
-				return (0);
 			free(tmp->value);
 			tmp->value = ft_strdup(expanded);
-			if (!tmp->value)
-				return (0);
 			free(expanded);
 		}
 		tmp = tmp->next;
