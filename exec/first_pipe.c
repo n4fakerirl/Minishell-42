@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 18:46:19 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 13:13:53 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 13:17:45 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	first_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdout);
 		printf("PROBLEM WITH FIRST PIPE GET CMD\n");
 		shell->exit_status = 127;
+		free_shell(shell);
 		exit (127);
 	}
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))

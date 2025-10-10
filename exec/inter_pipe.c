@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inter_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 17:16:34 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 13:14:04 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 13:18:01 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	inter_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdout);
 		printf("PROBLEM WITH FIRST PIPE GET CMD\n");
 		shell->exit_status = 127;
+		free_shell(shell);
 		exit(127);
 	}
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))
@@ -36,6 +37,7 @@ void	inter_child(t_shell *shell, char **envp_initial)
 		perror("execve");
 		free_shell(shell);
 		free(cmd_finale);
+		free_shell(shell);
 		exit(127);
 	}
 }
