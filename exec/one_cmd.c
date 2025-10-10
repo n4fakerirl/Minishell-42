@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 18:52:56 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 13:12:04 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdout);
 		perror("execve");
 		free(cmd_finale);
+		free_shell(shell);
 		exit(127);
 	}
 }

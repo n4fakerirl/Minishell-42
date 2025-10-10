@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 12:42:47 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:55:04 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_cmd	*create_cmd(t_cmd **cmds, t_token *tokens)
 	ft_bzero(current, sizeof(t_cmd));
 	add_cmds(cmds, current);
 	current->args = malloc(sizeof(char *) * (lstlen(&tokens) + 1));
+	current->next = NULL;
 	if (!current->args)
 		return (NULL);
 	return (current);
@@ -89,10 +90,6 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 		current->args[i] = NULL;
 		current->redirect = redirections(current, start);
 		if (next(tmp, current) == 1)
-		{
-			free(current);
 			tmp = tmp->next;
-		}
 	}
-	free(tmp);
 }

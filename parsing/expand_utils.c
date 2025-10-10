@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 12:18:49 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 13:05:53 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ char	*del_back(t_token *t, int i, int j)
 		return (NULL);
 	while (t->value[i])
 	{
-		if (t->value[i] == '\\' && (t->value[i + 1] == '\\' || t->value[i
-					+ 1] == '"' || t->value[i + 1] == '$'))
+		if (t->value[i] == '\\' && (t->value[i + 1] == '\\' 
+			|| t->value[i + 1] == '"' || t->value[i + 1] == '\''))
 		{
 			i++;
 			if (!t->value[i])
-				break ;
+				return (buf[j] = '\0', buf);
 			buf[j++] = t->value[i];
 		}
 		else
@@ -60,7 +60,12 @@ void	trim_word(t_token *tokens)
 		}
 		if ((tmp->type == WORD || tmp->type == ARGREDIR)
 			&& ft_strchr(tmp->value, '\\'))
-			tmp->value = del_back(tmp, 0, 0);
+		{
+			len = ft_strlen(tmp->value);
+			new_value = del_back(tmp, 0, 0);
+			free(tmp->value);
+			tmp->value = new_value;
+		}
 		tmp = tmp->next;
 	}
 }

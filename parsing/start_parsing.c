@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 11:24:07 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:59:37 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	handle_dollar(t_token *tokens)
 		{
 			sub = ft_strdup(tmp->value + 1);
 			free(tmp->value);
-			tmp->value = ft_strdup(sub);
-			free(sub);
+			tmp->value = sub;
 		}
 		tmp = tmp->next;
 	}
