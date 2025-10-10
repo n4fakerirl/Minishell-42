@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 16:53:27 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:28:08 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 			{
 				current->args[i] = del_back(tmp, 0, 0);
 				if (!current->args[i])
-					return (0);
+					return (free_split(current->args), 0);
 				i++;
 			}
 			tmp = tmp->next;
