@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:58:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/04 22:05:26 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:57:32 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,12 @@ int	exec_builtin(t_shell *shell, t_env **env)
 	{
 		exit_code = ft_exit(shell->cmd->args + 1, &exit_flag);
 		if (exit_flag == 1)
+		{
+			printf("EXITTTTTTTTTT\n\n\n");
+			close(shell->saved_stdin);
+			close(shell->saved_stdout);
 			return (free_shell(shell), exit(exit_code), 0);
+		}
 	}
 	else if (!ft_strcmp(shell->cmd->args[0], "export"))
 		return (ft_export(shell->cmd->args + 1, env, &exit_code));
