@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 13:25:36 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:55:27 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,9 @@ void	forking_child(t_shell *shell, int i)
 	else
 	{
 		if (i == 0)
-		{
-			fprintf(stderr, "je rentre dans first child pour cat -e\n");
 			first_child(shell, shell->envp_initial);
-		}
 		else if (i == shell->nbr_cmd - 1)
-		{
-			fprintf(stderr, "je rentre dans last child pour wc -l\n");
 			last_child(shell, shell->envp_initial);
-		}
 		else
 			inter_child(shell, shell->envp_initial);
 	}
@@ -73,13 +67,9 @@ void	forking_parent(t_shell *shell, int i)
 			unlink(shell->cmd->redirect->file);
 	}
 	if (i == 0)
-	{
-		fprintf(stderr, "JE CLOSE DANS MON PARENT\n");
 		close(shell->pipe_infos->pipe_fd[0][1]);
-	}
 	else if (i == shell->nbr_cmd - 1)
 	{		
-		fprintf(stderr, "JE CLOSE DANS MON PARENT POUR MON LAST\n");
 		close(shell->pipe_infos->pipe_fd[i - 1][0]);
 		close(shell->pipe_infos->pipe_fd[i - 1][1]);
 	}

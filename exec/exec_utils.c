@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 09:35:32 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 13:27:45 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:55:39 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,6 @@ void	waiting(t_shell *shell)
 		g_signal = 0;
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
-		/* if (WIFEXITED(status))
-		{
-			shell->exit_status = WEXITSTATUS(status);
-			printf("status code = %d\n", shell->exit_status);
-		} */
 	}
 }
 

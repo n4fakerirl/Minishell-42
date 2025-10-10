@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inter_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 17:16:34 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 13:18:01 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:55:49 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	inter_child(t_shell *shell, char **envp_initial)
 		dup2(shell->saved_stdin, STDIN_FILENO);
 		close(shell->saved_stdin);
 		close(shell->saved_stdout);
-		printf("PROBLEM WITH FIRST PIPE GET CMD\n");
 		shell->exit_status = 127;
 		free_shell(shell);
 		exit(127);

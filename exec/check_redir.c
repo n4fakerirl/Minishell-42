@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:24:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 18:54:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:54:49 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,9 @@ void	check_redir(t_shell *shell, int i)
 	{
 		if (shell->cmd->redirect->type == REDIRR
 			|| shell->cmd->redirect->type == REDIRDR)
-		{
-			fprintf(stderr, "REDIR SORTIE\n");
 			redir_right(shell);
-		}
 		else if (shell->cmd->redirect->type == REDIRL)
-		{
-			printf("J'AI UNE REDIRL\n");
 			redir_simple_left(shell);
-		}
 		else if (shell->cmd->redirect->type == REDIRDL)
 			redir_heredoc(shell);
 		shell->cmd->redirect = shell->cmd->redirect->next;

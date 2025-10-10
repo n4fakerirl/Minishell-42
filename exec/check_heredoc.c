@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 19:00:20 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:54:30 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	check_heredoc(t_shell *shell)
 				do_heredoc(shell, tmp, tmp_r, fd);
 				if (shell->heredoc_interrupted == 1)
 				{
-					fprintf(stderr, "HERE DOC INTERUPT\n");
 					shell->heredoc_interrupted = 0;
 					return (1);
 				}

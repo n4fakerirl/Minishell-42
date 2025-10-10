@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 18:43:50 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:59:11 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	main(int ac, char **av, char **envp)
 	int		exit_status;
 
 	(void)av;
-	exit_status = 0;
 	if (ac != 1)
 		return (1);
 
