@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 17:15:45 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:57:13 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int redirect2(char *input, t_token **tokens)
 		tok = ft_strdup("<");
 		if (!tok)
 			return (-1);
-		return (ft_lstadd_back_new(tokens, create_token(PIPE, tok)), 1);
+		return (ft_lstadd_back_new(tokens, create_token(REDIRL, tok)), 1);
 	}	
 	if (input[0] == '>')
 	{
 		tok = ft_strdup(">");
 		if (!tok)
 			return (-1);
-		return (ft_lstadd_back_new(tokens, create_token(PIPE, tok)), 1);
+		return (ft_lstadd_back_new(tokens, create_token(REDIRR, tok)), 1);
 	}
 	return (0);
 }
@@ -49,14 +49,14 @@ int	redirect(char *input, t_token **tokens)
 		tok = ft_strdup("<<");
 		if (!tok)
 			return (-1);
-		return (ft_lstadd_back_new(tokens, create_token(PIPE, tok)), 2);
+		return (ft_lstadd_back_new(tokens, create_token(REDIRDL, tok)), 2);
 	}	
 	if (input[0] == '>' && input[1] == '>')
 	{
 		tok = ft_strdup(">>");
 		if (!tok)
 			return (-1);
-		return (ft_lstadd_back_new(tokens, create_token(PIPE, tok)), 2);
+		return (ft_lstadd_back_new(tokens, create_token(REDIRDR, tok)), 2);
 	}	
 	if (input[0] == '<' || input[0] == '>')
 		return (redirect2(input, tokens));
