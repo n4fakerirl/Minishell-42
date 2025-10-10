@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 18:46:46 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 13:25:36 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	forking_child(t_shell *shell, int i)
 	int	exit_status;
 
 	check_redir(shell, i);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (is_builtin(shell->cmd->args[0]))
 	{
 		shell->exit_status = exec_builtin(shell, &(shell->env));
@@ -108,7 +110,11 @@ void	start_exec(t_shell *shell)
 		if (shell->pipe_infos->pid[i] == 0)
 			forking_child(shell, i);
 		else if (shell->pipe_infos->pid[i] > 0)
+		{
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
 			forking_parent(shell, i);
+		}
 		i++;
 		shell->cmd = shell->cmd->next;
 	}
