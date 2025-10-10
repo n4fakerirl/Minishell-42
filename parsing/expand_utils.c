@@ -6,11 +6,45 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 14:15:00 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:08:19 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int escape(char c)
+{
+	if (c == '\\' || c == '\"' || c == '\'' || c == '$')
+		return (1);
+	else
+		return (0);
+}
+
+char	*del_noquote(t_token *t, int i, int j)
+{
+	int		len;
+	char	*buf;
+
+	len = ft_strlen(t->value);
+	buf = malloc(sizeof(char) * (len + 1));
+	if (!buf)
+		return (NULL);
+	while (t->value[i])
+	{
+		if (t->value[i] == '\\' && t->value[i + 1] != '\0')
+		{
+			i++;
+			if (!t->value[i])
+				return (buf[j] = '\0', buf);
+			buf[j++] = t->value[i];
+		}
+		else
+			buf[j++] = t->value[i];
+		i++;
+	}
+	buf[j] = '\0';
+	return (buf);
+}
 
 char	*del_back(t_token *t, int i, int j)
 {
@@ -25,8 +59,7 @@ char	*del_back(t_token *t, int i, int j)
 		return (NULL);
 	while (t->value[i])
 	{
-		if (t->value[i] == '\\' && (t->value[i + 1] == '\\' 
-			|| t->value[i + 1] == '"' || t->value[i + 1] == '\''))
+		if (t->value[i] == '\\' && escape(t->value[i + 1]))
 		{
 			i++;
 			if (!t->value[i])
@@ -45,6 +78,7 @@ void	trim_word(t_token *tokens)
 {
 	t_token	*tmp;
 	char	*new_value;
+	char 	*back;
 	int		len;
 
 	tmp = tokens;
@@ -61,10 +95,18 @@ void	trim_word(t_token *tokens)
 		if ((tmp->type == WORD || tmp->type == ARGREDIR)
 			&& ft_strchr(tmp->value, '\\'))
 		{
-			len = ft_strlen(tmp->value);
-			new_value = del_back(tmp, 0, 0);
-			free(tmp->value);
-			tmp->value = ft_strdup(new_value);
+			if (tmp->state == NO_QUOTE)
+			{
+				back = del_noquote(tmp, 0, 0);
+				free(tmp->value);
+				tmp->value = ft_strdup(back);
+			}
+			else 
+			{
+				back = del_back(tmp, 0, 0);
+				free(tmp->value);
+				tmp->value = ft_strdup(back);
+			}
 		}
 		tmp = tmp->next;
 	}
