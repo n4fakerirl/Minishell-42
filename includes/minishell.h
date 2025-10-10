@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 19:01:14 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:51:20 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ char							*expand_var(char *result, char *str, t_env *env,
 									int y);
 int								handle_quote_expand(char *str, int i,
 									char *quote, char **result);
-char							*joinchar(const char *s1, char c);
+char							*joinchar(char *s1, char c);
 int								get_var_len(char *str);
 int								is_expandable(char *str);
 char							*joinchar_and_free(char *s1, char c);

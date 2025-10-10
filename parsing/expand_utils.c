@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 20:16:53 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:18:49 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*del_back(t_token *t, int i, int j)
 	int		len;
 	char	*buf;
 
-	if (t->state == SINGLE_QUOTE || t->state == NO_QUOTE)
+	if (t->state == SINGLE_QUOTE)
 		return (ft_strdup(t->value));
 	len = ft_strlen(t->value);
 	buf = malloc(sizeof(char) * (len + 1));
@@ -98,7 +98,7 @@ char	*get_var_value(char *var_name, t_env *env)
 	return (ft_strdup(""));
 }
 
-char	*joinchar(const char *s1, char c)
+char	*joinchar(char *s1, char c)
 {
 	char	*res;
 	int		i;
@@ -120,5 +120,6 @@ char	*joinchar(const char *s1, char c)
 	res[j] = c;
 	j++;
 	res[j] = '\0';
+	free(s1);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 19:46:43 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:24:07 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ t_shell	*start_parsing(char *str, char **envp, int exit_status)
 	cmd_list(tokens, &shell->cmd, 0);
 	// printf("MA CMD :\n");
 	// print_cmd(shell->cmd);
-	//  free_token(tokens);
+	free_token(tokens);
 	return (shell);
 }
