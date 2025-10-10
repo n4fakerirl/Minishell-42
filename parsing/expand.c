@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/10 16:57:48 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:58:04 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	expand_tokens(t_token *tokens, t_env *env, int exit_status)
 			if (!tmp->value)
 				return (0);
 			free(expanded);
-			}
 		}
 		tmp = tmp->next;
 	}
