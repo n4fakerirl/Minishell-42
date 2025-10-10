@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 16:55:40 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:07:28 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int								get_var_len(char *str);
 int								is_expandable(char *str);
 
 // 1.5 TRIM WORDS
-void							trim_word(t_token *tokens);
+int								trim_word(t_token *tokens);
 char							*strip_quotes(char *str, int len, int i, int j);
 char							*del_back(t_token *token, int i, int j);
 char							*del_noquote(t_token *t, int i, int j);

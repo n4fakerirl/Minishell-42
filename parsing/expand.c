@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/10 16:58:04 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:10:53 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ int	handle_dollar_expand(char *str, char **result, t_env *env, int exit_status)
 	if (ft_strncmp(str, "$?", 2) == 0)
 	{
 		*result = expand_code(exit_status, *result);
+		if (!*result)
+			return (-1);
 		return (2);
 	}
 	else
 	{
 		y = get_var_len(str);
 		*result = expand_var(*result, str, env, y);
+		if (!*result)
+			return (-1);
 	}
 	return (y);
 }
@@ -49,17 +53,23 @@ char	*expand_word(char *str, t_env *env, int exit_status)
 	result = ft_strdup("");
 	while (str[i])
 	{
-		if (handle_quote_expand(str, i, &q, &result))
+		if (handle_quote_expand(str, i, &q, &result) == -1)
+			return (NULL);
+		else if (handle_quote_expand(str, i, &q, &result) == 1)
 			i++;
 		else if (str[i] == '$' && ((i == 0 || str[i - 1] != '\\') && str[i
 					+ 1] != '\0' && q != '\''))
 		{
 			y = handle_dollar_expand(str + i, &result, env, exit_status);
+			if (y == -1)
+				return (NULL);
 			i += y;
 		}
 		else
 		{
 			result = joinchar(result, str[i]);
+			if (!result)
+				return (NULL);
 			i++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 16:51:17 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:15:45 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,9 +158,9 @@ t_token	*tokenize(char *input)
 		if (!input[i])
 			break ;
 		if (input[i] == '|' || input[i] == '<' || input[i] == '>')
-			count += redirect(input + i, &tokens);
+			count = redirect(input + i, &tokens);
 		else
-			count += handle_word(input + i, &tokens, 0);
+			count = handle_word(input + i, &tokens, 0);
 		if (count == -1)
 			return (NULL);
 		else

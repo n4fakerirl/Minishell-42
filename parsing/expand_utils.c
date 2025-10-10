@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 16:12:30 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:07:12 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*del_back(t_token *t, int i, int j)
 	return (buf);
 }
 
-void	trim_word(t_token *tokens)
+int	trim_word(t_token *tokens)
 {
 	t_token	*tmp;
 	char	*new_value;
@@ -89,6 +89,8 @@ void	trim_word(t_token *tokens)
 		{
 			len = ft_strlen(tmp->value);
 			new_value = strip_quotes(tmp->value, len, 0, 0);
+			if (!new_value)
+				return (0);
 			free(tmp->value);
 			tmp->value = new_value;
 		}
@@ -98,18 +100,23 @@ void	trim_word(t_token *tokens)
 			if (tmp->state == NO_QUOTE)
 			{
 				back = del_noquote(tmp, 0, 0);
+				if (!back)
+					return (0);
 				free(tmp->value);
 				tmp->value = back;
 			}
 			else 
 			{
 				back = del_back(tmp, 0, 0);
+				if (!back)
+					return (0);
 				free(tmp->value);
 				tmp->value = back;
 			}
 		}
 		tmp = tmp->next;
 	}
+	return (1);
 }
 
 void	need_expand(t_token *tokens)
