@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 16:06:53 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:55:40 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,7 @@ int								parse_args(t_token *tokens);
 
 // 1.4 EXPAND $ EXPAND UTILS
 void							need_expand(t_token *tokens);
-void							expand_tokens(t_token *tokens, t_env *env,
-									int exit_status);
+int								expand_tokens(t_token *tokens, t_env *env, int exit_status);
 char							*expand_code(int exit_status, char *result);
 char							*get_var_value(char *var_name, t_env *env);
 char							*expand_var(char *result, char *str, t_env *env,
@@ -171,7 +170,7 @@ int								lstlen(t_token **toklist);
 void							printr(char *message);
 
 // CMD
-void							cmd_list(t_token *tokens, t_cmd **cmds, int i);
+int								cmd_list(t_token *tokens, t_cmd **cmds, int i);
 t_redir							*redirections(t_cmd *cmd, t_token *token);
 
 // Free

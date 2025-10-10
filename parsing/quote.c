@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:21:07 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/08 02:53:13 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:51:42 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*strip_quotes(char *str, int len, int i, int j)
 			i += simple_quote(&quote);
 			continue ;
 		}
-		if (str[i] == '"' && !quote.in_single)
+		if (str[i] == '\"' && !quote.in_single)
 		{
 			i += double_quote(&quote);
 			continue ;

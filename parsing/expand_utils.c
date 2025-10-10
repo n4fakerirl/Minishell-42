@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 16:08:19 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:12:30 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	trim_word(t_token *tokens)
 			len = ft_strlen(tmp->value);
 			new_value = strip_quotes(tmp->value, len, 0, 0);
 			free(tmp->value);
-			tmp->value = ft_strdup(new_value);
+			tmp->value = new_value;
 		}
 		if ((tmp->type == WORD || tmp->type == ARGREDIR)
 			&& ft_strchr(tmp->value, '\\'))
@@ -99,13 +99,13 @@ void	trim_word(t_token *tokens)
 			{
 				back = del_noquote(tmp, 0, 0);
 				free(tmp->value);
-				tmp->value = ft_strdup(back);
+				tmp->value = back;
 			}
 			else 
 			{
 				back = del_back(tmp, 0, 0);
 				free(tmp->value);
-				tmp->value = ft_strdup(back);
+				tmp->value = back;
 			}
 		}
 		tmp = tmp->next;

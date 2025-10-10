@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 12:55:04 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:53:27 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	type(t_token *tmp)
 		return (0);
 }
 
-void	cmd_list(t_token *tokens, t_cmd **cmds, int i)
+int	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 {
 	t_token	*tmp;
 	t_cmd	*current;
@@ -83,6 +83,8 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 			if (type(tmp) == 1)
 			{
 				current->args[i] = del_back(tmp, 0, 0);
+				if (!current->args[i])
+					return (0);
 				i++;
 			}
 			tmp = tmp->next;
@@ -92,4 +94,5 @@ void	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 		if (next(tmp, current) == 1)
 			tmp = tmp->next;
 	}
+	return (1);
 }
