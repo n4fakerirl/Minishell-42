@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:24:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 15:34:05 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 18:42:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ void	redir_heredoc(t_shell *shell)
 
 void	check_redir(t_shell *shell, int i)
 {
+	t_redir	*r;
+
+	if (!shell || !shell->cmd)
+		return ;
 	if (i == -1)
 	{
 		if (shell->cmd->redirect == NULL)
@@ -60,16 +64,16 @@ void	check_redir(t_shell *shell, int i)
 	}
 	if (i != -1)
 		redir(shell, i);
-	while (shell->cmd->redirect)
+	r = shell->cmd->redirect;
+	while (r)
 	{
-		if (shell->cmd->redirect->type == REDIRR
-			|| shell->cmd->redirect->type == REDIRDR)
+		if (r->type == REDIRR || r->type == REDIRDR)
 			redir_right(shell);
-		else if (shell->cmd->redirect->type == REDIRL)
+		else if (r->type == REDIRL)
 			redir_simple_left(shell);
-		else if (shell->cmd->redirect->type == REDIRDL)
+		else if (r->type == REDIRDL)
 			redir_heredoc(shell);
-		shell->cmd->redirect = shell->cmd->redirect->next;
+		r = r->next;
 	}
 	return ;
 }
