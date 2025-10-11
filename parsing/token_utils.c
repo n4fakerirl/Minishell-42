@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:08:52 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 02:59:53 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 17:16:53 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,10 @@ int	lstlen(t_token **toklist)
 
 	tmp = *toklist;
 	i = 0;
-	while (tmp != NULL && tmp->type != PIPE)
+	while (tmp && tmp->type != PIPE)
 	{
-		i++;
+		if (tmp->type == WORD || tmp->type == ARGREDIR)
+			i++;
 		tmp = tmp->next;
 	}
 	return (i);

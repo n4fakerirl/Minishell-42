@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 11:32:40 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 17:18:55 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 	tmp = tokens;
 	while (tmp)
 	{
-		current = create_cmd(cmds, tokens, &i);
+		current = create_cmd(cmds, tmp, &i);
 		start = tmp;
 		while (tmp && tmp->type != PIPE)
 		{
