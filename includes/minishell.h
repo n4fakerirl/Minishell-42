@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 17:07:28 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:17:27 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,9 @@ t_token							*tokenize(char *input);
 t_token							*new_type(t_token *tokens);
 t_token							*create_token(t_token_type type, char *value);
 void							quoting(t_token *tokens);
+int								create_word(char *input, t_token **tokens, int i);
+int								redirect(char *input, t_token **tokens);
+
 
 // 1.3 PARSE ARGS
 int								parse_args(t_token *tokens);
