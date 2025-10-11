@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 11:23:27 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:44:34 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ int	is_possible(char prev, char next, char quote, int i)
 		return (0);
 }
 
+int	addchar(char **result, char c, int *i)
+{
+	*result = joinchar(*result, c);
+	if (!result)
+		return (-1);
+	else
+		(*i)++;
+	return (1);
+}
+
 char	*expand_word(char *str, t_env *env, int exit_status, int i)
 {
 	int		y;
@@ -51,10 +61,8 @@ char	*expand_word(char *str, t_env *env, int exit_status, int i)
 	result = ft_strdup("");
 	while (str[i])
 	{
-		if (handle_quote_expand(str, i, &q, &result) == -1)
+		if (handle_quote_expand(str, &i, &q, &result) == -1)
 			return (NULL);
-		else if (handle_quote_expand(str, i, &q, &result) == 1)
-			i++;
 		else if (str[i] == '$' && ((i == 0 || str[i - 1] != '\\') && str[i
 					+ 1] != '\0' && q != '\''))
 		{
@@ -65,10 +73,8 @@ char	*expand_word(char *str, t_env *env, int exit_status, int i)
 		}
 		else
 		{
-			result = joinchar(result, str[i]);
-			if (!result)
+			if (addchar(&result, str[i], &i) == -1)
 				return (NULL);
-			i++;
 		}
 	}
 	return (result);

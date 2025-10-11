@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:24:30 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 11:11:01 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:44:38 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,22 @@ char	*expand_var(char *result, char *str, t_env *env, int y)
 	return (result);
 }
 
-int	handle_quote_expand(char *str, int i, char *quote, char **result)
+int	handle_quote_expand(char *str, int *i, char *quote, char **result)
 {
-	if ((str[i] == '\"' || str[i] == '\'') && (i == 0 || str[i - 1] != '\\'))
+	if ((str[(*i)] == '\"' || str[(*i)] == '\'') && (i == 0 || str[(*i
+					- 1)] != '\\'))
 	{
 		if (*quote == 0)
-			*quote = str[i];
-		else if (*quote == str[i])
+			*quote = str[(*i)];
+		else if (*quote == str[(*i)])
 			*quote = 0;
 		else
 		{
-			*result = joinchar(*result, str[i]);
+			*result = joinchar(*result, str[(*i)]);
 			if (!*result)
 				return (-1);
 		}
-		return (1);
+		(*i)++;
 	}
 	return (0);
 }

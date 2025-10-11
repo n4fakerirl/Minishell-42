@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:25:54 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/10 17:03:42 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:31:46 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ void	add_redir(t_redir **redirs, t_redir *node)
 		tmp = tmp->next;
 	tmp->next = node;
 	node->next = NULL;
+}
+
+void	add_cmds(t_cmd **cmds, t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = *cmds;
+	if (!*cmds)
+	{
+		*cmds = cmd;
+		return ;
+	}
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = cmd;
+	cmd->next = NULL;
 }
 
 t_redir	*redirections(t_cmd *cmd, t_token *token)

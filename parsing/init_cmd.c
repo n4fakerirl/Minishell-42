@@ -6,27 +6,11 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 11:30:29 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:32:40 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	add_cmds(t_cmd **cmds, t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	tmp = *cmds;
-	if (!*cmds)
-	{
-		*cmds = cmd;
-		return ;
-	}
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = cmd;
-	cmd->next = NULL;
-}
 
 t_cmd	*create_cmd(t_cmd **cmds, t_token *tokens, int *i)
 {
@@ -66,7 +50,7 @@ int	type(t_token *tmp)
 		return (0);
 }
 
-int new_args(t_cmd *cmd, t_token *tmp, int i)
+int	new_args(t_cmd *cmd, t_token *tmp, int i)
 {
 	cmd->args[i] = ft_strdup(tmp->value);
 	if (!cmd->args[i])
