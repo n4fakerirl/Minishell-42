@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 11:11:30 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:36:49 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	forking_child(t_shell *shell, int i)
 	int	exit_status;
 
 	check_redir(shell, i);
+	close(shell->saved_stdin);
+	close(shell->saved_stdout);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (is_builtin(shell->cmd->args[0]))
@@ -81,6 +83,7 @@ void	forking_parent(t_shell *shell, int i)
 void	start_exec(t_shell *shell)
 {
 	int	i;
+	int pid;
 
 	i = 0;
 	shell->saved_stdin = dup(STDIN_FILENO);
@@ -95,12 +98,16 @@ void	start_exec(t_shell *shell)
 			if (piping(shell, i) < 0)
 				return ;
 		forking(shell, i);
+		pid = getpid();
+		fprintf(stderr, "PID : %d\n", pid);
 		if (shell->pipe_infos->pid[i] == 0)
 			forking_child(shell, i);
 		else if (shell->pipe_infos->pid[i] > 0)
 		{
 			signal(SIGINT, SIG_IGN);
 			signal(SIGQUIT, SIG_IGN);
+			fprintf(stderr, "STDIN : %d\n", shell->saved_stdin);
+			fprintf(stderr, "STDOUT : %d\n", shell->saved_stdout);			
 			forking_parent(shell, i);
 		}
 		i++;
