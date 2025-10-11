@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:24:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 15:54:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:34:05 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,28 @@ void	check_redir(t_shell *shell, int i)
 	}
 	return ;
 }
+
+// void	check_redir(t_shell *shell, int i)
+// {
+//     t_redir *redirl;
+
+//     if (i == -1)
+//     {
+//         if (shell->cmd->redirect == NULL)
+//             return ;
+//     }
+//     if (i != -1)
+//         redir(shell, i);
+//     redirl = shell->cmd->redirect; // Utilise un pointeur temporaire
+//     while (redirl)
+//     {
+//         if (redirl->type == REDIRR || redirl->type == REDIRDR)
+//             redir_right(shell);
+//         else if (redirl->type == REDIRL)
+//             redir_simple_left(shell);
+//         else if (redirl->type == REDIRDL)
+//             redir_heredoc(shell);
+//         redirl = redirl->next;
+//     }
+//     return ;
+// }

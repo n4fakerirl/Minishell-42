@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:12:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 18:54:11 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:34:18 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,31 @@ void	redir(t_shell *shell, int i)
 	else
 		return (inter_close(shell, i));
 }
+
+// void	open_fd(t_cmd *cmd)
+// {
+//     int	fd;
+//     t_redir *redir;
+
+//     while (cmd)
+//     {
+//         redir = cmd->redirect; // Utilise un pointeur temporaire
+//         while (redir)
+//         {
+//             if (redir->type == REDIRR)
+//                 fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//             else if (redir->type == REDIRDR)
+//                 fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+//             if (fd < 0)
+//             {
+//                 perror("");
+//                 return ;
+//             }
+//             redir = redir->next;
+//         }
+//         cmd = cmd->next;
+//     }
+// }
 
 void	open_fd(t_cmd *cmd)
 {
