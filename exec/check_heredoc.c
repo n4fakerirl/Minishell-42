@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 14:59:14 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 16:36:45 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	fork_heredoc(t_redir *tmp_r, int fd[2])
+void	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 {
 	char	*line;
 
@@ -38,6 +38,7 @@ void	fork_heredoc(t_redir *tmp_r, int fd[2])
 	}
 	close(fd[0]);
 	close(fd[1]);
+	free_shell(shell);
 	exit(0);
 }
 
@@ -53,7 +54,7 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		fork_heredoc(tmp_r, fd);
+		fork_heredoc(tmp_r, fd, shell);
 	}
 	else
 	{
@@ -85,6 +86,8 @@ int	check_heredoc(t_shell *shell)
 			if (tmp_r->type == REDIRDL)
 			{
 				do_heredoc(shell, tmp, tmp_r, fd);
+				if (tmp_r->next && tmp_r->next->type == REDIRDL)
+					close(fd[0]);
 				if (shell->heredoc_interrupted == 1)
 				{
 					shell->heredoc_interrupted = 0;

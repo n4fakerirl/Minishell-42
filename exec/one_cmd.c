@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 13:16:55 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 16:16:59 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	close(shell->saved_stdin);
+	close(shell->saved_stdout);
 	cmd_finale = get_cmd(shell);
 	if (!cmd_finale)
 	{
@@ -77,6 +79,6 @@ void	one_cmd(t_shell *shell, char **envp_initial)
 		one_child(shell, envp_initial);
 	dup2(shell->saved_stdout, STDOUT_FILENO);
 	dup2(shell->saved_stdin, STDIN_FILENO);
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
+	//close(shell->saved_stdin);
+	//close(shell->saved_stdout);
 }

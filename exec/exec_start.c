@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 11:36:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 16:26:31 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,12 @@ void	forking_parent(t_shell *shell, int i)
 void	start_exec(t_shell *shell)
 {
 	int	i;
-	int pid;
 
 	i = 0;
 	shell->saved_stdin = dup(STDIN_FILENO);
 	shell->saved_stdout = dup(STDOUT_FILENO);
+	fprintf(stderr, "MON FD : %d\n", shell->saved_stdin);
+	fprintf(stderr, "MON FD 2 : %d\n", shell->saved_stdout);
 	if (check_heredoc(shell))
 		return ;
 	if (shell->nbr_cmd == 1)
@@ -98,8 +99,6 @@ void	start_exec(t_shell *shell)
 			if (piping(shell, i) < 0)
 				return ;
 		forking(shell, i);
-		pid = getpid();
-		fprintf(stderr, "PID : %d\n", pid);
 		if (shell->pipe_infos->pid[i] == 0)
 			forking_child(shell, i);
 		else if (shell->pipe_infos->pid[i] > 0)
