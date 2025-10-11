@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 17:57:37 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:51:38 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,11 @@ int	handle_dollar(t_token *tokens)
 	return (1);
 }
 
-t_shell	*start_parsing(char *str, char **envp, int exit_status)
+t_shell	*start_parsing(char *str, char **envp, int exit_status, t_shell *shell)
 {
-	t_shell	*shell;
 	t_token	*tokens;
 
-	shell = init_shell(envp, exit_status);
-	if (!shell)
-		return (NULL);
+	init_shell(envp, exit_status, shell);
 	tokens = tokenize(str);
 	if (!tokens)
 		return (free_shell(shell), NULL);

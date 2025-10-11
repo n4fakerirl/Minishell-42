@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:19:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 16:00:45 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:52:55 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,8 @@ t_env	*init_env(char **envp)
 	return (head);
 }
 
-t_shell	*init_shell(char **envp, int exit_status)
+void init_shell(char **envp, int exit_status, t_shell *new_shell)
 {
-	t_shell	*new_shell;
-
-	new_shell = malloc(sizeof(t_shell));
-	if (!new_shell)
-		return (NULL);
 	new_shell->nbr_cmd = 0;
 	new_shell->exit_status = exit_status;
 	new_shell->saved_stdin = 0;
@@ -105,11 +100,10 @@ t_shell	*init_shell(char **envp, int exit_status)
 	new_shell->saved_stdout = 0;
 	new_shell->cmd = NULL;
 	new_shell->pipe_infos = init_pipe();
-	new_shell->env = init_env(envp);
+	//new_shell->env = init_env(envp);
 	new_shell->envp_initial = dup_split(envp);
 	if (!new_shell->envp_initial)
-		return (free_shell(new_shell), NULL);
+		return (free_shell(new_shell));
 	if (!new_shell->env)
-		return (free_shell(new_shell), NULL);
-	return (new_shell);
+		return (free_shell(new_shell));
 }

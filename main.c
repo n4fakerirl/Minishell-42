@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 12:36:21 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:52:35 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		return (1);
+	shell = malloc(sizeof(t_shell));
+	if (!shell)
+		return (1);
+	ft_bzero(shell, sizeof(t_shell));
+	shell->env = init_env(envp);
 	while (1)
 	{
 		signal(SIGINT, sigint_handler);
@@ -42,7 +47,7 @@ int	main(int ac, char **av, char **envp)
 			free(str);
 			continue ;
 		}
-		shell = start_parsing(str, envp, exit_status);
+		start_parsing(str, envp, exit_status, shell);
 		if (!shell)
 		{
 			exit_status = 2;
