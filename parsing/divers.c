@@ -3,14 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   divers.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:45:23 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 02:22:09 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 13:25:22 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
+t_env	*ft_env_new(const char *key, const char *value)
+{
+	t_env	*new;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
+	new->key = key ? strdup(key) : NULL;
+	new->value = value ? strdup(value) : NULL;
+	new->next = NULL;
+	return (new);
+}
+
+t_env	*ft_env_dup(t_env *env)
+{
+	t_env	*new_list = NULL;
+	t_env	*tail = NULL;
+	t_env	*tmp;
+
+	while (env)
+	{
+		tmp = ft_env_new(env->key, env->value);
+		if (!tmp)
+		{
+			// gestion d'erreur → free la liste déjà copiée
+			while (new_list)
+			{
+				t_env *to_free = new_list;
+				new_list = new_list->next;
+				free(to_free->key);
+				free(to_free->value);
+				free(to_free);
+			}
+			return (NULL);
+		}
+		if (!new_list)
+			new_list = tmp;
+		else
+			tail->next = tmp;
+		tail = tmp;
+		env = env->next;
+	}
+	return (new_list);
+}
 
 void	print_cmd(t_cmd *cmd)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 12:52:35 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 13:26:56 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,13 @@ int	main(int ac, char **av, char **envp)
 	char	*str;
 	t_shell	*shell;
 	int		exit_status;
+	t_env	*tmp;
+	int	first;
 
+	first = 0;
 	(void)av;
 	if (ac != 1)
 		return (1);
-	shell = malloc(sizeof(t_shell));
-	if (!shell)
-		return (1);
-	ft_bzero(shell, sizeof(t_shell));
-	shell->env = init_env(envp);
 	while (1)
 	{
 		signal(SIGINT, sigint_handler);
@@ -47,7 +45,8 @@ int	main(int ac, char **av, char **envp)
 			free(str);
 			continue ;
 		}
-		start_parsing(str, envp, exit_status, shell);
+		shell = init_shell(envp, exit_status, first, tmp);
+		start_parsing(str, exit_status, shell);
 		if (!shell)
 		{
 			exit_status = 2;
@@ -57,8 +56,12 @@ int	main(int ac, char **av, char **envp)
 		shell->nbr_cmd = count_list(shell->cmd);
 		start_exec(shell);
 		exit_status = shell->exit_status;
+		tmp = ft_env_dup(shell->env);
 		free(str);
 		free_shell(shell);
+		if (first == 0)
+			first = 1;
 	}
+	free_env(tmp);
 	return (0);
 }

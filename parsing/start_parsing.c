@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 12:51:38 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 13:27:34 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,25 @@ int	handle_dollar(t_token *tokens)
 	return (1);
 }
 
-t_shell	*start_parsing(char *str, char **envp, int exit_status, t_shell *shell)
+void	start_parsing(char *str, int exit_status, t_shell *shell)
 {
 	t_token	*tokens;
 
-	init_shell(envp, exit_status, shell);
 	tokens = tokenize(str);
 	if (!tokens)
-		return (free_shell(shell), NULL);
+		return (free_shell(shell));
 	new_type(tokens);
 	if (!parse_args(tokens))
-		return (free_shell(shell), free_token(tokens), NULL);
+		return (free_shell(shell), free_token(tokens));
 	quoting(tokens);
 	need_expand(tokens);
 	if (!handle_dollar(tokens))
-		return (free_shell(shell), free_token(tokens), NULL);
+		return (free_shell(shell), free_token(tokens));
 	if (!expand_tokens(tokens, shell->env, exit_status))
-		return (free_shell(shell), free_token(tokens), NULL);
+		return (free_shell(shell), free_token(tokens));
 	if (!trim_word(tokens))
-		return (free_shell(shell), free_token(tokens), NULL);
+		return (free_shell(shell), free_token(tokens));
 	if (!cmd_list(tokens, &shell->cmd, 0))
-		return (free_shell(shell), free_token(tokens), NULL);
+		return (free_shell(shell), free_token(tokens));
 	free_token(tokens);
-	return (shell);
 }
