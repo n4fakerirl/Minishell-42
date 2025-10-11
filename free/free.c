@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:49:33 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 11:20:10 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:09:41 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void	free_cmd(t_cmd *cmd)
 				free(tmp->args[i++]);
 			free(tmp->args);
 		}
-		free_redir(tmp->redirect);
+		if (tmp->redirect)
+			free_redir(tmp->redirect);
 		next = tmp->next;
 		free(tmp);
 		tmp = next;

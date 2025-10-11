@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:25:54 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 11:31:46 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:07:33 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,13 @@ t_redir	*redirections(t_cmd *cmd, t_token *token)
 			if (tmp->next && tmp->next->type == ARGREDIR)
 			{
 				node = malloc(sizeof(t_redir));
+				if (!node)
+					return (NULL);
 				node->type = tmp->type;
 				node->file = ft_strdup(tmp->next->value);
 				if (!node->file)
 					return (NULL);
+				node->next = NULL;
 				add_redir(&(cmd->redirect), node);
 				tmp = tmp->next;
 			}
