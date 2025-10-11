@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:19:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 13:18:33 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:17:48 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_shell *init_shell(char **envp, int exit_status, int first, t_env *tmp_env)
 	new_shell->exit_status = exit_status;
 	new_shell->saved_stdin = 0;
 	new_shell->heredoc_interrupted = 0;
+	new_shell->head_cmd = NULL;
 	new_shell->saved_stdout = 0;
 	new_shell->cmd = NULL;
 	new_shell->pipe_infos = init_pipe();

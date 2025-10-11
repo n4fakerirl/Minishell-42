@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 19:50:34 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:10:28 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,12 @@ void	forking_child(t_shell *shell, int i)
 
 	
 	check_redir(shell, i);
-	// close(shell->saved_stdin);
-	// close(shell->saved_stdout);
+	close(shell->saved_stdin);
+	close(shell->saved_stdout);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (is_builtin(shell->cmd->args[0]))
 	{
-		dprintf(2, "IN A BUILTIN\n");
 		shell->exit_status = exec_builtin(shell, &(shell->env));
 		exit_status = shell->exit_status;
 		free_shell(shell);
@@ -50,22 +49,19 @@ void	forking_child(t_shell *shell, int i)
 	}
 	else
 	{
-		// if (i == 0)
-		// 	first_child(shell, shell->envp_initial);
-		// else if (i == shell->nbr_cmd - 1)
-		// {
-		// 	fprintf(stderr, "DEUXIEME ENFANT\n");
-		// 	last_child(shell, shell->envp_initial);
-		// }
-		// else
-		inter_child(shell, shell->envp_initial);
+		if (i == 0)
+		 	first_child(shell, shell->envp_initial);
+		else if (i == shell->nbr_cmd - 1)
+		 	last_child(shell, shell->envp_initial);
+		else
+			inter_child(shell, shell->envp_initial);
 	}
 }
 
 void	forking_parent(t_shell *shell, int i)
 {
-	// dup2(shell->saved_stdout, STDOUT_FILENO);
-	// dup2(shell->saved_stdin, STDIN_FILENO);
+	//dup2(shell->saved_stdout, STDOUT_FILENO);
+	//dup2(shell->saved_stdin, STDIN_FILENO);
 	if (shell->cmd->redirect)
 	{
 		if (shell->cmd->redirect->type == REDIRDL)
@@ -74,10 +70,7 @@ void	forking_parent(t_shell *shell, int i)
 	if (i == 0)
 		close(shell->pipe_infos->pipe_fd[0][1]);
 	else if (i == shell->nbr_cmd - 1)
-	{		
 		close(shell->pipe_infos->pipe_fd[i - 1][0]);
-		// close(shell->pipe_infos->pipe_fd[i - 1][1]);
-	}
 	else
 	{
 		close(shell->pipe_infos->pipe_fd[i][1]);
@@ -88,17 +81,13 @@ void	forking_parent(t_shell *shell, int i)
 void	start_exec(t_shell *shell)
 {
 	int	i;
-	// int	pid;
-	// int	ppid;
+	int	pid;
 
 	i = 0;
-	
-	// shell->saved_stdin = dup(STDIN_FILENO);
-	// shell->saved_stdout = dup(STDOUT_FILENO);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	// fprintf(stderr, "MON STDIN : %d\n", shell->saved_stdin);
-	// fprintf(stderr, "MON STDOUT : %d\n", shell->saved_stdout);
+	pid = getpid();
+	fprintf(stderr, "MON PID MAIN : %d\n", pid);
+	shell->saved_stdin = dup(STDIN_FILENO);
+	shell->saved_stdout = dup(STDOUT_FILENO);
 	if (check_heredoc(shell))
 		return ;
 	if (shell->nbr_cmd == 1)
@@ -109,26 +98,17 @@ void	start_exec(t_shell *shell)
 			if (piping(shell, i) < 0)
 				return ;
 		forking(shell, i);
-		// pid = getpid();
-		// ppid = getppid();
-		// fprintf(stderr, "PID : %d\n", pid);
-		// fprintf(stderr, "PPID : %d\n", ppid);
 		if (shell->pipe_infos->pid[i] == 0)
 			forking_child(shell, i);
 		else if (shell->pipe_infos->pid[i] > 0)
 		{
-			dprintf(2, "pid %d: %d\n", i + 1, shell->pipe_infos->pid[i]);
-			// fprintf(stderr, "PARENT STDIN : %d in %d\n", shell->saved_stdin, pid);
-			// fprintf(stderr, "PARENT STDOUT : %d in %d\n", shell->saved_stdout, pid);			
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
 			forking_parent(shell, i);
 		}
 		i++;
 		shell->cmd = shell->cmd->next;
 	}
 	waiting(shell);
-	// dup2(shell->saved_stdout, STDOUT_FILENO);
-	// dup2(shell->saved_stdin, STDIN_FILENO);
-	// close(shell->saved_stdin);
-	// close(shell->saved_stdout);
 	return ;
 }

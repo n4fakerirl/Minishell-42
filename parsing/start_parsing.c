@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:25 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 13:27:34 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:18:33 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ void	start_parsing(char *str, int exit_status, t_shell *shell)
 		return (free_shell(shell), free_token(tokens));
 	if (!cmd_list(tokens, &shell->cmd, 0))
 		return (free_shell(shell), free_token(tokens));
+	shell->head_cmd = shell->cmd;
 	free_token(tokens);
 }

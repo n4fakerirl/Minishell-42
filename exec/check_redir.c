@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:24:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 18:42:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:22:06 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	redir_heredoc(t_shell *shell)
 	close(fd);
 }
 
-void	check_redir(t_shell *shell, int i)
+/* void	check_redir(t_shell *shell, int i)
 {
 	t_redir	*r;
 
@@ -68,37 +68,42 @@ void	check_redir(t_shell *shell, int i)
 	while (r)
 	{
 		if (r->type == REDIRR || r->type == REDIRDR)
+		{
+			fprintf(stderr, "redir right\n");
 			redir_right(shell);
+		}
 		else if (r->type == REDIRL)
+		{
+			fprintf(stderr, "redir left\n");
 			redir_simple_left(shell);
+		}
 		else if (r->type == REDIRDL)
 			redir_heredoc(shell);
 		r = r->next;
 	}
 	return ;
+} */
+
+void	check_redir(t_shell *shell, int i)
+{
+	if (i == -1)
+	{
+		if (shell->cmd->redirect == NULL)
+			return ;
+	}
+	if (i != -1)
+		redir(shell, i);
+	while (shell->cmd->redirect)
+	{
+		if (shell->cmd->redirect->type == REDIRR
+			|| shell->cmd->redirect->type == REDIRDR)
+			redir_right(shell);
+		else if (shell->cmd->redirect->type == REDIRL)
+			redir_simple_left(shell);
+		else if (shell->cmd->redirect->type == REDIRDL)
+			redir_heredoc(shell);
+		shell->cmd->redirect = shell->cmd->redirect->next;
+	}
+	return ;
 }
 
-// void	check_redir(t_shell *shell, int i)
-// {
-//     t_redir *redirl;
-
-//     if (i == -1)
-//     {
-//         if (shell->cmd->redirect == NULL)
-//             return ;
-//     }
-//     if (i != -1)
-//         redir(shell, i);
-//     redirl = shell->cmd->redirect; // Utilise un pointeur temporaire
-//     while (redirl)
-//     {
-//         if (redirl->type == REDIRR || redirl->type == REDIRDR)
-//             redir_right(shell);
-//         else if (redirl->type == REDIRL)
-//             redir_simple_left(shell);
-//         else if (redirl->type == REDIRDL)
-//             redir_heredoc(shell);
-//         redirl = redirl->next;
-//     }
-//     return ;
-// }

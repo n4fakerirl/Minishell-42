@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:49:33 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 16:48:14 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:41:12 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	free_env(t_env *env)
 			free(env->key);
 		if (env->value)
 			free(env->value);
-		free(env);
+		if (env)
+			free(env);
 		env = tmp;
 	}
 }
@@ -90,15 +91,15 @@ void	free_shell(t_shell *shell)
 		return ;
 	if (shell->envp_initial)
 		free_split(shell->envp_initial);
-	if (shell->cmd)
-		free_cmd(shell->cmd);
+	if (shell->head_cmd)
+		free_cmd(shell->head_cmd);
 	if (shell->env)
 		free_env(shell->env);
 	if (shell->pipe_infos)
 		free(shell->pipe_infos);
-/*  	if (shell->saved_stdin)
+	if (shell->saved_stdin)
 		close(shell->saved_stdin);
 	if (shell->saved_stdout)
-		close(shell->saved_stdout); */
+		close(shell->saved_stdout);
 	free(shell);
 }

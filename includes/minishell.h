@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 15:49:05 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:17:23 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_shell
 	char						**envp_initial;
 	int							heredoc_interrupted;
 	t_env						*env;
+	t_cmd						*head_cmd;
 	t_cmd						*cmd;
 	t_pipe						*pipe_infos;
 }								t_shell;

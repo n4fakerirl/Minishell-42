@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 19:09:43 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:41:49 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int ac, char **av, char **envp)
 	int	first;
 
 	first = 0;
+	tmp = NULL;
 	(void)av;
 	if (ac != 1)
 		return (1);
@@ -28,7 +29,6 @@ int	main(int ac, char **av, char **envp)
 	{
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
-		dprintf(2, "Readline ->\n");
 		str = readline("minishell> ");
 		if (!str)
 		{
