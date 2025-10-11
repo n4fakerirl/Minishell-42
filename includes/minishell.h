@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 12:52:06 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 14:32:40 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,15 @@ typedef struct s_shell
 	t_pipe						*pipe_infos;
 }								t_shell;
 
+typedef struct s_expand
+{
+	int							exit_status;
+	int							ret;
+	t_env						*env;
+	char						*result;
+	char						q;
+}								t_expand;
+
 // PRINT A SUPP
 void							print_cmd(t_cmd *cmd);
 void							print_token(t_token *token);
@@ -127,9 +136,12 @@ void							print_token(t_token *token);
 // 1.1 START PARSING
 t_shell							*start_parsing(char *str, char **envp,
 									int exit_status, t_shell *shell);
-void 							init_shell(char **envp, int exit_status, t_shell *new_shell);
+void							init_shell(char **envp, int exit_status,
+									t_shell *new_shell);
 t_env							*env_conv(char *str);
 t_env							*init_env(char **envp);
+t_env							*ft_env_dup(t_env *env);
+
 
 // 1.2 TOKEN & TOKEN_UTILS
 t_token							*tokenize(char *input);
@@ -147,12 +159,11 @@ int								parse_args(t_token *tokens);
 void							need_expand(t_token *tokens);
 int								expand_tokens(t_token *tokens, t_env *env,
 									int exit_status);
-char							*expand_code(int exit_status, char *result);
+char							*expand_code(t_expand *exp);
 char							*get_var_value(char *var_name, t_env *env);
-char							*expand_var(char *result, char *str, t_env *env,
-									int y);
+char							*expand_var(char *str, t_expand *exp, int y);
 int								handle_quote_expand(char *str, int *i,
-									char *quote, char **result);
+									t_expand *exp);
 char							*joinchar(char *s1, char c);
 int								get_var_len(char *str);
 int								is_expandable(char *str);

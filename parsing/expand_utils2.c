@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:24:30 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 12:22:49 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 14:22:56 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,27 @@ int	is_expandable(char *str)
 		return (0);
 }
 
-char	*expand_code(int exit_status, char *result)
+char	*expand_code(t_expand *exp)
 {
 	char	*status;
 	char	*tmp;
 
-	status = ft_itoa(exit_status);
+	status = ft_itoa(exp->exit_status);
 	if (!status)
 		return (NULL);
-	tmp = ft_strjoin(result, status);
+	tmp = ft_strjoin(exp->result, status);
 	if (!tmp)
 		return (NULL);
-	free(result);
+	free(exp->result);
 	free(status);
-	result = ft_strdup(tmp);
-	if (!result)
+	exp->result = ft_strdup(tmp);
+	if (!exp->result)
 		return (NULL);
 	free(tmp);
-	return (result);
+	return (exp->result);
 }
 
-char	*expand_var(char *result, char *str, t_env *env, int y)
+char	*expand_var(char *str, t_expand *exp, int y)
 {
 	char	*sub;
 	char	*value;
@@ -53,38 +53,38 @@ char	*expand_var(char *result, char *str, t_env *env, int y)
 	sub = ft_substr(str, 1, y - 1);
 	if (!sub)
 		return (NULL);
-	value = get_var_value(sub, env);
+	value = get_var_value(sub, exp->env);
 	if (!value)
 		return (NULL);
 	free(sub);
-	tmp = ft_strjoin(result, value);
+	tmp = ft_strjoin(exp->result, value);
 	if (!tmp)
 		return (NULL);
-	if (result)
-		free(result);
+	if (exp->result)
+		free(exp->result);
 	if (value)
 		free(value);
-	result = ft_strdup(tmp);
-	if (!result)
+	exp->result = ft_strdup(tmp);
+	if (!exp->result)
 		return (NULL);
 	free(tmp);
-	return (result);
+	return (exp->result);
 }
 
-int	handle_quote_expand(char *str, int *i, char *quote, char **result)
+int	handle_quote_expand(char *str, int *i, t_expand *exp)
 {
 	if ((str[(*i)] == '\"' || str[(*i)] == '\'') && (*i == 0 || str[(*i
 					- 1)] != '\\'))
 	{
-		if (*quote == 0)
-			*quote = str[(*i)];
-		else if (*quote == str[(*i)])
-			*quote = 0;
+		if (exp->q == 0)
+			exp->q = str[(*i)];
+		else if (exp->q == str[(*i)])
+			exp->q = 0;
 		else
 		{
-			*result = joinchar(*result, str[(*i)]);
-			if (!*result)
-				return (-1);
+			exp->result = joinchar(exp->result, str[(*i)]);
+			if (!exp->result)
+				return (exp->ret = -1, -1);
 		}
 		(*i)++;
 	}

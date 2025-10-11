@@ -6,31 +6,31 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 12:49:20 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 14:36:34 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_dollar_expand(char *str, char **result, t_env *env, int exit_status)
+int	handle_dollar_expand(char *str, t_expand *exp)
 {
 	int	y;
 
 	if (ft_strncmp(str, "$?", 2) == 0)
 	{
-		*result = expand_code(exit_status, *result);
-		if (!*result)
-			return (-1);
+		expand_code(exp);
+		if (!exp->result)
+			return (exp->ret = -1, -1);
 		return (2);
 	}
 	else
 	{
 		y = get_var_len(str);
-		*result = expand_var(*result, str, env, y);
-		if (!*result)
-			return (-1);
+		exp->result = expand_var(str, exp, y);
+		if (!exp->result)
+			return (exp->ret = -1, -1);
+		return (y);
 	}
-	return (y);
 }
 
 int	is_possible(char prev, char next, char quote, int i)
@@ -41,46 +41,71 @@ int	is_possible(char prev, char next, char quote, int i)
 		return (0);
 }
 
-int	addchar(char **result, char c, int *i)
+int	exp_char(char *str, int i, t_expand *exp)
 {
-	*result = joinchar(*result, c);
-	if (!*result)
-		return (-1);
+	int	y;
+
+	if (str[i] == '$' && ((i == 0 || str[i - 1] != '\\') && str[i + 1]
+			&& exp->q != '\''))
+	{
+		y = handle_dollar_expand(str + i, exp);
+		if (y == -1)
+			return (exp->ret = -1, -1);
+		i += y;
+	}
 	else
-		(*i)++;
-	return (1);
+	{
+		exp->result = joinchar(exp->result, str[i]);
+		if (!exp->result)
+			return (exp->ret = -1, -1);
+		i++;
+	}
+	return (i);
+}
+
+void	init_exp(t_expand *exp, int exit_status, t_env *env)
+{
+	exp->exit_status = exit_status;
+	exp->env = ft_env_dup(env);
+	exp->result = ft_strdup("");
+	exp->q = 0;
+	exp->ret = 0;
+}
+
+void	free_exp(t_expand *exp)
+{
+	if (!exp)
+		return ;
+	if (exp->result)
+		free(exp->result);
+	if (exp->env)
+		free_env(exp->env);
+	free(exp);
 }
 
 char	*expand_word(char *str, t_env *env, int exit_status, int i)
 {
-	int		y;
-	char	q;
-	char	*result;
+	t_expand	*exp;
+	char		*result;
 
-	q = 0;
-	result = ft_strdup("");
-	if (!result)
+	exp = malloc(sizeof(t_expand));
+	if (!exp)
 		return (NULL);
+	init_exp(exp, exit_status, env);
+	if (!exp->result || !exp->env)
+		return (free_exp(exp), NULL);
 	while (str[i])
 	{
-		if (handle_quote_expand(str, &i, &q, &result) == -1)
-			return (NULL);
+		if (handle_quote_expand(str, &i, exp) == -1)
+			return (free_exp(exp), NULL);
 		if (!str[i])
 			break ;
-		else if (str[i] == '$' && ((i == 0 || str[i - 1] != '\\') && str[i
-					+ 1] && q != '\''))
-		{
-			y = handle_dollar_expand(str + i, &result, env, exit_status);
-			if (y == -1)
-				return (NULL);
-			i += y;
-		}
-		else
-		{
-			if (addchar(&result, str[i], &i) == -1)
-				return (NULL);
-		}
+		i = exp_char(str, i, exp);
+		if (exp->ret == -1)
+			return (free_exp(exp), NULL);
 	}
+	result = ft_strdup(exp->result);
+	free_exp(exp);
 	return (result);
 }
 
