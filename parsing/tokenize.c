@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 11:12:55 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 11:14:26 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:22:27 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	redirect2(char *input, t_token **tokens)
 {
 	char	*tok;
 
-    if (input[0] == '>' && input[1] == '>')
+	if (input[0] == '>' && input[1] == '>')
 	{
 		tok = ft_strdup(">>");
 		if (!tok)

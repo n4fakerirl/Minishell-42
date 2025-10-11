@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 11:17:27 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:22:05 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,9 @@ void							ft_lstadd_back_new(t_token **toklist,
 									t_token *token);
 int								lstlen(t_token **toklist);
 void							printr(char *message);
+int								handlexp(t_token *tmp);
+int								handle_back(t_token *tmp);
+
 
 // CMD
 int								cmd_list(t_token *tokens, t_cmd **cmds, int i);
