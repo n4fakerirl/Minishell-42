@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:24:30 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 12:20:04 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:22:49 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*expand_var(char *result, char *str, t_env *env, int y)
 
 int	handle_quote_expand(char *str, int *i, char *quote, char **result)
 {
-	if ((str[(*i)] == '\"' || str[(*i)] == '\'') && (i == 0 || str[(*i
+	if ((str[(*i)] == '\"' || str[(*i)] == '\'') && (*i == 0 || str[(*i
 					- 1)] != '\\'))
 	{
 		if (*quote == 0)
