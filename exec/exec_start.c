@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 18:25:32 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:11:30 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void	forking_parent(t_shell *shell, int i)
 {
 	dup2(shell->saved_stdout, STDOUT_FILENO);
 	dup2(shell->saved_stdin, STDIN_FILENO);
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
 	if (shell->cmd->redirect)
 	{
 		if (shell->cmd->redirect->type == REDIRDL)
