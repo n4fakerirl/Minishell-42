@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 09:35:32 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 18:43:15 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:03:46 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	waiting(t_shell *shell)
 	while (++i < shell->nbr_cmd)
 	{
 		waitpid(shell->pipe_infos->pid[0], &status, 0);
+		dprintf(2, "waited pid %d: %d\n", i + 1, shell->pipe_infos->pid[i]);
 		check_signal_exec(shell, &status);
 		g_signal = 0;
 	}

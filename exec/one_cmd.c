@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 16:16:59 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:21:53 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
+	// close(shell->saved_stdin);
+	// close(shell->saved_stdout);
 	cmd_finale = get_cmd(shell);
 	if (!cmd_finale)
 	{
-		dup2(shell->saved_stdout, STDOUT_FILENO);
-		dup2(shell->saved_stdin, STDIN_FILENO);
-		close(shell->saved_stdin);
-		close(shell->saved_stdout);
+		// dup2(shell->saved_stdout, STDOUT_FILENO);
+		// dup2(shell->saved_stdin, STDIN_FILENO);
+		// close(shell->saved_stdin);
+		// close(shell->saved_stdout);
 		printf("bash: %s: command not found\n", shell->cmd->args[0]);
 		shell->exit_status = 127;
 		free_shell(shell);
@@ -34,10 +34,10 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 	}
 	if (execve(cmd_finale, shell->cmd->args, envp_initial))
 	{
-		dup2(shell->saved_stdout, STDOUT_FILENO);
-		dup2(shell->saved_stdin, STDIN_FILENO);
-		close(shell->saved_stdin);
-		close(shell->saved_stdout);
+		// dup2(shell->saved_stdout, STDOUT_FILENO);
+		// dup2(shell->saved_stdin, STDIN_FILENO);
+		// close(shell->saved_stdin);
+		// close(shell->saved_stdout);
 		perror("execve");
 		free(cmd_finale);
 		free_shell(shell);
@@ -77,8 +77,8 @@ void	one_cmd(t_shell *shell, char **envp_initial)
 		shell->exit_status = exec_builtin(shell, &(shell->env));
 	else
 		one_child(shell, envp_initial);
-	dup2(shell->saved_stdout, STDOUT_FILENO);
-	dup2(shell->saved_stdin, STDIN_FILENO);
+	// dup2(shell->saved_stdout, STDOUT_FILENO);
+	// dup2(shell->saved_stdin, STDIN_FILENO);
 	//close(shell->saved_stdin);
 	//close(shell->saved_stdout);
 }

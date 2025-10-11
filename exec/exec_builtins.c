@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:58:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 16:58:37 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:05:50 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	exec_builtin(t_shell *shell, t_env **env)
 		exit_code = ft_exit(shell->cmd->args + 1, &exit_flag);
 		if (exit_flag == 1)
 		{
-			close(shell->saved_stdin);
+			// close(shell->saved_stdin);
 			close(shell->saved_stdout);
 			return (free_shell(shell), exit(exit_code), 0);
 		}

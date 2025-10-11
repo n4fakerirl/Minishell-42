@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 18:43:17 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:21:13 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ void	forking_child(t_shell *shell, int i)
 {
 	int	exit_status;
 
+	
 	check_redir(shell, i);
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
+	// close(shell->saved_stdin);
+	// close(shell->saved_stdout);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (is_builtin(shell->cmd->args[0]))
@@ -49,15 +50,15 @@ void	forking_child(t_shell *shell, int i)
 	}
 	else
 	{
-		if (i == 0)
-			first_child(shell, shell->envp_initial);
-		else if (i == shell->nbr_cmd - 1)
-		{
-			fprintf(stderr, "DEUXIEME ENFANT\n");
-			last_child(shell, shell->envp_initial);
-		}
-		else
-			inter_child(shell, shell->envp_initial);
+		// if (i == 0)
+		// 	first_child(shell, shell->envp_initial);
+		// else if (i == shell->nbr_cmd - 1)
+		// {
+		// 	fprintf(stderr, "DEUXIEME ENFANT\n");
+		// 	last_child(shell, shell->envp_initial);
+		// }
+		// else
+		inter_child(shell, shell->envp_initial);
 	}
 }
 
@@ -87,15 +88,17 @@ void	forking_parent(t_shell *shell, int i)
 void	start_exec(t_shell *shell)
 {
 	int	i;
-	int	pid;
-	int	ppid;
+	// int	pid;
+	// int	ppid;
 
 	i = 0;
 	
-	shell->saved_stdin = dup(STDIN_FILENO);
-	shell->saved_stdout = dup(STDOUT_FILENO);
-	fprintf(stderr, "MON STDIN : %d\n", shell->saved_stdin);
-	fprintf(stderr, "MON STDOUT : %d\n", shell->saved_stdout);
+	// shell->saved_stdin = dup(STDIN_FILENO);
+	// shell->saved_stdout = dup(STDOUT_FILENO);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	// fprintf(stderr, "MON STDIN : %d\n", shell->saved_stdin);
+	// fprintf(stderr, "MON STDOUT : %d\n", shell->saved_stdout);
 	if (check_heredoc(shell))
 		return ;
 	if (shell->nbr_cmd == 1)
@@ -114,19 +117,18 @@ void	start_exec(t_shell *shell)
 			forking_child(shell, i);
 		else if (shell->pipe_infos->pid[i] > 0)
 		{
-			signal(SIGINT, SIG_IGN);
-			signal(SIGQUIT, SIG_IGN);
-			fprintf(stderr, "PARENT STDIN : %d in %d\n", shell->saved_stdin, pid);
-			fprintf(stderr, "PARENT STDOUT : %d in %d\n", shell->saved_stdout, pid);			
+			dprintf(2, "pid %d: %d\n", i + 1, shell->pipe_infos->pid[i]);
+			// fprintf(stderr, "PARENT STDIN : %d in %d\n", shell->saved_stdin, pid);
+			// fprintf(stderr, "PARENT STDOUT : %d in %d\n", shell->saved_stdout, pid);			
 			forking_parent(shell, i);
 		}
 		i++;
 		shell->cmd = shell->cmd->next;
 	}
 	waiting(shell);
-	dup2(shell->saved_stdout, STDOUT_FILENO);
-	dup2(shell->saved_stdin, STDIN_FILENO);
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
+	// dup2(shell->saved_stdout, STDOUT_FILENO);
+	// dup2(shell->saved_stdin, STDIN_FILENO);
+	// close(shell->saved_stdin);
+	// close(shell->saved_stdout);
 	return ;
 }
