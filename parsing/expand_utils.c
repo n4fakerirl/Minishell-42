@@ -6,19 +6,11 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 10:20:53 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 10:39:33 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int escape(char c)
-{
-	if (c == '\\' || c == '\"' || c == '\'' || c == '$')
-		return (1);
-	else
-		return (0);
-}
 
 char	*del_noquote(t_token *t, int i, int j)
 {
@@ -59,7 +51,7 @@ char	*del_back(t_token *t, int i, int j)
 		return (NULL);
 	while (t->value[i])
 	{
-		if (t->value[i] == '\\' && escape(t->value[i + 1]))
+		if (t->value[i] == '\\' && backspecial(t->value[i + 1]))
 		{
 			i++;
 			if (!t->value[i])
@@ -74,12 +66,51 @@ char	*del_back(t_token *t, int i, int j)
 	return (buf);
 }
 
+int	handle_back(t_token *tmp)
+{
+	char	*back;
+
+	if (tmp->state == NO_QUOTE)
+	{
+		back = del_noquote(tmp, 0, 0);
+		if (!back)
+			return (0);
+		free(tmp->value);
+		tmp->value = ft_strdup(back);
+		free(back);
+	}
+	else
+	{
+		back = del_back(tmp, 0, 0);
+		if (!back)
+			return (0);
+		free(tmp->value);
+		tmp->value = ft_strdup(back);
+		free(back);
+	}
+	return (1);
+}
+
+int	handlexp(t_token *tmp)
+{
+	int		len;
+	char	*new_value;
+
+	len = ft_strlen(tmp->value);
+	new_value = strip_quotes(tmp->value, len, 0, 0);
+	if (!new_value)
+		return (0);
+	free(tmp->value);
+	tmp->value = ft_strdup(new_value);
+	if (!tmp->value)
+		return (0);
+	free(new_value);
+	return (1);
+}
+
 int	trim_word(t_token *tokens)
 {
 	t_token	*tmp;
-	char	*new_value;
-	char 	*back;
-	int		len;
 
 	tmp = tokens;
 	while (tmp)
@@ -87,32 +118,14 @@ int	trim_word(t_token *tokens)
 		if ((tmp->type == WORD || tmp->type == ARGREDIR)
 			&& tmp->need_exp == false)
 		{
-			len = ft_strlen(tmp->value);
-			new_value = strip_quotes(tmp->value, len, 0, 0);
-			if (!new_value)
+			if (!handlexp(tmp))
 				return (0);
-			free(tmp->value);
-			tmp->value = new_value;
 		}
 		if ((tmp->type == WORD || tmp->type == ARGREDIR)
 			&& ft_strchr(tmp->value, '\\'))
 		{
-			if (tmp->state == NO_QUOTE)
-			{
-				back = del_noquote(tmp, 0, 0);
-				if (!back)
-					return (0);
-				free(tmp->value);
-				tmp->value = back;
-			}
-			else 
-			{
-				back = del_back(tmp, 0, 0);
-				if (!back)
-					return (0);
-				free(tmp->value);
-				tmp->value = back;
-			}
+			if (!handle_back(tmp))
+				return (0);
 		}
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:24:30 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/10 17:08:13 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 10:48:51 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_expandable(char *str)
 {
-	if (!str[1] || str[1] == ' ' || str[1] == '\'' || str[1] == '"')
+	if (!str[1] || str[1] == ' ' || str[1] == '\'' || str[1] == '\"')
 		return (0);
 	else if (ft_strncmp(str, "$?", 2) == 0)
 		return (1);

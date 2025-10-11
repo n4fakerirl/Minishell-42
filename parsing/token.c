@@ -6,23 +6,23 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 17:57:13 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 10:28:05 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int redirect2(char *input, t_token **tokens)
+int	redirect2(char *input, t_token **tokens)
 {
-	char *tok;
-	
+	char	*tok;
+
 	if (input[0] == '<')
 	{
 		tok = ft_strdup("<");
 		if (!tok)
 			return (-1);
 		return (ft_lstadd_back_new(tokens, create_token(REDIRL, tok)), 1);
-	}	
+	}
 	if (input[0] == '>')
 	{
 		tok = ft_strdup(">");
@@ -35,8 +35,8 @@ int redirect2(char *input, t_token **tokens)
 
 int	redirect(char *input, t_token **tokens)
 {
-	char *tok;
-	
+	char	*tok;
+
 	if (input[0] == '|')
 	{
 		tok = ft_strdup("|");
@@ -50,14 +50,14 @@ int	redirect(char *input, t_token **tokens)
 		if (!tok)
 			return (-1);
 		return (ft_lstadd_back_new(tokens, create_token(REDIRDL, tok)), 2);
-	}	
+	}
 	if (input[0] == '>' && input[1] == '>')
 	{
 		tok = ft_strdup(">>");
 		if (!tok)
 			return (-1);
 		return (ft_lstadd_back_new(tokens, create_token(REDIRDR, tok)), 2);
-	}	
+	}
 	if (input[0] == '<' || input[0] == '>')
 		return (redirect2(input, tokens));
 	return (0);
@@ -101,9 +101,9 @@ int	skip_redir(char c)
 		return (1);
 }
 
-int create_word(char *input, t_token **tokens, int i)
+int	create_word(char *input, t_token **tokens, int i)
 {
-	char *tok;
+	char	*tok;
 
 	tok = ft_substr(input, 0, i);
 	if (!tok)
@@ -143,7 +143,7 @@ int	handle_word(char *input, t_token **tokens, int i)
 t_token	*tokenize(char *input)
 {
 	int		i;
-	int 	count;
+	int		count;
 	t_token	*tokens;
 
 	i = 0;
