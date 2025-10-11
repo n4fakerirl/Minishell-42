@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 14:36:34 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 14:48:22 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	exp_char(char *str, int i, t_expand *exp)
 void	init_exp(t_expand *exp, int exit_status, t_env *env)
 {
 	exp->exit_status = exit_status;
-	exp->env = ft_env_dup(env);
+	exp->env = env;
 	exp->result = ft_strdup("");
 	exp->q = 0;
 	exp->ret = 0;
@@ -78,8 +78,6 @@ void	free_exp(t_expand *exp)
 		return ;
 	if (exp->result)
 		free(exp->result);
-	if (exp->env)
-		free_env(exp->env);
 	free(exp);
 }
 
