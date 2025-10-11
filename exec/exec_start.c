@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 19:21:13 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:50:34 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ void	forking_child(t_shell *shell, int i)
 	signal(SIGQUIT, SIG_DFL);
 	if (is_builtin(shell->cmd->args[0]))
 	{
+		dprintf(2, "IN A BUILTIN\n");
 		shell->exit_status = exec_builtin(shell, &(shell->env));
 		exit_status = shell->exit_status;
 		free_shell(shell);
-		fprintf(stderr, "JE VAIS EXIT MON BUILTIN\n");
 		exit(exit_status);
 	}
 	else

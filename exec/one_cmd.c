@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 19:21:53 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:40:33 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,15 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 		free_shell(shell);
 		exit(127);
 	}
-	if (execve(cmd_finale, shell->cmd->args, envp_initial))
-	{
-		// dup2(shell->saved_stdout, STDOUT_FILENO);
-		// dup2(shell->saved_stdin, STDIN_FILENO);
-		// close(shell->saved_stdin);
-		// close(shell->saved_stdout);
-		perror("execve");
-		free(cmd_finale);
-		free_shell(shell);
-		exit(127);
-	}
+	execve(cmd_finale, shell->cmd->args, envp_initial);
+	// dup2(shell->saved_stdout, STDOUT_FILENO);
+	// dup2(shell->saved_stdin, STDIN_FILENO);
+	// close(shell->saved_stdin);
+	// close(shell->saved_stdout);
+	perror("execve");
+	free(cmd_finale);
+	free_shell(shell);
+	exit(127);
 }
 
 void	one_child(t_shell *shell, char **envp_initial)
