@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:25:54 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 15:17:18 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:50:08 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ t_redir	*redirections(t_cmd *cmd, t_token *token)
 		}
 		tmp = tmp->next;
 	}
+	cmd->head_redir = cmd->redirect;
 	return (cmd->redirect);
 }

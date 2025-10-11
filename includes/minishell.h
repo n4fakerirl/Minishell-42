@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 14:43:37 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:49:05 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_redir
 typedef struct s_cmd
 {
 	char						**args;
+	t_redir						*head_redir;
 	t_redir						*redirect;
 	int							is_pipe;
 	int							here_doc;

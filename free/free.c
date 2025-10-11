@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:49:33 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 15:09:41 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:50:38 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	free_cmd(t_cmd *cmd)
 				free(tmp->args[i++]);
 			free(tmp->args);
 		}
-		if (tmp->redirect)
-			free_redir(tmp->redirect);
+		if (tmp->head_redir)
+			free_redir(tmp->head_redir);
 		next = tmp->next;
 		free(tmp);
 		tmp = next;
