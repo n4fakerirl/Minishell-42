@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 16:26:31 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 16:54:58 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	forking_child(t_shell *shell, int i)
 	close(shell->saved_stdout);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	fprintf(stderr, "MA COMMANDE AU RAND :%d : %s\n", i, shell->cmd->args[0]);
+	fprintf(stderr, "MA OPTION AU RAND :%d : %s\n", i, shell->cmd->args[1]);
 	if (is_builtin(shell->cmd->args[0]))
 	{
 		shell->exit_status = exec_builtin(shell, &(shell->env));
@@ -83,6 +85,8 @@ void	forking_parent(t_shell *shell, int i)
 void	start_exec(t_shell *shell)
 {
 	int	i;
+	int	pid;
+	int	ppid;
 
 	i = 0;
 	shell->saved_stdin = dup(STDIN_FILENO);
@@ -99,6 +103,10 @@ void	start_exec(t_shell *shell)
 			if (piping(shell, i) < 0)
 				return ;
 		forking(shell, i);
+		pid = getpid();
+		ppid = getppid();
+		fprintf(stderr, "PID : %d\n", pid);
+		fprintf(stderr, "PPID : %d\n", ppid);
 		if (shell->pipe_infos->pid[i] == 0)
 			forking_child(shell, i);
 		else if (shell->pipe_infos->pid[i] > 0)

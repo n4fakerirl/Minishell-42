@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:49:33 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 15:50:38 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 16:48:14 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void	free_shell(t_shell *shell)
 		free_env(shell->env);
 	if (shell->pipe_infos)
 		free(shell->pipe_infos);
-	if (shell->saved_stdin)
+/*  	if (shell->saved_stdin)
 		close(shell->saved_stdin);
 	if (shell->saved_stdout)
-		close(shell->saved_stdout);
+		close(shell->saved_stdout); */
 	free(shell);
 }

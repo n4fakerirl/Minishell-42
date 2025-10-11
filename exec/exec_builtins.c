@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:58:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 18:26:04 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 16:58:37 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,17 @@ int	exec_builtin(t_shell *shell, t_env **env)
 {
 	int	exit_flag;
 	int	exit_code;
+	t_shell	*tmp;
 
+
+	tmp = shell;
 	exit_flag = 1;
 	exit_code = 0;
 	if (!ft_strcmp(shell->cmd->args[0], "echo"))
 		return (ft_echo(shell->cmd->args + 1));
 	else if (!ft_strcmp(shell->cmd->args[0], "cd"))
 		return (ft_cd(shell->cmd->args + 1, env));
-	else if (!ft_strcmp(shell->cmd->args[0], "pwd"))
+	else if (!ft_strcmp(tmp->cmd->args[0], "pwd"))
 		return (ft_pwd());
 	else if (!ft_strcmp(shell->cmd->args[0], "env"))
 		return (ft_env(shell->cmd->args + 1, *env, false));
