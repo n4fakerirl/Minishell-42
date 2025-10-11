@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 11:44:34 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 12:19:43 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	is_possible(char prev, char next, char quote, int i)
 int	addchar(char **result, char c, int *i)
 {
 	*result = joinchar(*result, c);
-	if (!result)
+	if (!*result)
 		return (-1);
 	else
 		(*i)++;
@@ -59,6 +59,8 @@ char	*expand_word(char *str, t_env *env, int exit_status, int i)
 
 	q = 0;
 	result = ft_strdup("");
+	if (!result)
+		return (NULL);
 	while (str[i])
 	{
 		if (handle_quote_expand(str, &i, &q, &result) == -1)
