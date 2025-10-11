@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 18:28:08 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:30:29 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ void	add_cmds(t_cmd **cmds, t_cmd *cmd)
 	cmd->next = NULL;
 }
 
-t_cmd	*create_cmd(t_cmd **cmds, t_token *tokens)
+t_cmd	*create_cmd(t_cmd **cmds, t_token *tokens, int *i)
 {
 	t_cmd	*current;
 
+	(*i) = 0;
 	current = malloc(sizeof(t_cmd));
 	if (!current)
 		return (NULL);
@@ -65,6 +66,14 @@ int	type(t_token *tmp)
 		return (0);
 }
 
+int new_args(t_cmd *cmd, t_token *tmp, int i)
+{
+	cmd->args[i] = ft_strdup(tmp->value);
+	if (!cmd->args[i])
+		return (free_split(cmd->args), -1);
+	return (1);
+}
+
 int	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 {
 	t_token	*tmp;
@@ -72,19 +81,16 @@ int	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 	t_token	*start;
 
 	tmp = tokens;
-	current = NULL;
 	while (tmp)
 	{
-		current = create_cmd(cmds, tokens);
-		i = 0;
+		current = create_cmd(cmds, tokens, &i);
 		start = tmp;
 		while (tmp && tmp->type != PIPE)
 		{
 			if (type(tmp) == 1)
 			{
-				current->args[i] = del_back(tmp, 0, 0);
-				if (!current->args[i])
-					return (free_split(current->args), 0);
+				if (new_args(current, tmp, i) == -1)
+					return (0);
 				i++;
 			}
 			tmp = tmp->next;

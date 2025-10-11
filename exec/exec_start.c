@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 11:29:52 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:36:49 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	forking_parent(t_shell *shell, int i)
 {
 	dup2(shell->saved_stdout, STDOUT_FILENO);
 	dup2(shell->saved_stdin, STDIN_FILENO);
-	//close(shell->saved_stdin);
-	//close(shell->saved_stdout);
 	if (shell->cmd->redirect)
 	{
 		if (shell->cmd->redirect->type == REDIRDL)

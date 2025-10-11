@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/10 17:25:48 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/11 11:23:27 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,12 @@ int	is_possible(char prev, char next, char quote, int i)
 		return (0);
 }
 
-char	*expand_word(char *str, t_env *env, int exit_status)
+char	*expand_word(char *str, t_env *env, int exit_status, int i)
 {
-	int		i;
 	int		y;
 	char	q;
 	char	*result;
 
-	i = 0;
 	q = 0;
 	result = ft_strdup("");
 	while (str[i])
@@ -86,9 +84,13 @@ int	expand_tokens(t_token *tokens, t_env *env, int exit_status)
 	{
 		if (tmp->type == WORD && tmp->need_exp == true)
 		{
-			expanded = expand_word(tmp->value, env, exit_status);
+			expanded = expand_word(tmp->value, env, exit_status, 0);
+			if (!expanded)
+				return (0);
 			free(tmp->value);
 			tmp->value = ft_strdup(expanded);
+			if (!tmp->value)
+				return (free(expanded), 0);
 			free(expanded);
 		}
 		tmp = tmp->next;
