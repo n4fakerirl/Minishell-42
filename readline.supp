@@ -1,72 +1,30 @@
 {
-   <Readline>
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   ...
-   fun:readline
-   ...
+    leak readline
+    Memcheck:Leak
+    ...
+    fun:readline
 }
 {
-   <Readline>
-   Memcheck:Leak
-   match-leak-kinds: definite
-   fun:malloc
-   fun:xmalloc
-   fun:rl_add_undo
-   fun:rl_insert_text
-   fun:_rl_insert_char
-   fun:rl_insert
-   fun:_rl_dispatch_subseq
-   fun:readline_internal_char
-   fun:readline
-   ...
+	leak readline_buffer
+	Memcheck:Leak
+	...
+	fun:readline_internal_char
 }
 {
-   <AddHistory>
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:malloc
-   fun:xmalloc
-   fun:add_history
-   fun:alloc_history_entry
-   ...
+    leak add_history
+    Memcheck:Leak
+    ...
+    fun:add_history
 }
 {
-  <Readline/AddHistory>
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:malloc
-   fun:xmalloc
-   fun:add_history
-   ...
+    leak usrbin
+    Memcheck:Leak
+    ...
+    obj:/usr/bin/*
 }
-
 {
-   readline_leak
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:readline
+    leak binbin
+    Memcheck:Leak
+    ...
+    obj:/bin/*
 }
-
-{
-   add_history_leak
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:add_history
-}
-
-{
-   readline_add_history
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:add_history
-}
-
-{
-   readline_leak
-   Memcheck:Leak
-   match-leak-kinds: reachable
-   fun:readline
-}
-
-

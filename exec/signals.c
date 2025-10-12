@@ -6,13 +6,21 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:24:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 21:33:13 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/12 17:27:19 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 volatile sig_atomic_t	g_signal = 0;
+
+void	handle_sigint_heredoc(int sig)
+{
+	(void)sig;
+	g_signal = SIGINT;
+	write(1, "\n", 1);
+	rl_done = 1;
+}
 
 void	sigint_handler(int sig)
 {
@@ -45,6 +53,7 @@ void	check_signal_exec(t_shell *shell, int *status)
 
 void	check_signal_heredoc(t_shell *shell, int *status)
 {
+	
 	if (WIFSIGNALED(*status) && WTERMSIG(*status) == SIGINT)
 	{
 		shell->heredoc_interrupted = 1;

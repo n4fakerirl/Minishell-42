@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 21:17:23 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/12 13:47:12 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,12 +136,13 @@ void							print_token(t_token *token);
 
 // ETAPE 1 : PARSING
 // 1.1 START PARSING
-void							start_parsing(char *str, int exit_status, t_shell *shell);
-t_shell							*init_shell(char **envp, int exit_status, int first, t_env *tmp_env);
+void							start_parsing(char *str, int exit_status,
+									t_shell *shell);
+t_shell							*init_shell(char **envp, int exit_status,
+									int first, t_env *tmp_env);
 t_env							*env_conv(char *str);
 t_env							*init_env(char **envp);
 t_env							*ft_env_dup(t_env *env);
-
 
 // 1.2 TOKEN & TOKEN_UTILS
 t_token							*tokenize(char *input);
@@ -245,6 +246,7 @@ void							sigint_handler(int sig);
 void							check_signal_exec(t_shell *shell, int *status);
 void							check_signal_heredoc(t_shell *shell,
 									int *status);
+void							handle_sigint_heredoc(int sig);
 
 t_env							*ft_env_new(const char *key, const char *value);
 t_env							*ft_env_dup(t_env *env);

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 21:10:28 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/12 15:36:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	forking(t_shell *shell, int i)
 void	forking_child(t_shell *shell, int i)
 {
 	int	exit_status;
-
 	
 	check_redir(shell, i);
 	close(shell->saved_stdin);
@@ -60,8 +59,6 @@ void	forking_child(t_shell *shell, int i)
 
 void	forking_parent(t_shell *shell, int i)
 {
-	//dup2(shell->saved_stdout, STDOUT_FILENO);
-	//dup2(shell->saved_stdin, STDIN_FILENO);
 	if (shell->cmd->redirect)
 	{
 		if (shell->cmd->redirect->type == REDIRDL)
@@ -89,7 +86,10 @@ void	start_exec(t_shell *shell)
 	shell->saved_stdin = dup(STDIN_FILENO);
 	shell->saved_stdout = dup(STDOUT_FILENO);
 	if (check_heredoc(shell))
+	{
+		fprintf(stderr, "HEREDOC INTERRUPTED\n");	
 		return ;
+	}
 	if (shell->nbr_cmd == 1)
 		return (one_cmd(shell, shell->envp_initial));
 	while (shell->cmd)
@@ -112,3 +112,4 @@ void	start_exec(t_shell *shell)
 	waiting(shell);
 	return ;
 }
+
