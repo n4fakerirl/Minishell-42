@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/12 19:19:29 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/12 20:44:48 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,15 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 	(void)shell;
 	while (1)
 	{
-		dprintf(2, "ici freeshell et g->%d\n", g_signal);
 		line = readline("> ");
 		if (g_signal == SIGINT)
 		{
-			dprintf(2, "ici freeshell\n");
 			if (line)
 				free(line);
 			free_shell(shell);
 			close(fd[1]);
 			close(fd[0]);
-			exit(0);
+			return (130);
 		}
 		if (!line)
 		{
@@ -61,7 +59,6 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 	}
 	close(fd[1]);
 	close(fd[0]);
-	// free_shell(shell);
 	return (0);
 }
 
@@ -76,13 +73,10 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 	if (pid == 0)
 	{
 		rl_event_hook = exit_test;
-		// g_signal = 0;
 		signal(SIGINT, handle_sigint_heredoc);
-		// signal(SIGQUIT, SIG_DFL);
-		fork_heredoc(tmp_r, fd, shell);
-		//free_shell(shell);
-		// printf("hello\n");
-		exit(0);
+		signal(SIGQUIT, SIG_DFL);
+		status = fork_heredoc(tmp_r, fd, shell);
+		exit (status);
 	}
 	else
 	{
@@ -91,6 +85,7 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 		tmp->here_doc = fd[0];
 		close(fd[1]);
 		waitpid(pid, &status, 0);
+		status = WEXITSTATUS(status);
 		check_signal_heredoc(shell, &status);
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
@@ -118,7 +113,6 @@ int	check_heredoc(t_shell *shell)
 					close(fd[0]);
 				if (shell->heredoc_interrupted == 1)
 				{
-					fprintf(stderr, "CTRL C HERE DOC\n");
 					shell->heredoc_interrupted = 0;
 					return (1);
 				}

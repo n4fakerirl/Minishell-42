@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
+#    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/11 14:33:42 by ocviller         ###   ########.fr        #
+#    Updated: 2025/10/12 19:52:01 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 
 #Compilateur et flags
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -Wall -Wextra -Werror -g3 -MMD -MP
 
 #Dossiers
 #BUITLINS_DIR = builtins
@@ -55,6 +55,8 @@ EXEC = $(EXEC_DIR)/exec_builtins.c $(EXEC_DIR)/exec_start.c $(EXEC_DIR)/path.c $
 SRCS = $(FREE) $(PARSING) $(BUITLINS) $(EXEC) main.c
 #SRCS = $(EXEC) $(BUITLINS) $(UTILS) $(REDIR) $(HEREDOC) main.c
 OBJS = $(SRCS:.c=.o)
+
+DEPS = $(OBJS:.o=.d)
  
 #Commandes
 RM = rm -f
@@ -78,7 +80,7 @@ $(NAME): $(OBJS)
 #	$(CC) $(FLAGS) -o $(NAME_BONUS) $(OBJS_BONUS) $(LIBFT)
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(DEPS)
 	make clean -C $(LIBFT_DIR)
 
 fclean: clean
@@ -86,5 +88,7 @@ fclean: clean
 	make fclean -C $(LIBFT_DIR)
 
 re: fclean all
+
+-include $(DEPS)
 
 .PHONY: all clean fclean re test

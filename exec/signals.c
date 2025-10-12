@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:24:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/12 17:27:19 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/12 20:03:06 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	check_signal_exec(t_shell *shell, int *status)
 
 void	check_signal_heredoc(t_shell *shell, int *status)
 {
-	
 	if (WIFSIGNALED(*status) && WTERMSIG(*status) == SIGINT)
 	{
+		fprintf(stderr, "JE MET INTERRUPTED a 1\n");
 		shell->heredoc_interrupted = 1;
 		shell->exit_status = 130;
 	}
