@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 14:48:22 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:11:46 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,6 @@ int	handle_dollar_expand(char *str, t_expand *exp)
 			return (exp->ret = -1, -1);
 		return (y);
 	}
-}
-
-int	is_possible(char prev, char next, char quote, int i)
-{
-	if ((i == 0 || prev != '\\') && next != '\0' && quote != '\'')
-		return (1);
-	else
-		return (0);
 }
 
 int	exp_char(char *str, int i, t_expand *exp)
@@ -72,15 +64,6 @@ void	init_exp(t_expand *exp, int exit_status, t_env *env)
 	exp->ret = 0;
 }
 
-void	free_exp(t_expand *exp)
-{
-	if (!exp)
-		return ;
-	if (exp->result)
-		free(exp->result);
-	free(exp);
-}
-
 char	*expand_word(char *str, t_env *env, int exit_status, int i)
 {
 	t_expand	*exp;
@@ -96,6 +79,8 @@ char	*expand_word(char *str, t_env *env, int exit_status, int i)
 	{
 		if (handle_quote_expand(str, &i, exp) == -1)
 			return (free_exp(exp), NULL);
+		if (handle_quote_expand(str, &i, exp) == -1)
+			continue ;
 		if (!str[i])
 			break ;
 		i = exp_char(str, i, exp);

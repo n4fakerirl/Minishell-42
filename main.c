@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 21:41:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:09:15 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av, char **envp)
 	t_shell	*shell;
 	int		exit_status;
 	t_env	*tmp;
-	int	first;
+	int		first;
 
 	first = 0;
 	tmp = NULL;
@@ -47,8 +47,13 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		shell = init_shell(envp, exit_status, first, tmp);
-		start_parsing(str, exit_status, shell);
 		if (!shell)
+		{
+			exit_status = 0;
+			free(str);
+			continue ;
+		}
+		if (!start_parsing(str, exit_status, shell))
 		{
 			exit_status = 2;
 			free(str);

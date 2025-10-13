@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:50 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 14:32:14 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:57:28 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,60 @@ t_env	*ft_env_dup(t_env *env)
 		env = env->next;
 	}
 	return (new_list);
+}
+
+t_env	*env_conv(char *str)
+{
+	t_env	*node;
+	char	*equal;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	equal = ft_strchr(str, '=');
+	if (equal)
+	{
+		node->key = ft_substr(str, 0, equal - str);
+		if (!node->key)
+			return (free(node), NULL);
+		node->value = ft_strdup(equal + 1);
+		if (!node->value)
+			return (free(node), NULL);
+	}
+	else
+	{
+		node->key = ft_strdup(str);
+		if (!node->key)
+			return (free(node), NULL);
+		node->value = NULL;
+	}
+	node->next = NULL;
+	return (node);
+}
+
+t_env	*init_env(char **envp)
+{
+	t_env	*head;
+	t_env	*tmp;
+	t_env	*new;
+	int		i;
+
+	head = NULL;
+	i = -1;
+	if (!envp || !*envp)
+		return (NULL);
+	while (envp[++i])
+	{
+		new = env_conv(envp[i]);
+		if (!head)
+			head = new;
+		else
+		{
+			tmp = head;
+			while (tmp->next)
+				tmp = tmp->next;
+			tmp->next = new;
+		}
+	}
+	return (head);
 }
