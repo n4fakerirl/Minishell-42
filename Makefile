@@ -3,12 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
+#    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/12 19:52:01 by lenakach         ###   ########.fr        #
+#    Updated: 2025/10/13 14:54:07 by ocviller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+#Couleurs
+RED = \033[0;31m
+ORANGE = \033[38;5;208m
+YELLOW = \033[1;33m
+GREEN = \033[0;32m
+CYAN = \033[0;36m
+BLUE = \033[0;34m
+PURPLE = \033[0;35m
+PINK = \033[38;5;205m
+RESET = \033[0m
 
 #Nom de l'exec
 NAME = minishell
@@ -61,31 +72,42 @@ DEPS = $(OBJS:.o=.d)
 #Commandes
 RM = rm -f
 
+#Banniere
+banner:
+	@echo "$(RED)███╗   ███╗$(ORANGE)██╗$(YELLOW)███╗   ██╗$(GREEN)██╗$(CYAN)███████╗$(BLUE)██╗  ██╗$(PURPLE)███████╗$(PINK)██╗     $(RED)██╗     $(RESET)🍒"
+	@echo "$(RED)████╗ ████║$(ORANGE)██║$(YELLOW)████╗  ██║$(GREEN)██║$(CYAN)██╔════╝$(BLUE)██║  ██║$(PURPLE)██╔════╝$(PINK)██║     $(RED)██║     $(RESET)🍊"
+	@echo "$(RED)██╔████╔██║$(ORANGE)██║$(YELLOW)██╔██╗ ██║$(GREEN)██║$(CYAN)███████╗$(BLUE)███████║$(PURPLE)█████╗  $(PINK)██║     $(RED)██║     $(RESET)🍋"
+	@echo "$(RED)██║╚██╔╝██║$(ORANGE)██║$(YELLOW)██║╚██╗██║$(GREEN)██║$(CYAN)╚════██║$(BLUE)██╔══██║$(PURPLE)██╔══╝  $(PINK)██║     $(RED)██║     $(RESET)🥝"
+	@echo "$(RED)██║ ╚═╝ ██║$(ORANGE)██║$(YELLOW)██║ ╚████║$(GREEN)██║$(CYAN)███████║$(BLUE)██║  ██║$(PURPLE)███████╗$(PINK)███████╗$(RED)███████╗$(RESET)🫐"
+	@echo "$(RED)╚═╝     ╚═╝$(ORANGE)╚═╝$(YELLOW)╚═╝  ╚═══╝$(GREEN)╚═╝$(CYAN)╚══════╝$(BLUE)╚═╝  ╚═╝$(PURPLE)╚══════╝$(PINK)╚══════╝$(RED)╚══════╝$(RESET)🍇"
+	@echo ""
+	@echo "$(CYAN)🍓 Compilation en cours...$(RESET)"
+	@echo ""
+
 #Regles
-all : $(LIBFT) $(NAME)
+all : banner $(LIBFT) $(NAME)
 
 $(LIBFT):
-	@echo "Compilation de Libft..."
+	@echo "$(GREEN)🥝 Compilation de la libft...$(RESET)"
 	@make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline
+	@echo "$(RED)🍒 Compilation de l'executable...$(RESET)"
+	@$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline
 
 %.o: %.c
-	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
-
-#bonus: $(LIBFT) $(NAME_BONUS)
-
-#$(NAME_BONUS): $(OBJS_BONUS)
-#	$(CC) $(FLAGS) -o $(NAME_BONUS) $(OBJS_BONUS) $(LIBFT)
+	@echo "$(ORANGE)🍊 Compilation des objets...$(RESET)"
+	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) $(DEPS)
-	make clean -C $(LIBFT_DIR)
+	@echo "$(PURPLE)🍇 Nettoyage des objets...$(RESET)"
+	@$(RM) $(OBJS) $(DEPS)
+	@make clean -C $(LIBFT_DIR)
 
 fclean: clean
-	$(RM) $(NAME)
-	make fclean -C $(LIBFT_DIR)
+	@echo "$(BLUE)🫐 Nettoyage de l'executable et des objets...$(RESET)"
+	@$(RM) $(NAME)
+	@make fclean -C $(LIBFT_DIR)
 
 re: fclean all
 

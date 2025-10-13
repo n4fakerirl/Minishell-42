@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
+#    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/30 11:52:01 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/03 18:25:10 by lenakach         ###   ########.fr        #
+#    Updated: 2025/10/13 13:49:29 by ocviller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,24 +40,24 @@ AR = ar rcs
 
 #Creation des .o a partir des .c 
 %.o: %.c
-	$(CC) $(FLAGS) -I$(INCLUDES) -c $< -o $@
+	@$(CC) $(FLAGS) -I$(INCLUDES) -c $< -o $@
 
 #Regle principale
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(OBJS_BONUS)
-	$(AR) $(NAME) $(OBJS) $(OBJS_BONUS)
+	@$(AR) $(NAME) $(OBJS) $(OBJS_BONUS)
 
 #bonus: $(OBJS_BONUS)
 #	$(AR) $(NAME) $(OBJS_BONUS)
 
 # Nettoyage des .o
 clean:
-	$(RM) $(OBJS) $(OBJS_BONUS)
+	@$(RM) $(OBJS) $(OBJS_BONUS)
 
 # Suppression de tous les fichiers générés
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 # Recompilation complète
 re: fclean all
