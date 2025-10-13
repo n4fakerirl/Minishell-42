@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 14:48:22 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:47:31 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ char	*expand_word(char *str, t_env *env, int exit_status, int i)
 	{
 		if (handle_quote_expand(str, &i, exp) == -1)
 			return (free_exp(exp), NULL);
+		if (handle_quote_expand(str, &i, exp) == -1)
+			continue ;
 		if (!str[i])
 			break ;
 		i = exp_char(str, i, exp);

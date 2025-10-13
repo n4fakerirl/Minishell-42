@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:24:30 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 14:22:56 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:45:43 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	handle_quote_expand(char *str, int *i, t_expand *exp)
 				return (exp->ret = -1, -1);
 		}
 		(*i)++;
+		return (1);
 	}
 	return (0);
 }
