@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:19:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 21:17:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:09:25 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,77 +35,31 @@ t_pipe	*init_pipe(void)
 	return (new_pipe);
 }
 
-t_env	*env_conv(char *str)
+t_shell	*fill_shell(int exit_status)
 {
-	t_env	*node;
-	char	*equal;
+	t_shell	*shell;
 
-	node = malloc(sizeof(t_env));
-	if (!node)
+	shell = malloc(sizeof(t_shell));
+	if (!shell)
 		return (NULL);
-	equal = ft_strchr(str, '=');
-	if (equal)
-	{
-		node->key = ft_substr(str, 0, equal - str);
-		if (!node->key)
-			return (free(node), NULL);
-		node->value = ft_strdup(equal + 1);
-		if (!node->value)
-			return (free(node), NULL);
-	}
-	else
-	{
-		node->key = ft_strdup(str);
-		if (!node->key)
-			return (free(node), NULL);
-		node->value = NULL;
-	}
-	node->next = NULL;
-	return (node);
+	shell->nbr_cmd = 0;
+	shell->exit_status = exit_status;
+	shell->saved_stdin = 0;
+	shell->heredoc_interrupted = 0;
+	shell->head_cmd = NULL;
+	shell->saved_stdout = 0;
+	shell->cmd = NULL;
+	shell->pipe_infos = init_pipe();
+	return (shell);
 }
 
-t_env	*init_env(char **envp)
-{
-	t_env	*head;
-	t_env	*tmp;
-	t_env	*new;
-	int		i;
-
-	head = NULL;
-	i = -1;
-	if (!envp || !*envp)
-		return (NULL);
-	while (envp[++i])
-	{
-		new = env_conv(envp[i]);
-		if (!head)
-			head = new;
-		else
-		{
-			tmp = head;
-			while (tmp->next)
-				tmp = tmp->next;
-			tmp->next = new;
-		}
-	}
-	return (head);
-}
-
-t_shell *init_shell(char **envp, int exit_status, int first, t_env *tmp_env)
+t_shell	*init_shell(char **envp, int exit_status, int first, t_env *tmp_env)
 {
 	t_shell	*new_shell;
 
-	new_shell = malloc(sizeof(t_shell));
+	new_shell = fill_shell(exit_status);
 	if (!new_shell)
 		return (NULL);
-	new_shell->nbr_cmd = 0;
-	new_shell->exit_status = exit_status;
-	new_shell->saved_stdin = 0;
-	new_shell->heredoc_interrupted = 0;
-	new_shell->head_cmd = NULL;
-	new_shell->saved_stdout = 0;
-	new_shell->cmd = NULL;
-	new_shell->pipe_infos = init_pipe();
 	if (first == 0)
 	{
 		new_shell->env = init_env(envp);

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 11:24:14 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:13:04 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ void							free_redir(t_redir *redir);
 void							free_split(char **split);
 void							free_env(t_env *env);
 void							free_token(t_token *token);
+void							free_exp(t_expand *exp);
 
 // Exec
 void							start_exec(t_shell *shell);

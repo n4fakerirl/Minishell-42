@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 19:56:38 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 14:26:46 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:12:18 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,13 @@ void	free_token(t_token *token)
 		free(tmp);
 		tmp = next;
 	}
+}
+
+void	free_exp(t_expand *exp)
+{
+	if (!exp)
+		return ;
+	if (exp->result)
+		free(exp->result);
+	free(exp);
 }

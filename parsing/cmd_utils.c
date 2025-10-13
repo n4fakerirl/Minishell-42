@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:25:54 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 15:50:08 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:54:43 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,21 @@ void	add_cmds(t_cmd **cmds, t_cmd *cmd)
 	cmd->next = NULL;
 }
 
+t_redir	*init_redir(t_token *tmp)
+{
+	t_redir	*node;
+
+	node = malloc(sizeof(t_redir));
+	if (!node)
+		return (NULL);
+	node->type = tmp->type;
+	node->file = ft_strdup(tmp->next->value);
+	if (!node->file)
+		return (free(node), NULL);
+	node->next = NULL;
+	return (node);
+}
+
 t_redir	*redirections(t_cmd *cmd, t_token *token)
 {
 	t_redir	*node;
@@ -56,14 +71,9 @@ t_redir	*redirections(t_cmd *cmd, t_token *token)
 		{
 			if (tmp->next && tmp->next->type == ARGREDIR)
 			{
-				node = malloc(sizeof(t_redir));
+				node = init_redir(tmp);
 				if (!node)
 					return (NULL);
-				node->type = tmp->type;
-				node->file = ft_strdup(tmp->next->value);
-				if (!node->file)
-					return (free(node), NULL);
-				node->next = NULL;
 				add_redir(&(cmd->redirect), node);
 				tmp = tmp->next;
 			}
