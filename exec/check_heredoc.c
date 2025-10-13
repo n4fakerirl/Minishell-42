@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 12:38:18 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:56:07 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
 		free(line);
-		dprintf(2, "here\n");
 	}
 	close(fd[1]);
 	close(fd[0]);

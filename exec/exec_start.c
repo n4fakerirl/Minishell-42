@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/12 15:36:29 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:55:40 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,7 @@ void	start_exec(t_shell *shell)
 	shell->saved_stdin = dup(STDIN_FILENO);
 	shell->saved_stdout = dup(STDOUT_FILENO);
 	if (check_heredoc(shell))
-	{
-		fprintf(stderr, "HEREDOC INTERRUPTED\n");	
 		return ;
-	}
 	if (shell->nbr_cmd == 1)
 		return (one_cmd(shell, shell->envp_initial));
 	while (shell->cmd)
