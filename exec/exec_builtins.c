@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:58:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 15:46:51 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:51:15 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	exec_builtin(t_shell *shell, t_env **env)
 	{
 		exit_code = ft_exit(shell->cmd->args + 1, &exit_flag);
 		if (exit_flag == 1)
-			return (close(shell->saved_stdout), free_shell(shell),
+			return (close(shell->saved_stdout), free_exit(shell),
 				exit(exit_code), 0);
 	}
 	else if (!ft_strcmp(shell->cmd->args[0], "export"))

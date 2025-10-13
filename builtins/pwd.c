@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 19:30:26 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 19:24:41 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:31:53 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_pwd(void)
 	if (cwd != NULL)
 	{
 		ft_putendl_fd(cwd, 1);
+		write(1, "\n", 1);
 		free(cwd);
 	}
 	else

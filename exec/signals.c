@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:24:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 19:05:40 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:02:10 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,10 @@ void	check_signal_heredoc(t_shell *shell, int *status, t_cmd *tmp)
 		shell->heredoc_interrupted = 1;
 		shell->exit_status = 130;
 	}
+}
+
+void	handle_sig(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

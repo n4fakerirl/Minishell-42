@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:12:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 17:34:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:58:02 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ctrlc_action(t_cmd *tmp, char *line, t_shell *shell, int fd[2])
 		close(tmp->here_doc);
 	if (line)
 		free(line);
-	free_shell(shell);
+	free_exit(shell);
 	close(fd[1]);
 	close(fd[0]);
 	return (130);
@@ -59,7 +59,7 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell, t_cmd *tmp)
 	}
 	close(fd[1]);
 	close(fd[0]);
-	return (free_shell(shell), 0);
+	return (free_exit(shell), 0);
 }
 
 void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])

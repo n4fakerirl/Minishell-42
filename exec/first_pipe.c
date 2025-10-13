@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 18:46:19 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 21:13:40 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:52:23 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	first_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdin);
 		close(shell->saved_stdout);
 		shell->exit_status = 127;
-		free_shell(shell);
+		free_exit(shell);
 		exit (127);
 	}
 	execve(cmd_finale, shell->cmd->args, envp_initial);
@@ -34,6 +34,6 @@ void	first_child(t_shell *shell, char **envp_initial)
 	close(shell->saved_stdout);
 	perror("execve");
 	free(cmd_finale);
-	free_shell(shell);
+	free_exit(shell);
 	exit(127);
 }

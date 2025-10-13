@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 16:02:21 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:53:04 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdout);
 		printf("bash: %s: command not found\n", shell->cmd->args[0]);
 		shell->exit_status = 127;
-		free_shell(shell);
+		free_exit(shell);
 		exit(127);
 	}
 	execve(cmd_finale, shell->cmd->args, envp_initial);
@@ -37,7 +37,7 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 	close(shell->saved_stdout);
 	perror("execve");
 	free(cmd_finale);
-	free_shell(shell);
+	free_exit(shell);
 	exit(127);
 }
 

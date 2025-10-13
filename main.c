@@ -6,17 +6,11 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 19:09:23 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:04:36 by ocviller ### ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-void	handle_sig(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
 
 void	handle_sigint(t_data *data)
 {
@@ -50,10 +44,9 @@ t_shell	*shell_parsing(char **envp, t_data *data, char *str, t_env **tmp)
 void	end_shell(t_shell *shell, t_env **tmp, char *str, t_data *data)
 {
 	shell->nbr_cmd = count_list(shell->cmd);
+	shell->data = data;
 	start_exec(shell);
 	data->exit_status = shell->exit_status;
-	if (*tmp)
-		free_env(*tmp);
 	*tmp = ft_env_dup(shell->env);
 	free(str);
 	free_shell(shell);
@@ -61,9 +54,8 @@ void	end_shell(t_shell *shell, t_env **tmp, char *str, t_data *data)
 		data->first = 1;
 }
 
-void	loop(t_data *data, char **envp, t_env **tmp)
+void	loop(t_data *data, char **envp, t_env **tmp, char *str)
 {
-	char		*str;
 	t_shell	*shell;
 
 	while (1)
@@ -93,7 +85,9 @@ int	main(int ac, char **av, char **envp)
 {
 	t_data	*data;
 	t_env	*tmp;
+	char	*str;
 
+	str = NULL;
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (1);
@@ -102,7 +96,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		return (1);
-	loop(data, envp, &tmp);
+	loop(data, envp, &tmp, str);
 	free(data);
 	free_env(tmp);
 	return (0);

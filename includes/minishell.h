@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 18:24:56 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:49:16 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,12 @@ typedef struct s_pipe
 	int							pipe_fd[1024][2];
 }								t_pipe;
 
+typedef struct s_data
+{
+	int							exit_status;
+	int							first;
+}								t_data;
+
 typedef struct s_shell
 {
 	int							exit_status;
@@ -119,6 +125,7 @@ typedef struct s_shell
 	t_cmd						*head_cmd;
 	t_cmd						*cmd;
 	t_pipe						*pipe_infos;
+	t_data						*data;
 }								t_shell;
 
 typedef struct s_expand
@@ -129,12 +136,6 @@ typedef struct s_expand
 	char						*result;
 	char						q;
 }								t_expand;
-
-typedef struct s_data
-{
-	int							exit_status;
-	int							first;
-}								t_data;
 
 // PRINT A SUPP
 void							print_cmd(t_cmd *cmd);
@@ -208,7 +209,7 @@ void							free_split(char **split);
 void							free_env(t_env *env);
 void							free_token(t_token *token);
 void							free_exp(t_expand *exp);
-
+void							free_exit(t_shell *shell);
 // Exec
 void							start_exec(t_shell *shell);
 void							one_cmd(t_shell *shell, char **envp_initial);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 09:32:36 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 16:02:55 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:52:55 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	last_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdin);
 		close(shell->saved_stdout);
 		shell->exit_status = 127;
-		free_shell(shell);
+		free_exit(shell);
 		exit(127);
 	}
 	execve(cmd_finale, shell->cmd->args, envp_initial);
@@ -33,7 +33,7 @@ void	last_child(t_shell *shell, char **envp_initial)
 	close(shell->saved_stdin);
 	close(shell->saved_stdout);
 	perror("execve");
-	free_shell(shell);
+	free_exit(shell);
 	free(cmd_finale);
 	exit(127);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 17:04:11 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:51:47 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	forking_child(t_shell *shell, int i)
 	{
 		shell->exit_status = exec_builtin(shell, &(shell->env));
 		exit_status = shell->exit_status;
-		free_shell(shell);
+		free_exit(shell);
 		exit(exit_status);
 	}
 	else
