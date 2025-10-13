@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 16:18:25 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:22:45 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 {
 	char	*line;
-	char 	*expand;
+	char	*expand;
 
 	(void)shell;
 	while (1)
@@ -54,15 +54,13 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 		write(fd[1], "\n", 1);
 		free(line);
 		if (expand)
-				free(expand);
+			free(expand);
 	}
 	close(fd[1]);
 	close(fd[0]);
 	free_shell(shell);
 	return (0);
 }
-
-
 
 void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 {
@@ -77,7 +75,7 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 		rl_event_hook = exit_test;
 		set_heredoc_signals(0);
 		status = fork_heredoc(tmp_r, fd, shell);
-		exit (status);
+		exit(status);
 	}
 	else
 	{
