@@ -6,13 +6,23 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:24:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 12:55:44 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:10:23 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 volatile sig_atomic_t	g_signal = 0;
+
+int exit_test(void)
+{
+	if (g_signal == SIGINT)
+	{
+		rl_replace_line("", 0);
+		rl_done = 1;
+	}
+	return (SIGINT);
+}
 
 void	handle_sigint_heredoc(int sig)
 {

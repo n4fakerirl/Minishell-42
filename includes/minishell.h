@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 13:08:54 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:15:06 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ int								ft_env(char **split, t_env *env, bool egal);
 int								check_heredoc(t_shell *shell);
 void							redir(t_shell *shell, int i);
 void							open_fd(t_cmd *cmd);
-int							check_redir(t_shell *shell, int i);
+int								check_redir(t_shell *shell, int i);
 void							waiting(t_shell *shell);
 
 void							sigint_handler(int sig);
@@ -251,5 +251,7 @@ void							handle_sigint_heredoc(int sig);
 
 t_env							*ft_env_new(const char *key, const char *value);
 t_env							*ft_env_dup(t_env *env);
+int								exit_test(void);
+void							set_heredoc_signals(int i);
 
 #endif

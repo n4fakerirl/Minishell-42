@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:24:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 13:10:21 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:44:02 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	redir_simple_left(t_shell *shell, int i)
 			perror("");
 			free_shell(shell);
 			close(fd);
-			exit (1);
+			exit(1);
 		}
 	}
 	dup2(fd, 0);
@@ -64,39 +64,6 @@ void	redir_heredoc(t_shell *shell)
 	dup2(fd, 0);
 	close(fd);
 }
-
-/* void	check_redir(t_shell *shell, int i)
-{
-	t_redir	*r;
-
-	if (!shell || !shell->cmd)
-		return ;
-	if (i == -1)
-	{
-		if (shell->cmd->redirect == NULL)
-			return ;
-	}
-	if (i != -1)
-		redir(shell, i);
-	r = shell->cmd->redirect;
-	while (r)
-	{
-		if (r->type == REDIRR || r->type == REDIRDR)
-		{
-			fprintf(stderr, "redir right\n");
-			redir_right(shell);
-		}
-		else if (r->type == REDIRL)
-		{
-			fprintf(stderr, "redir left\n");
-			redir_simple_left(shell);
-		}
-		else if (r->type == REDIRDL)
-			redir_heredoc(shell);
-		r = r->next;
-	}
-	return ;
-} */
 
 int	check_redir(t_shell *shell, int i)
 {
@@ -123,4 +90,3 @@ int	check_redir(t_shell *shell, int i)
 	}
 	return (0);
 }
-

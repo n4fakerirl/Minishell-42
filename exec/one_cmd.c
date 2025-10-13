@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 13:06:51 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:02:21 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 {
 	char	*cmd_finale;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 	cmd_finale = get_cmd(shell);
 	close(shell->saved_stdin);
 	close(shell->saved_stdout);
@@ -55,7 +53,11 @@ void	one_child(t_shell *shell, char **envp_initial)
 		return ;
 	}
 	else if (shell->pipe_infos->pid[0] == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		forking_one_child(shell, envp_initial);
+	}
 	else
 	{
 		signal(SIGINT, SIG_IGN);

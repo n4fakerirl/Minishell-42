@@ -6,21 +6,11 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 12:56:07 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:14:31 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static int exit_test(void)
-{
-	if (g_signal == SIGINT)
-	{
-		rl_replace_line("", 0);
-		rl_done = 1;
-	}
-	return (SIGINT);
-}
 
 int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 {
@@ -62,6 +52,8 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 	return (0);
 }
 
+
+
 void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 {
 	int	pid;
@@ -73,15 +65,13 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 	if (pid == 0)
 	{
 		rl_event_hook = exit_test;
-		signal(SIGINT, handle_sigint_heredoc);
-		signal(SIGQUIT, SIG_DFL);
+		set_heredoc_signals(0);
 		status = fork_heredoc(tmp_r, fd, shell);
 		exit (status);
 	}
 	else
 	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+		set_heredoc_signals(1);
 		tmp->here_doc = fd[0];
 		close(fd[1]);
 		waitpid(pid, &status, 0);
@@ -90,6 +80,22 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
+}
+
+void	closing(t_redir *tmp_r, int fd[2])
+{
+	if (tmp_r->next && tmp_r->next->type == REDIRDL)
+		close(fd[0]);
+}
+
+int	interruption(t_shell *shell)
+{
+	if (shell->heredoc_interrupted == 1)
+	{
+		shell->heredoc_interrupted = 0;
+		return (1);
+	}
+	return (0);
 }
 
 int	check_heredoc(t_shell *shell)
@@ -109,13 +115,9 @@ int	check_heredoc(t_shell *shell)
 			if (tmp_r->type == REDIRDL)
 			{
 				do_heredoc(shell, tmp, tmp_r, fd);
-				if (tmp_r->next && tmp_r->next->type == REDIRDL)
-					close(fd[0]);
-				if (shell->heredoc_interrupted == 1)
-				{
-					shell->heredoc_interrupted = 0;
+				closing(tmp_r, fd);
+				if (interruption(shell) == 1)
 					return (1);
-				}
 			}
 			tmp_r = tmp_r->next;
 		}

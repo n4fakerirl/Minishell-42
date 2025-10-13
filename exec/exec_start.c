@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 13:03:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:48:01 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	forking(t_shell *shell, int i)
 void	forking_child(t_shell *shell, int i)
 {
 	int	exit_status;
-	
+
 	check_redir(shell, i);
 	close(shell->saved_stdin);
 	close(shell->saved_stdout);
@@ -49,9 +49,9 @@ void	forking_child(t_shell *shell, int i)
 	else
 	{
 		if (i == 0)
-		 	first_child(shell, shell->envp_initial);
+			first_child(shell, shell->envp_initial);
 		else if (i == shell->nbr_cmd - 1)
-		 	last_child(shell, shell->envp_initial);
+			last_child(shell, shell->envp_initial);
 		else
 			inter_child(shell, shell->envp_initial);
 	}
@@ -59,6 +59,8 @@ void	forking_child(t_shell *shell, int i)
 
 void	forking_parent(t_shell *shell, int i)
 {
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (shell->cmd->redirect)
 	{
 		if (shell->cmd->redirect->type == REDIRDL)
@@ -95,15 +97,10 @@ void	start_exec(t_shell *shell)
 		if (shell->pipe_infos->pid[i] == 0)
 			forking_child(shell, i);
 		else if (shell->pipe_infos->pid[i] > 0)
-		{
-			signal(SIGINT, SIG_IGN);
-			signal(SIGQUIT, SIG_IGN);
 			forking_parent(shell, i);
-		}
 		i++;
 		shell->cmd = shell->cmd->next;
 	}
 	waiting(shell);
 	return ;
 }
-
