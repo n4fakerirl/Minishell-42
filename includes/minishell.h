@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 13:08:54 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:32:07 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,8 @@ int								handle_quote_expand(char *str, int *i,
 char							*joinchar(char *s1, char c);
 int								get_var_len(char *str);
 int								is_expandable(char *str);
+char							*expand_word(char *str, t_env *env,
+									int exit_status, int i);
 
 // 1.5 TRIM WORDS
 int								trim_word(t_token *tokens);
@@ -240,7 +242,7 @@ int								ft_env(char **split, t_env *env, bool egal);
 int								check_heredoc(t_shell *shell);
 void							redir(t_shell *shell, int i);
 void							open_fd(t_cmd *cmd);
-int							check_redir(t_shell *shell, int i);
+int								check_redir(t_shell *shell, int i);
 void							waiting(t_shell *shell);
 
 void							sigint_handler(int sig);
