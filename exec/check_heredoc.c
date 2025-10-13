@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 16:14:31 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:18:25 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 {
 	char	*line;
+	char 	*expand;
 
 	(void)shell;
 	while (1)
@@ -24,6 +25,8 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 		{
 			if (line)
 				free(line);
+			if (expand)
+				free(expand);
 			free_shell(shell);
 			close(fd[1]);
 			close(fd[0]);
@@ -35,16 +38,23 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 			fprintf(stderr,
 				"here-document delimited by end-of-file (wanted '%s')\n",
 				tmp_r->file);
+			if (expand)
+				free(expand);
 			break ;
 		}
-		if (ft_strcmp(line, tmp_r->file) == 0)
+		expand = expand_word(line, shell->env, 0, 0);
+		if (ft_strcmp(expand, tmp_r->file) == 0)
 		{
+			if (expand)
+				free(expand);
 			free(line);
 			break ;
 		}
-		write(fd[1], line, ft_strlen(line));
+		write(fd[1], expand, ft_strlen(expand));
 		write(fd[1], "\n", 1);
 		free(line);
+		if (expand)
+				free(expand);
 	}
 	close(fd[1]);
 	close(fd[0]);

@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 16:15:06 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:19:01 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,8 @@ int								handle_quote_expand(char *str, int *i,
 char							*joinchar(char *s1, char c);
 int								get_var_len(char *str);
 int								is_expandable(char *str);
+char							*expand_word(char *str, t_env *env,
+									int exit_status, int i);
 
 // 1.5 TRIM WORDS
 int								trim_word(t_token *tokens);
