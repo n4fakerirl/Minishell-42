@@ -6,21 +6,16 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:41:22 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/10 18:30:16 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:15:30 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int    ft_echo(char **split)
+int newlines(char **split, int *new_line, int i)
 {
-    int    new_line;
-    int    i;
-    int    j;
+    int j;
 
-    i = 0;
-    j = 0;
-    new_line = 1;
     if (split[0] && !ft_strncmp(split[0], "-n", 2))
     {
         j = 2;
@@ -28,7 +23,7 @@ int    ft_echo(char **split)
             j++;
         if (split[0][j] == '\0')
         {
-            new_line = 0;
+            *new_line = 0;
             i++;
         }
     }
@@ -42,6 +37,19 @@ int    ft_echo(char **split)
         else
             break ;
     }
+    return (i);
+}
+
+int    ft_echo(char **split)
+{
+    int    new_line;
+    int    i;
+    int    j;
+
+    i = 0;
+    j = 0;
+    new_line = 1;
+    i = newlines(split, &new_line, 0);
     while (split[i])
     {
         write(STDOUT_FILENO, split[i], ft_strlen(split[i]));
