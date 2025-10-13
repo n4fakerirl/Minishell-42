@@ -6,7 +6,7 @@
 #    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/13 16:19:12 by lenakach         ###   ########.fr        #
+#    Updated: 2025/10/13 17:34:15 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ BUITLINS = $(BUITLINS_DIR)/env.c $(BUITLINS_DIR)/echo.c $(BUITLINS_DIR)/pwd.c $(
 			$(BUITLINS_DIR)/builtin_utils.c
 
 FREE = $(FREE_DIR)/free.c $(FREE_DIR)/free_tokens.c
-PARSING =  $(PARS_DIR)/cmd_utils.c $(PARS_DIR)/divers.c $(PARS_DIR)/expand_utils.c $(PARS_DIR)/expand_utils2.c \
+PARSING =  $(PARS_DIR)/cmd_utils.c $(PARS_DIR)/expand_utils.c $(PARS_DIR)/expand_utils2.c \
 			$(PARS_DIR)/expand.c $(PARS_DIR)/init_cmd.c $(PARS_DIR)/init_struct.c $(PARS_DIR)/parsing.c \
 			$(PARS_DIR)/quote.c $(PARS_DIR)/start_parsing.c $(PARS_DIR)/token_utils.c $(PARS_DIR)/token.c \
 			$(PARS_DIR)/utils.c $(PARS_DIR)/tokenize.c $(PARS_DIR)/backslash.c $(PARS_DIR)/copy_env.c

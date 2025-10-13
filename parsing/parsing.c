@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:39:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/08 02:19:31 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:33:51 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	printr(char *message)
+{
+	printf("minishell: syntax error near unexpected token `%s'\n", message);
+}
 
 int	simple_redir(t_token *tmp)
 {

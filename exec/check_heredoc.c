@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:12:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 17:27:43 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:34:49 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ int	ctrlc_action(t_cmd *tmp, char *line, t_shell *shell, int fd[2])
 
 void	printing_ctrld(t_redir *tmp_r)
 {
-	fprintf(stderr, "minishell: warning: ");
-	fprintf(stderr, "here-document delimited by end-of-file (wanted '%s')\n",
-		tmp_r->file);
+	ft_putendl_fd("minishell: warning: ", 2);
+	ft_putendl_fd("here-document delimited by end-of-file (wanted '", 2);
+	ft_putendl_fd(tmp_r->file, 2);
+	ft_putendl_fd("')", 2);
+	ft_putendl_fd("\n", 2);
 }
 
 int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell, t_cmd *tmp)

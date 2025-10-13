@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 17:22:15 by lenakach          #+#    #+#             */
-/*   Updated: 2025/07/21 13:59:26 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:31:52 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_putendl_fd(char *s, int fd)
 		write(fd, &s[i], 1);
 		i++;
 	}
-	write(fd, "\n", 1);
 }
 
 /*int	main(void)
