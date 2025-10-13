@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:24:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 21:22:06 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 13:10:21 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,29 @@ void	redir_right(t_shell *shell)
 	close(fd);
 }
 
-void	redir_simple_left(t_shell *shell)
+int	redir_simple_left(t_shell *shell, int i)
 {
 	int	fd;
 
 	fd = open(shell->cmd->redirect->file, O_RDONLY);
 	if (fd < 0)
-		return (perror(""));
+	{
+		if (i == -1)
+		{
+			perror("");
+			return (1);
+		}
+		else
+		{
+			perror("");
+			free_shell(shell);
+			close(fd);
+			exit (1);
+		}
+	}
 	dup2(fd, 0);
 	close(fd);
+	return (0);
 }
 
 void	redir_heredoc(t_shell *shell)
@@ -84,12 +98,12 @@ void	redir_heredoc(t_shell *shell)
 	return ;
 } */
 
-void	check_redir(t_shell *shell, int i)
+int	check_redir(t_shell *shell, int i)
 {
 	if (i == -1)
 	{
 		if (shell->cmd->redirect == NULL)
-			return ;
+			return (0);
 	}
 	if (i != -1)
 		redir(shell, i);
@@ -99,11 +113,14 @@ void	check_redir(t_shell *shell, int i)
 			|| shell->cmd->redirect->type == REDIRDR)
 			redir_right(shell);
 		else if (shell->cmd->redirect->type == REDIRL)
-			redir_simple_left(shell);
+		{
+			if (redir_simple_left(shell, i) != 0)
+				return (1);
+		}
 		else if (shell->cmd->redirect->type == REDIRDL)
 			redir_heredoc(shell);
 		shell->cmd->redirect = shell->cmd->redirect->next;
 	}
-	return ;
+	return (0);
 }
 

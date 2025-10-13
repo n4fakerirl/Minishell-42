@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 12:55:40 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 13:03:49 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,8 @@ void	forking_parent(t_shell *shell, int i)
 void	start_exec(t_shell *shell)
 {
 	int	i;
-	int	pid;
 
 	i = 0;
-	pid = getpid();
-	fprintf(stderr, "MON PID MAIN : %d\n", pid);
 	shell->saved_stdin = dup(STDIN_FILENO);
 	shell->saved_stdout = dup(STDOUT_FILENO);
 	if (check_heredoc(shell))
