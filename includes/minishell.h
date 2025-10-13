@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 17:20:09 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:24:56 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,12 @@ typedef struct s_expand
 	char						q;
 }								t_expand;
 
+typedef struct s_data
+{
+	int							exit_status;
+	int							first;
+}								t_data;
+
 // PRINT A SUPP
 void							print_cmd(t_cmd *cmd);
 void							print_token(t_token *token);
@@ -246,6 +252,7 @@ int								check_redir(t_shell *shell, int i);
 void							waiting(t_shell *shell);
 
 void							sigint_handler(int sig);
+void							handle_sig(void);
 void							check_signal_exec(t_shell *shell, int *status);
 void							check_signal_heredoc(t_shell *shell,
 									int *status, t_cmd *tmp);

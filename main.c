@@ -6,68 +6,103 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 16:04:34 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:04:36 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	main(int ac, char **av, char **envp)
+void	handle_sig(void)
 {
-	char	*str;
-	t_shell	*shell;
-	int		exit_status;
-	t_env	*tmp;
-	int		first;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
 
-	first = 0;
-	tmp = NULL;
-	(void)av;
-	if (ac != 1)
-		return (1);
+void	handle_sigint(t_data *data)
+{
+	if (g_signal == SIGINT)
+	{
+		data->exit_status = 130;
+		g_signal = 0;
+	}
+}
+
+t_shell	*shell_parsing(char **envp, t_data *data, char *str, t_env *tmp)
+{
+	t_shell	*shell;
+
+	shell = init_shell(envp, data->exit_status, data->first, tmp);
+	if (!shell)
+	{
+		data->exit_status = 0;
+		free(str);
+		return (NULL);
+	}
+	if (!start_parsing(str, data->exit_status, shell))
+	{
+		data->exit_status = 2;
+		free(str);
+		return (NULL);
+	}
+	return (shell);
+}
+
+void	end_shell(t_shell *shell, t_env *tmp, char *str, t_data *data)
+{
+	shell->nbr_cmd = count_list(shell->cmd);
+	start_exec(shell);
+	data->exit_status = shell->exit_status;
+	tmp = ft_env_dup(shell->env);
+	free(str);
+	free_shell(shell);
+	if (data->first == 0)
+		data->first = 1;
+}
+
+void	loop(t_data *data, char **envp, t_env *tmp)
+{
+	char		*str;
+	t_shell	*shell;
+
 	while (1)
 	{
-		signal(SIGINT, sigint_handler);
-		signal(SIGQUIT, SIG_IGN);
+		handle_sig();
 		str = readline("minishell> ");
 		if (!str)
 		{
 			printf("exit\n");
 			break ;
 		}
-		exit_status = 0;
-		if (g_signal == SIGINT)
-		{
-			exit_status = 130;
-			g_signal = 0;
-		}
+		handle_sigint(data);
+		data->exit_status = 0;
+
 		if (!*str)
 		{
 			free(str);
 			continue ;
 		}
-		shell = init_shell(envp, exit_status, first, tmp);
+		shell = shell_parsing(envp, data, str, tmp);
 		if (!shell)
-		{
-			exit_status = 0;
-			free(str);
 			continue ;
-		}
-		if (!start_parsing(str, exit_status, shell))
-		{
-			exit_status = 2;
-			free(str);
-			continue ;
-		}
-		shell->nbr_cmd = count_list(shell->cmd);
-		start_exec(shell);
-		exit_status = shell->exit_status;
-		tmp = ft_env_dup(shell->env);
-		free(str);
-		free_shell(shell);
-		if (first == 0)
-			first = 1;
+		end_shell(shell, tmp, str, data);
 	}
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_data	*data;
+	t_env	*tmp;
+
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (1);
+	data->first = 0;
+	tmp = NULL;
+	(void)av;
+	if (ac != 1)
+		return (1);
+	loop(data, envp, tmp);
+	free(data);
 	free_env(tmp);
 	return (0);
 }
