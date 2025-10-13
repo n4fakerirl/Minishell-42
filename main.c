@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 19:04:36 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:09:23 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	handle_sigint(t_data *data)
 	}
 }
 
-t_shell	*shell_parsing(char **envp, t_data *data, char *str, t_env *tmp)
+t_shell	*shell_parsing(char **envp, t_data *data, char *str, t_env **tmp)
 {
 	t_shell	*shell;
 
-	shell = init_shell(envp, data->exit_status, data->first, tmp);
+	shell = init_shell(envp, data->exit_status, data->first, *tmp);
 	if (!shell)
 	{
 		data->exit_status = 0;
@@ -47,19 +47,21 @@ t_shell	*shell_parsing(char **envp, t_data *data, char *str, t_env *tmp)
 	return (shell);
 }
 
-void	end_shell(t_shell *shell, t_env *tmp, char *str, t_data *data)
+void	end_shell(t_shell *shell, t_env **tmp, char *str, t_data *data)
 {
 	shell->nbr_cmd = count_list(shell->cmd);
 	start_exec(shell);
 	data->exit_status = shell->exit_status;
-	tmp = ft_env_dup(shell->env);
+	if (*tmp)
+		free_env(*tmp);
+	*tmp = ft_env_dup(shell->env);
 	free(str);
 	free_shell(shell);
 	if (data->first == 0)
 		data->first = 1;
 }
 
-void	loop(t_data *data, char **envp, t_env *tmp)
+void	loop(t_data *data, char **envp, t_env **tmp)
 {
 	char		*str;
 	t_shell	*shell;
@@ -75,7 +77,6 @@ void	loop(t_data *data, char **envp, t_env *tmp)
 		}
 		handle_sigint(data);
 		data->exit_status = 0;
-
 		if (!*str)
 		{
 			free(str);
@@ -101,7 +102,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		return (1);
-	loop(data, envp, tmp);
+	loop(data, envp, &tmp);
 	free(data);
 	free_env(tmp);
 	return (0);
