@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/12 13:47:12 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:24:14 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void							print_token(t_token *token);
 
 // ETAPE 1 : PARSING
 // 1.1 START PARSING
-void							start_parsing(char *str, int exit_status,
+int								start_parsing(char *str, int exit_status,
 									t_shell *shell);
 t_shell							*init_shell(char **envp, int exit_status,
 									int first, t_env *tmp_env);

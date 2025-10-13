@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:10 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 21:41:49 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:26:39 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		}
 		shell = init_shell(envp, exit_status, first, tmp);
-		start_parsing(str, exit_status, shell);
-		if (!shell)
+		if (!start_parsing(str, exit_status, shell) || !shell)
 		{
 			exit_status = 2;
 			free(str);
 			continue ;
+			
 		}
 		shell->nbr_cmd = count_list(shell->cmd);
 		start_exec(shell);
