@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 16:19:01 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:02:21 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,12 +248,10 @@ void							waiting(t_shell *shell);
 void							sigint_handler(int sig);
 void							check_signal_exec(t_shell *shell, int *status);
 void							check_signal_heredoc(t_shell *shell,
-									int *status);
+									int *status, t_cmd *tmp);
 void							handle_sigint_heredoc(int sig);
 
 t_env							*ft_env_new(const char *key, const char *value);
 t_env							*ft_env_dup(t_env *env);
-int								exit_test(void);
-void							set_heredoc_signals(int i);
 
 #endif

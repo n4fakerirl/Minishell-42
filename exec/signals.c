@@ -6,23 +6,13 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 15:24:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 16:21:37 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:02:09 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 volatile sig_atomic_t	g_signal = 0;
-
-int	exit_test(void)
-{
-	if (g_signal == SIGINT)
-	{
-		rl_replace_line("", 0);
-		rl_done = 1;
-	}
-	return (SIGINT);
-}
 
 void	handle_sigint_heredoc(int sig)
 {
@@ -61,10 +51,12 @@ void	check_signal_exec(t_shell *shell, int *status)
 		shell->exit_status = WEXITSTATUS(*status);
 }
 
-void	check_signal_heredoc(t_shell *shell, int *status)
+void	check_signal_heredoc(t_shell *shell, int *status, t_cmd *tmp)
 {
 	if (WIFSIGNALED(*status) && WTERMSIG(*status) == SIGINT)
 	{
+		if (tmp->here_doc)
+			close(tmp->here_doc);
 		shell->heredoc_interrupted = 1;
 		shell->exit_status = 130;
 	}
