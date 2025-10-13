@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 12:20:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/12 20:44:48 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:38:18 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell)
 	}
 	close(fd[1]);
 	close(fd[0]);
+	free_shell(shell);
 	return (0);
 }
 
