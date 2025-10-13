@@ -6,7 +6,7 @@
 #    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/13 14:54:07 by ocviller         ###   ########.fr        #
+#    Updated: 2025/10/13 15:22:11 by ocviller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ banner:
 	@echo "$(RED)██║ ╚═╝ ██║$(ORANGE)██║$(YELLOW)██║ ╚████║$(GREEN)██║$(CYAN)███████║$(BLUE)██║  ██║$(PURPLE)███████╗$(PINK)███████╗$(RED)███████╗$(RESET)🫐"
 	@echo "$(RED)╚═╝     ╚═╝$(ORANGE)╚═╝$(YELLOW)╚═╝  ╚═══╝$(GREEN)╚═╝$(CYAN)╚══════╝$(BLUE)╚═╝  ╚═╝$(PURPLE)╚══════╝$(PINK)╚══════╝$(RED)╚══════╝$(RESET)🍇"
 	@echo ""
+	@echo "$(PINK)🩷  By: Lele(@lenakach) && Oce(@ocviller)$(RESET)"
 	@echo "$(CYAN)🍓 Compilation en cours...$(RESET)"
 	@echo ""
 
