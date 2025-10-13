@@ -6,7 +6,7 @@
 #    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/13 15:22:11 by ocviller         ###   ########.fr        #
+#    Updated: 2025/10/13 16:04:49 by ocviller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,9 +71,9 @@ DEPS = $(OBJS:.o=.d)
  
 #Commandes
 RM = rm -f
-
-#Banniere
-banner:
+	
+#Regles
+all : $(LIBFT) $(NAME)
 	@echo "$(RED)███╗   ███╗$(ORANGE)██╗$(YELLOW)███╗   ██╗$(GREEN)██╗$(CYAN)███████╗$(BLUE)██╗  ██╗$(PURPLE)███████╗$(PINK)██╗     $(RED)██╗     $(RESET)🍒"
 	@echo "$(RED)████╗ ████║$(ORANGE)██║$(YELLOW)████╗  ██║$(GREEN)██║$(CYAN)██╔════╝$(BLUE)██║  ██║$(PURPLE)██╔════╝$(PINK)██║     $(RED)██║     $(RESET)🍊"
 	@echo "$(RED)██╔████╔██║$(ORANGE)██║$(YELLOW)██╔██╗ ██║$(GREEN)██║$(CYAN)███████╗$(BLUE)███████║$(PURPLE)█████╗  $(PINK)██║     $(RED)██║     $(RESET)🍋"
@@ -82,36 +82,33 @@ banner:
 	@echo "$(RED)╚═╝     ╚═╝$(ORANGE)╚═╝$(YELLOW)╚═╝  ╚═══╝$(GREEN)╚═╝$(CYAN)╚══════╝$(BLUE)╚═╝  ╚═╝$(PURPLE)╚══════╝$(PINK)╚══════╝$(RED)╚══════╝$(RESET)🍇"
 	@echo ""
 	@echo "$(PINK)🩷  By: Lele(@lenakach) && Oce(@ocviller)$(RESET)"
-	@echo "$(CYAN)🍓 Compilation en cours...$(RESET)"
+	@echo "$(CYAN)🍓 Compilation en terminee!$(RESET)"
 	@echo ""
 
-#Regles
-all : banner $(LIBFT) $(NAME)
-
 $(LIBFT):
-	@echo "$(GREEN)🥝 Compilation de la libft...$(RESET)"
 	@make -C $(LIBFT_DIR)
+	@echo "$(GREEN)🥝 Compilation de la libft...$(RESET)"
 
 $(NAME): $(OBJS)
-	@echo "$(RED)🍒 Compilation de l'executable...$(RESET)"
 	@$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBFT) -lreadline
+	@echo "$(RED)🍒 Compilation de l'executable...$(RESET)"
 
 %.o: %.c
-	@echo "$(ORANGE)🍊 Compilation des objets...$(RESET)"
 	@$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
+	@echo "$(ORANGE)🍊 Compilation des objets...$(RESET)"
 
 clean:
-	@echo "$(PURPLE)🍇 Nettoyage des objets...$(RESET)"
 	@$(RM) $(OBJS) $(DEPS)
 	@make clean -C $(LIBFT_DIR)
+	@echo "$(PURPLE)🍇 Nettoyage des objets...$(RESET)"
 
 fclean: clean
-	@echo "$(BLUE)🫐 Nettoyage de l'executable et des objets...$(RESET)"
 	@$(RM) $(NAME)
 	@make fclean -C $(LIBFT_DIR)
+	@echo "$(BLUE)🫐 Nettoyage de l'executable et des objets...$(RESET)"
 
 re: fclean all
 
 -include $(DEPS)
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re test banner
