@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 16:14:17 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 20:01:49 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 13:46:43 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ void	free_exit(t_shell *shell)
 	if (shell->saved_stdout)
 		close(shell->saved_stdout);
 	if (shell->data)
+	{
+		if (shell->data->tmp)
+			free_env(shell->data->tmp);
 		free(shell->data);
+	}
 	free(shell);
 }

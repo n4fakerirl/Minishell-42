@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 19:49:16 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 13:45:48 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_data
 {
 	int							exit_status;
 	int							first;
+	t_env						*tmp;
 }								t_data;
 
 typedef struct s_shell
