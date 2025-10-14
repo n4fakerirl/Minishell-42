@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/13 19:12:38 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:15:25 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void	init_exp(t_expand *exp, int exit_status, t_env *env)
 {
 	exp->exit_status = exit_status;
 	exp->env = env;
-	exp->result = ft_strdup("");
 	exp->q = 0;
 	exp->ret = 0;
+	exp->result = ft_strdup("");
 }
 
 char	*expand_word(char *str, t_env *env, int exit_status, int i)
@@ -88,8 +88,9 @@ char	*expand_word(char *str, t_env *env, int exit_status, int i)
 			return (free_exp(exp), NULL);
 	}
 	result = ft_strdup(exp->result);
-	free_exp(exp);
-	return (result);
+	if (!result)
+		return (free_exp(exp), NULL);
+	return (free_exp(exp), result);
 }
 
 int	expand_tokens(t_token *tokens, t_env *env, int exit_status)

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 11:20:23 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/11 11:20:46 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:12:03 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	handle_back(t_token *tmp)
 			return (0);
 		free(tmp->value);
 		tmp->value = ft_strdup(back);
+		if (!tmp->value)
+			return (0);
 		free(back);
 	}
 	else
@@ -86,6 +88,8 @@ int	handle_back(t_token *tmp)
 			return (0);
 		free(tmp->value);
 		tmp->value = ft_strdup(back);
+		if (!tmp->value)
+			return (0);
 		free(back);
 	}
 	return (1);

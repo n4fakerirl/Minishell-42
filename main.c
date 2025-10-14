@@ -58,7 +58,7 @@ t_shell	*shell_parsing(char **envp, t_data *data, char *str)
 	return (shell);
 }
 
-void	loop(t_data *data, char **envp, char *str)
+void	loop(t_data *data, char **envp, char *str, const char *prompt)
 {
 	t_shell	*shell;
 
@@ -66,7 +66,7 @@ void	loop(t_data *data, char **envp, char *str)
 	while (1)
 	{
 		handle_sig();
-		str = readline("minishell> ");
+		str = readline(prompt);
 		if (!str)
 		{
 			printf("exit\n");
@@ -89,9 +89,10 @@ void	loop(t_data *data, char **envp, char *str)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_data	*data;
-	t_env	*tmp;
-	char	*str;
+	t_data		*data;
+	t_env		*tmp;
+	char		*str;
+	const char	*prompt = "minishell> ";
 
 	str = NULL;
 	data = malloc(sizeof(t_data));
@@ -103,7 +104,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		return (1);
-	loop(data, envp, str);
+	loop(data, envp, str, prompt);
 	rl_clear_history();
 	if (data->tmp)
 		free_env(data->tmp);

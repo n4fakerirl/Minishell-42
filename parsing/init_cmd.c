@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:03:39 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 21:18:01 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:19:50 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ t_cmd	*create_cmd(t_cmd **cmds, t_token *tokens, int *i)
 	ft_bzero(current, sizeof(t_cmd));
 	add_cmds(cmds, current);
 	current->args = malloc(sizeof(char *) * (lstlen(&tokens) + 1));
-	current->next = NULL;
 	if (!current->args)
 		return (NULL);
+	current->next = NULL;
 	return (current);
 }
 
@@ -68,6 +68,8 @@ int	cmd_list(t_token *tokens, t_cmd **cmds, int i)
 	while (tmp)
 	{
 		current = create_cmd(cmds, tmp, &i);
+		if (!current)
+			return (0);
 		start = tmp;
 		while (tmp && tmp->type != PIPE)
 		{

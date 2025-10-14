@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/14 13:45:48 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:49:54 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int								backspecial(char c);
 int								is_special_char(char c);
 int								ft_isspace(int c);
 int								skippable(char c);
-void							ft_lstadd_back_new(t_token **toklist,
+int								ft_lstadd_back_new(t_token **toklist,
 									t_token *token);
 int								lstlen(t_token **toklist);
 void							printr(char *message);

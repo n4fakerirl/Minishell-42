@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:19:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/14 15:19:40 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:11:45 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_shell	*fill_shell(int exit_status)
 	shell->saved_stdout = 0;
 	shell->cmd = NULL;
 	shell->pipe_infos = init_pipe();
+	shell->envp_initial = 0;
 	return (shell);
 }
 

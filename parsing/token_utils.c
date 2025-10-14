@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:08:52 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 17:16:53 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:42:02 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,26 @@ t_token	*new_type(t_token *tokens)
 	return (tokens);
 }
 
-void	ft_lstadd_back_new(t_token **toklist, t_token *token)
+int	ft_lstadd_back_new(t_token **toklist, t_token *token)
 {
 	t_token	*tmp;
 
+	if (!toklist)
+		return (0);
 	tmp = *toklist;
 	if (!token)
-		return ;
+		return (0);
 	if (!*toklist)
 	{
 		*toklist = token;
 		token->prev = NULL;
-		return ;
+		return (1);
 	}
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = token;
 	token->prev = tmp;
+	return (1);
 }
 
 int	lstlen(t_token **toklist)

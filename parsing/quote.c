@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:21:07 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/10 16:51:42 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:09:30 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ char	*strip_quotes(char *str, int len, int i, int j)
 	t_inquote	quote;
 
 	result = malloc(len + 1);
-	quote.in_double = 0;
-	quote.in_single = 0;
 	if (!result)
 		return (NULL);
+	quote.in_double = 0;
+	quote.in_single = 0;
 	while (str[i])
 	{
 		if (str[i] == '\'' && !quote.in_double)

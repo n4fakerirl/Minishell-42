@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 11:49:33 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 20:01:44 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:10:09 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ void	free_shell(t_shell *shell)
 	if (!shell)
 		return ;
 	if (shell->envp_initial)
+	{
 		free_split(shell->envp_initial);
+		shell->envp_initial = NULL;
+	}
 	if (shell->head_cmd)
 		free_cmd(shell->head_cmd);
 	if (shell->env)
