@@ -21,11 +21,24 @@ void	handle_sigint(t_data *data)
 	}
 }
 
+void	end_shell(t_shell *shell, t_env **tmp, char *str, t_data *data)
+{
+	shell->nbr_cmd = count_list(shell->cmd);
+	shell->data = data;
+	start_exec(shell);
+	*tmp = ft_env_dup(shell->env);
+	data->exit_status = shell->exit_status;
+	free(str);
+	if (data->first == 0)
+		data->first = 1;
+}
+
 t_shell	*shell_parsing(char **envp, t_data *data, char *str, t_env **tmp)
 {
 	t_shell	*shell;
 
 	shell = init_shell(envp, data->exit_status, data->first, *tmp);
+	*tmp = ft_env_dup(shell->env);
 	if (!shell)
 	{
 		data->exit_status = 0;
@@ -41,19 +54,6 @@ t_shell	*shell_parsing(char **envp, t_data *data, char *str, t_env **tmp)
 	return (shell);
 }
 
-void	end_shell(t_shell *shell, t_env **tmp, char *str, t_data *data)
-{
-	shell->nbr_cmd = count_list(shell->cmd);
-	shell->data = data;
-	start_exec(shell);
-	data->exit_status = shell->exit_status;
-	*tmp = ft_env_dup(shell->env);
-	free(str);
-	free_shell(shell);
-	if (data->first == 0)
-		data->first = 1;
-}
-
 void	loop(t_data *data, char **envp, t_env **tmp, char *str)
 {
 	t_shell	*shell;
@@ -67,8 +67,8 @@ void	loop(t_data *data, char **envp, t_env **tmp, char *str)
 			printf("exit\n");
 			break ;
 		}
+		add_history(str);
 		handle_sigint(data);
-		data->exit_status = 0;
 		if (!*str)
 		{
 			free(str);
@@ -92,12 +92,14 @@ int	main(int ac, char **av, char **envp)
 	if (!data)
 		return (1);
 	data->first = 0;
+	data->exit_status = 0;
 	tmp = NULL;
 	(void)av;
 	if (ac != 1)
 		return (1);
 	loop(data, envp, &tmp, str);
 	free(data);
+	rl_clear_history();
 	free_env(tmp);
 	return (0);
 }

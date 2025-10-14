@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:19:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 12:09:25 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/14 11:53:31 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,13 @@ t_shell	*init_shell(char **envp, int exit_status, int first, t_env *tmp_env)
 		if (!new_shell->env)
 			return (free_shell(new_shell), NULL);
 	}
-	else if (first != 0)
-	{
+	else if (first != 0 && tmp_env)
 		new_shell->env = tmp_env;
+	else
+	{
+		new_shell->env = init_env(envp);
+		if (!new_shell->env)
+			return (free_shell(new_shell), NULL);
 	}
 	new_shell->envp_initial = dup_split(envp);
 	if (!new_shell->envp_initial)
