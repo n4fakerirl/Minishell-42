@@ -21,25 +21,28 @@ void	handle_sigint(t_data *data)
 	}
 }
 
-void	end_shell(t_shell *shell, t_env *tmp, char *str, t_data *data)
+void	end_shell(t_shell *shell, char *str, t_data *data)
 {
+	t_env	*old_tmp;
+
 	shell->nbr_cmd = count_list(shell->cmd);
-	shell->data = data;
 	start_exec(shell);
-	tmp = ft_env_dup(shell->env);
-	data->tmp = tmp;
+	old_tmp = data->tmp;
+	data->tmp = ft_env_dup(shell->env);
+	if (old_tmp)
+		free_env(old_tmp);
 	data->exit_status = shell->exit_status;
 	free(str);
+	free_shell(shell);
 	if (data->first == 0)
 		data->first = 1;
 }
 
-t_shell	*shell_parsing(char **envp, t_data *data, char *str, t_env *tmp)
+t_shell	*shell_parsing(char **envp, t_data *data, char *str)
 {
 	t_shell	*shell;
 
-	shell = init_shell(envp, data->exit_status, data->first, tmp);
-	tmp = ft_env_dup(shell->env);
+	shell = init_shell(envp, data->exit_status, data->first, data->tmp);
 	if (!shell)
 	{
 		data->exit_status = 0;
@@ -55,7 +58,7 @@ t_shell	*shell_parsing(char **envp, t_data *data, char *str, t_env *tmp)
 	return (shell);
 }
 
-void	loop(t_data *data, char **envp, t_env *tmp, char *str)
+void	loop(t_data *data, char **envp, char *str)
 {
 	t_shell	*shell;
 
@@ -66,9 +69,6 @@ void	loop(t_data *data, char **envp, t_env *tmp, char *str)
 		str = readline("minishell> ");
 		if (!str)
 		{
-			if (tmp)
-				free_env(tmp);
-			free_exit(shell);
 			printf("exit\n");
 			break ;
 		}
@@ -79,10 +79,11 @@ void	loop(t_data *data, char **envp, t_env *tmp, char *str)
 			free(str);
 			continue ;
 		}
-		shell = shell_parsing(envp, data, str, tmp);
+		shell = shell_parsing(envp, data, str);
 		if (!shell)
 			continue ;
-		end_shell(shell, tmp, str, data);
+		shell->data = data;
+		end_shell(shell, str, data);
 	}
 }
 
@@ -102,8 +103,11 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1)
 		return (1);
-	loop(data, envp, tmp, str);
+	loop(data, envp, str);
 	rl_clear_history();
-	free_env(tmp);
+	if (data->tmp)
+		free_env(data->tmp);
+	if (data)
+		free(data);
 	return (0);
 }
