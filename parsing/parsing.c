@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:39:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 17:33:51 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:31:09 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	printr(char *message)
 {
-	printf("minishell: syntax error near unexpected token `%s'\n", message);
+	ft_putendl_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putendl_fd(message, 2);
+	ft_putendl_fd("\'", 2);
+	write(2, "\n", 1);
 }
 
 int	simple_redir(t_token *tmp)

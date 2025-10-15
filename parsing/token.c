@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:32:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/14 16:56:59 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:31:51 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_match(char *input, int singleq, int doubleq)
 		i++;
 	}
 	if ((singleq + doubleq) != 0)
-		return (printf("minishell: error quote unmatched\n"), 0);
+		return (ft_putstr_fd("minishell: error quote unmatched\n", 2), 0);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 17:38:36 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:39:39 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,5 +266,6 @@ t_env							*ft_env_new(const char *key, const char *value);
 t_env							*ft_env_dup(t_env *env);
 void							signal_heredoc(void);
 int								exit_ctrlc(void);
+int								duping(t_shell *shell);
 
 #endif

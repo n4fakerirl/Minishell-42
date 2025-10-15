@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/14 11:49:47 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:41:49 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 		dup2(shell->saved_stdin, STDIN_FILENO);
 		close(shell->saved_stdin);
 		close(shell->saved_stdout);
-		printf("bash: %s: command not found\n", shell->cmd->args[0]);
+		ft_putstr_fd("bash:", 2);
+		ft_putstr_fd(shell->cmd->args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		shell->exit_status = 127;
 		free_exit(shell);
 		exit(127);
