@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:50 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/15 12:29:44 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:12:40 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_env	*ft_env_new(const char *key, const char *value)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (NULL);
+		return (error_malloc(), NULL);
 	new->key = NULL;
 	new->value = NULL;
 	new->next = NULL;
@@ -70,7 +70,7 @@ t_env	*env_conv(char *str)
 
 	node = malloc(sizeof(t_env));
 	if (!node)
-		return (NULL);
+		return (error_malloc(), NULL);
 	equal = ft_strchr(str, '=');
 	if (equal)
 	{
@@ -99,12 +99,16 @@ t_env	*envi_new(void)
 
 	new_env = malloc(sizeof(t_env));
 	if (!new_env)
-		return (NULL);
+		return (error_malloc(), NULL);
 	new_env->key = ft_strdup("PWD=");
+	if (!new_env->key)
+		return (NULL);
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (NULL);
+		return (error_malloc(), NULL);
 	new_env->value = ft_strdup(pwd);
+	if (!new_env->value)
+		return (NULL);
 	new_env->next = NULL;
 	new_node(&new_env, "SHLVL=1");
 	new_node(&new_env, "_=/usr/bin/env");

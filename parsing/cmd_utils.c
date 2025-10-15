@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 02:25:54 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/13 11:54:43 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:12:09 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_redir	*init_redir(t_token *tmp)
 
 	node = malloc(sizeof(t_redir));
 	if (!node)
-		return (NULL);
+		return (error_malloc(), NULL);
 	node->type = tmp->type;
 	node->file = ft_strdup(tmp->next->value);
 	if (!node->file)

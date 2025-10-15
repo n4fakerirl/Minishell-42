@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:01 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/14 17:13:23 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:17:10 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strdup(const char *s)
 		return (NULL);
 	dest = malloc ((ft_strlen(s) + 1) * sizeof(char));
 	if (!dest)
-		return (NULL);
+		return (error_malloc(), NULL);
 	else
 		return (ft_strcpy(dest, s));
 }

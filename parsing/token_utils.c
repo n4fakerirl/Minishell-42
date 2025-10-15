@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:08:52 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/14 16:42:02 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:16:11 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*create_token(t_token_type type, char *value)
 
 	token = malloc(sizeof(t_token));
 	if (!token)
-		return (NULL);
+		return (error_malloc(), NULL);
 	token->value = value;
 	token->type = type;
 	token->next = NULL;
@@ -81,4 +81,12 @@ int	lstlen(t_token **toklist)
 		tmp = tmp->next;
 	}
 	return (i);
+}
+
+int	type(t_token *tmp)
+{
+	if (tmp->type == WORD && tmp->value != NULL && tmp->value[0] != '\0')
+		return (1);
+	else
+		return (0);
 }

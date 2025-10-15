@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 04:51:07 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/05 02:19:19 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:18:57 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "../../includes/minishell.h"
 
 // Basic functions
 

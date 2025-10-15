@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 11:37:03 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:43:59 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*joinchar(char *s1, char c)
 		return (NULL);
 	res = malloc((ft_strlen(s1) + 2) * sizeof(char));
 	if (!res)
-		return (NULL);
+		return (error_malloc(), NULL);
 	while (s1[i])
 	{
 		res[j] = s1[i];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 13:17:24 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 15:07:18 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:07:47 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**dup_split(char **src)
 		i++;
 	result = malloc(sizeof(char *) * (i + 1));
 	if (!result)
-		return (NULL);
+		return (error_malloc(), NULL);
 	i = 0;
 	while (src[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 18:19:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/14 17:11:45 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:57:40 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_pipe	*init_pipe(void)
 
 	new_pipe = malloc(sizeof(t_pipe));
 	if (!new_pipe)
-		return (NULL);
+		return (error_malloc(), NULL);
 	new_pipe->nbr_pipe = 0;
 	return (new_pipe);
 }
@@ -41,7 +41,7 @@ t_shell	*fill_shell(int exit_status)
 
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
-		return (NULL);
+		return (error_malloc(), NULL);
 	shell->nbr_cmd = 0;
 	shell->exit_status = exit_status;
 	shell->saved_stdin = 0;
@@ -61,7 +61,7 @@ t_shell	*init_shell(char **envp, int exit_status, int first, t_env *tmp_env)
 	new_shell = fill_shell(exit_status);
 	if (!new_shell)
 		return (NULL);
-	if (first == 0)
+	if (first == 0 || (first != 0 && !tmp_env))
 	{
 		new_shell->env = init_env(envp);
 		if (!new_shell->env)

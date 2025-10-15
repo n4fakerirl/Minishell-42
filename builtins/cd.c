@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:09:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/03 13:11:21 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:10:59 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ char	*get_pwd(t_env *env, char *pwd)
 		{
 			new_pwd = ft_strdup(env->value);
 			if (!new_pwd)
-			{
-				ft_putstr_fd("minishell: cd: malloc error\n", 2);
 				return (NULL);
-			}
 			return (new_pwd);
 		}
 		else
@@ -34,32 +31,7 @@ char	*get_pwd(t_env *env, char *pwd)
 	return (NULL);
 }
 
-/* int	new_pwd(t_env **env, char *pwd)
-{
-	t_env	*new;
-	t_env	*tmp;
-
-	tmp = *env;
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return (0);
-	new->key = ft_strdup(pwd);
-	if (!new->key)
-		return (free(new), 0);
-	new->value = NULL;
-	new->next = NULL;
-	if (!*env)
-	{
-		*env = new;
-		return (1);
-	}
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	return (1);
-} */
-
-void	maj_pwd(t_env **env, char *pwd, char *old_path)
+int	maj_pwd(t_env **env, char *pwd, char *old_path)
 {
 	t_env	*tmp;
 
@@ -72,10 +44,11 @@ void	maj_pwd(t_env **env, char *pwd, char *old_path)
 				free(tmp->value);
 			tmp->value = ft_strdup(old_path);
 			if (!tmp->value)
-				ft_putstr_fd("minishell: cd: malloc error\n", 2);
+				return (1);
 		}
 		tmp = tmp->next;
 	}
+	return (0);
 }
 
 int	change_directory(t_env **env, char *path)
@@ -94,8 +67,10 @@ int	change_directory(t_env **env, char *path)
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 		return (cwd_exit("minishell: cd: "), free(current_pwd), 1);
-	maj_pwd(env, "OLDPWD", current_pwd);
-	maj_pwd(env, "PWD", new_pwd);
+	if (maj_pwd(env, "OLDPWD", current_pwd) == 1)
+		return (1);
+	if (maj_pwd(env, "PWD", new_pwd) == 1)
+		return (1);
 	free(new_pwd);
 	free(current_pwd);
 	return (0);

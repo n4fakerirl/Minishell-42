@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:49:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/07 12:36:56 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:16:41 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*fill_word(const char *str, int start, int end)
 	i = 0;
 	word = malloc((end - start + 1) * sizeof(char));
 	if (!word)
-		return (NULL);
+		return (error_malloc(), NULL);
 	while (start < end)
 		word[i++] = str[start++];
 	word[i] = 0;

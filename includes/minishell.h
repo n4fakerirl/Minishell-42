@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/14 16:49:54 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:38:36 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,8 @@ int								lstlen(t_token **toklist);
 void							printr(char *message);
 int								handlexp(t_token *tmp);
 int								handle_back(t_token *tmp);
+int								type(t_token *tmp);
+void							error_malloc(void);
 
 // CMD
 int								cmd_list(t_token *tokens, t_cmd **cmds, int i);

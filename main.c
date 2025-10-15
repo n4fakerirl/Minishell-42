@@ -97,7 +97,7 @@ int	main(int ac, char **av, char **envp)
 	str = NULL;
 	data = malloc(sizeof(t_data));
 	if (!data)
-		return (1);
+		return (error_malloc(), 1);
 	ft_bzero(data, sizeof(t_data));
 	tmp = NULL;
 	data->tmp = tmp;

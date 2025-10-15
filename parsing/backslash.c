@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 11:20:23 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/14 16:12:03 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:42:02 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*del_noquote(t_token *t, int i, int j)
 	len = ft_strlen(t->value);
 	buf = malloc(sizeof(char) * (len + 1));
 	if (!buf)
-		return (NULL);
+		return (error_malloc(), NULL);
 	while (t->value[i])
 	{
 		if (t->value[i] == '\\' && t->value[i + 1] != '\0')
@@ -48,7 +48,7 @@ char	*del_back(t_token *t, int i, int j)
 	len = ft_strlen(t->value);
 	buf = malloc(sizeof(char) * (len + 1));
 	if (!buf)
-		return (NULL);
+		return (error_malloc(), NULL);
 	while (t->value[i])
 	{
 		if (t->value[i] == '\\' && backspecial(t->value[i + 1]))

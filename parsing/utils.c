@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:41:54 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 10:31:34 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:01:22 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,10 @@ int	skippable(char c)
 		return (1);
 	else
 		return (0);
+}
+
+void	error_malloc(void)
+{
+	ft_putendl_fd("minishell: malloc: cannot allocate enough bytes", 2);
+	write(2, "\n", 1);
 }

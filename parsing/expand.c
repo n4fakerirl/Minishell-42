@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 17:23:53 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/14 17:15:25 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 18:13:14 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*expand_word(char *str, t_env *env, int exit_status, int i)
 
 	exp = malloc(sizeof(t_expand));
 	if (!exp)
-		return (NULL);
+		return (error_malloc(), NULL);
 	init_exp(exp, exit_status, env);
 	if (!exp->result || !exp->env)
 		return (free_exp(exp), NULL);
