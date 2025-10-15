@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:41:22 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 16:22:53 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:11:06 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ int	ft_echo(char **split)
 	j = 0;
 	new_line = 1;
 	i = newlines(split, &new_line, 0);
+	if (!split || !*split)
+	{
+		if (new_line)
+			write(STDOUT_FILENO, "\n", 1);
+		return (0);
+	}
 	while (split[i])
 	{
 		write(STDOUT_FILENO, split[i], ft_strlen(split[i]));

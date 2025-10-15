@@ -6,7 +6,7 @@
 #    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/14 11:05:43 by ocviller         ###   ########.fr        #
+#    Updated: 2025/10/15 19:02:56 by ocviller         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ NAME = minishell
 
 #Compilateur et flags
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g3 -MMD -MP
+FLAGS = -Wall -Wextra -Werror
 
 #Dossiers
 #BUITLINS_DIR = builtins

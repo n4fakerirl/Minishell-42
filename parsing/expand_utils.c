@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 12:18:53 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 17:43:59 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:15:19 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,12 @@ char	*get_var_value(char *var_name, t_env *env)
 	while (env)
 	{
 		if (env->key && ft_strcmp(env->key, var_name) == 0)
-			return (ft_strdup(env->value));
+		{
+			if (!env->value)
+				return (ft_strdup(""));
+			else
+				return (ft_strdup(env->value));
+		}
 		env = env->next;
 	}
 	return (ft_strdup(""));
