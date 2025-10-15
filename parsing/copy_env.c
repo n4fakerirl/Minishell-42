@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:50 by ocviller          #+#    #+#             */
-/*   Updated: 2025/10/13 11:57:28 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:29:44 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,25 @@ t_env	*env_conv(char *str)
 	return (node);
 }
 
+t_env	*envi_new(void)
+{
+	t_env	*new_env;
+	char	*pwd;
+
+	new_env = malloc(sizeof(t_env));
+	if (!new_env)
+		return (NULL);
+	new_env->key = ft_strdup("PWD=");
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (NULL);
+	new_env->value = ft_strdup(pwd);
+	new_env->next = NULL;
+	new_node(&new_env, "SHLVL=1");
+	new_node(&new_env, "_=/usr/bin/env");
+	return (new_env);
+}
+
 t_env	*init_env(char **envp)
 {
 	t_env	*head;
@@ -102,7 +121,7 @@ t_env	*init_env(char **envp)
 	head = NULL;
 	i = -1;
 	if (!envp || !*envp)
-		return (NULL);
+		return (envi_new());
 	while (envp[++i])
 	{
 		new = env_conv(envp[i]);
