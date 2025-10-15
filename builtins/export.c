@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:32:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/09/15 14:34:58 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/15 19:45:42 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,13 @@ int	check_var(char *str)
 	return (free(true_key), 0);
 }
 
+void print_exp_err(char *message)
+{
+	ft_putstr_fd("minishell: export: \'", 2);
+	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\': not a valid identifier\n", 2);
+}
+
 int	ft_export(char **split, t_env **env, int *exit_code)
 {
 	int	i;
@@ -122,8 +129,7 @@ int	ft_export(char **split, t_env **env, int *exit_code)
 	{
 		if (check_var(split[i]))
 		{
-			printf("minishell: export: \'%s\': not a valid identifier\n",
-				split[i]);
+			print_exp_err(split[i]);
 			*exit_code = 1;
 			continue ;
 		}
