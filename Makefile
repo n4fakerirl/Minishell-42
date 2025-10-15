@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+         #
+#    By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/17 13:04:31 by lenakach          #+#    #+#              #
-#    Updated: 2025/10/15 19:02:56 by ocviller         ###   ########.fr        #
+#    Updated: 2025/10/15 20:55:22 by lenakach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,8 @@ PARSING =  $(PARS_DIR)/cmd_utils.c $(PARS_DIR)/expand_utils.c $(PARS_DIR)/expand
 
 EXEC = $(EXEC_DIR)/exec_builtins.c $(EXEC_DIR)/exec_start.c $(EXEC_DIR)/path.c $(EXEC_DIR)/first_pipe.c \
 		$(EXEC_DIR)/last_pipe.c $(EXEC_DIR)/exec_utils.c $(EXEC_DIR)/one_cmd.c $(EXEC_DIR)/inter_pipe.c \
-		$(EXEC_DIR)/check_heredoc.c $(EXEC_DIR)/redir.c $(EXEC_DIR)/check_redir.c $(EXEC_DIR)/signals.c $(EXEC_DIR)/heredoc_utils.c
+		$(EXEC_DIR)/check_heredoc.c $(EXEC_DIR)/redir.c $(EXEC_DIR)/check_redir.c $(EXEC_DIR)/signals.c $(EXEC_DIR)/heredoc_utils.c \
+		$(EXEC_DIR)/safe_dup.c
 
 #UTILS = $(UTILS_DIR)/init_struct.c $(UTILS_DIR)/divers.c $(UTILS_DIR)/free.c $(UTILS_DIR)/init_cmd.c
 #REDIR = $(REDIR_DIR)/redir_one_cmd.c

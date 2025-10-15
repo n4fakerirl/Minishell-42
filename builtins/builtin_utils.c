@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 13:17:24 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 18:07:47 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 20:57:14 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,11 @@ int	split_len(char **split)
 	while (split[i])
 		i++;
 	return (i);
+}
+
+void	print_exp_err(char *message)
+{
+	ft_putstr_fd("minishell: export: \'", 2);
+	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\': not a valid identifier\n", 2);
 }

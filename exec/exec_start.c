@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 19:51:47 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 20:55:39 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ void	start_exec(t_shell *shell)
 	int	i;
 
 	i = 0;
-	shell->saved_stdin = dup(STDIN_FILENO);
-	shell->saved_stdout = dup(STDOUT_FILENO);
+	if (safe_main_dup(shell) == -1)
+		return ;
 	if (check_heredoc(shell))
 		return ;
 	if (shell->nbr_cmd == 1)

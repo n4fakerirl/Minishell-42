@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:12:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/11 18:43:03 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/15 21:33:17 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	first_close(t_shell *shell)
 {
-	dup2(shell->pipe_infos->pipe_fd[0][1], 1);
+	if (safe_dup2(shell->pipe_infos->pipe_fd[0][1], 1, "dup 2") == 1)
+		return ;
 	close(shell->pipe_infos->pipe_fd[0][1]);
 	close(shell->pipe_infos->pipe_fd[0][0]);
 	return ;
@@ -22,7 +23,8 @@ void	first_close(t_shell *shell)
 
 void	last_close(t_shell *shell, int i)
 {
-	dup2(shell->pipe_infos->pipe_fd[i - 1][0], 0);
+	if (safe_dup2(shell->pipe_infos->pipe_fd[i - 1][0], 0, "dup 2") == 1)
+		return ;
 	close(shell->pipe_infos->pipe_fd[i - 1][0]);
 	close(shell->pipe_infos->pipe_fd[i - 1][1]);
 	return ;
@@ -30,8 +32,10 @@ void	last_close(t_shell *shell, int i)
 
 void	inter_close(t_shell *shell, int i)
 {
-	dup2(shell->pipe_infos->pipe_fd[i][1], 1);
-	dup2(shell->pipe_infos->pipe_fd[i - 1][0], 0);
+	if (safe_dup2(shell->pipe_infos->pipe_fd[i][1], 1, "dup 2") == 1)
+		return ;
+	if (safe_dup2(shell->pipe_infos->pipe_fd[i -1][0], 0, "dup 2") == 1)
+		return ;
 	close(shell->pipe_infos->pipe_fd[i][0]);
 	close(shell->pipe_infos->pipe_fd[i][1]);
 	close(shell->pipe_infos->pipe_fd[i - 1][0]);
@@ -48,7 +52,7 @@ void	redir(t_shell *shell, int i)
 		return (inter_close(shell, i));
 }
 
-void	open_fd(t_cmd *cmd)
+/* void	open_fd(t_cmd *cmd)
 {
 	int	fd;
 
@@ -71,4 +75,4 @@ void	open_fd(t_cmd *cmd)
 		}
 		cmd = cmd->next;
 	}
-}
+} */

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:24:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 19:50:55 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 20:57:44 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	redir_right(t_shell *shell)
+int	redir_right(t_shell *shell)
 {
 	int	fd;
 
@@ -24,9 +24,20 @@ void	redir_right(t_shell *shell)
 		fd = open(shell->cmd->redirect->file, O_WRONLY | O_CREAT | O_APPEND,
 				0644);
 	if (fd < 0)
-		return (perror(""));
-	dup2(fd, 1);
+	{
+		perror(shell->cmd->redirect->file);
+		shell->exit_status = 1;
+		return (1);
+	}
+	if (dup2(fd, 1) == -1)
+	{
+		perror("dup2 (out redir)");
+		close(fd);
+		shell->exit_status = 1;
+		return (1);
+	}
 	close(fd);
+	return (0);
 }
 
 int	redir_simple_left(t_shell *shell, int i)
@@ -36,20 +47,17 @@ int	redir_simple_left(t_shell *shell, int i)
 	fd = open(shell->cmd->redirect->file, O_RDONLY);
 	if (fd < 0)
 	{
+		perror(shell->cmd->redirect->file);
 		if (i == -1)
-		{
-			perror("");
 			return (1);
-		}
 		else
 		{
-			perror("");
 			free_exit(shell);
-			close(fd);
 			exit(1);
 		}
 	}
-	dup2(fd, 0);
+	if (safe_redir_dup(shell, fd, i) == 1)
+		return (1);
 	close(fd);
 	return (0);
 }
@@ -60,8 +68,17 @@ void	redir_heredoc(t_shell *shell)
 
 	fd = shell->cmd->here_doc;
 	if (fd < 0)
-		return (perror(""));
-	dup2(fd, 0);
+	{
+		perror("here_doc fd");
+		shell->exit_status = 1;
+		return ;
+	}
+	if (dup2(fd, 0) == -1)
+	{
+		perror("dup2 (heredoc redir)");
+		close(fd);
+		return ;
+	}
 	close(fd);
 }
 
@@ -78,7 +95,10 @@ int	check_redir(t_shell *shell, int i)
 	{
 		if (shell->cmd->redirect->type == REDIRR
 			|| shell->cmd->redirect->type == REDIRDR)
-			redir_right(shell);
+		{
+			if (redir_right(shell) == 1)
+				return (1);
+		}
 		else if (shell->cmd->redirect->type == REDIRL)
 		{
 			if (redir_simple_left(shell, i) != 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 19:41:49 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 21:36:06 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 	close(shell->saved_stdout);
 	if (!cmd_finale)
 	{
-		dup2(shell->saved_stdout, STDOUT_FILENO);
-		dup2(shell->saved_stdin, STDIN_FILENO);
-		close(shell->saved_stdin);
-		close(shell->saved_stdout);
+		failed_cmd_execve(shell);
 		ft_putstr_fd("bash:", 2);
 		ft_putstr_fd(shell->cmd->args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
@@ -33,8 +30,7 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 		exit(127);
 	}
 	execve(cmd_finale, shell->cmd->args, envp_initial);
-	dup2(shell->saved_stdout, STDOUT_FILENO);
-	dup2(shell->saved_stdin, STDIN_FILENO);
+	failed_cmd_execve(shell);
 	close(shell->saved_stdin);
 	close(shell->saved_stdout);
 	perror("execve");
@@ -74,17 +70,16 @@ void	one_child(t_shell *shell, char **envp_initial)
 
 void	one_cmd(t_shell *shell, char **envp_initial)
 {
-	int	pid;
-
-	pid = getpid();
 	if (check_redir(shell, -1) != 0)
 		return ;
 	if (is_builtin(shell->cmd->args[0]))
 		shell->exit_status = exec_builtin(shell, &(shell->env));
 	else
 		one_child(shell, envp_initial);
-	dup2(shell->saved_stdout, STDOUT_FILENO);
-	dup2(shell->saved_stdin, STDIN_FILENO);
+	if (safe_dup2(shell->saved_stdout, STDOUT_FILENO, "dup2") == 1)
+		return ;
+	if (safe_dup2(shell->saved_stdin, STDIN_FILENO, "deup2") == 1)
+		return ;
 	close(shell->saved_stdin);
 	close(shell->saved_stdout);
 }

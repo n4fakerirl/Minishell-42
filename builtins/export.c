@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 20:32:31 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 19:45:42 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 20:56:47 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,6 @@ int	check_var(char *str)
 		if (!(ft_isalnum(true_key[i]) || true_key[i] == '_'))
 			return (free(true_key), 1);
 	return (free(true_key), 0);
-}
-
-void print_exp_err(char *message)
-{
-	ft_putstr_fd("minishell: export: \'", 2);
-	ft_putstr_fd(message, 2);
-	ft_putstr_fd("\': not a valid identifier\n", 2);
 }
 
 int	ft_export(char **split, t_env **env, int *exit_code)

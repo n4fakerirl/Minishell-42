@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 19:39:39 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/15 21:36:01 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ int								handlexp(t_token *tmp);
 int								handle_back(t_token *tmp);
 int								type(t_token *tmp);
 void							error_malloc(void);
+void							print_exp_err(char *message);
 
 // CMD
 int								cmd_list(t_token *tokens, t_cmd **cmds, int i);
@@ -266,6 +267,12 @@ t_env							*ft_env_new(const char *key, const char *value);
 t_env							*ft_env_dup(t_env *env);
 void							signal_heredoc(void);
 int								exit_ctrlc(void);
-int								duping(t_shell *shell);
+
+// Dup
+int								safe_main_dup(t_shell *shell);
+int								safe_redir_dup(t_shell *shell, int fd, int i);
+int								safe_dup2(int oldfd, int newfd,
+									const char *context);
+void							failed_cmd_execve(t_shell *shell);
 
 #endif
