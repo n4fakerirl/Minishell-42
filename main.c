@@ -24,6 +24,7 @@ void	handle_sigint(t_data *data)
 void	end_shell(t_shell *shell, char *str, t_data *data)
 {
 	t_env	*old_tmp;
+	t_cmd	*tmp_cmd;
 
 	shell->nbr_cmd = count_list(shell->cmd);
 	start_exec(shell);
@@ -33,6 +34,16 @@ void	end_shell(t_shell *shell, char *str, t_data *data)
 		free_env(old_tmp);
 	data->exit_status = shell->exit_status;
 	free(str);
+	tmp_cmd = shell->head_cmd;
+	while (tmp_cmd)
+	{
+		if (tmp_cmd->here_doc > 2)
+		{
+			close(tmp_cmd->here_doc);
+			tmp_cmd->here_doc = -1;
+		}
+		tmp_cmd = tmp_cmd->next;
+	}
 	free_shell(shell);
 	if (data->first == 0)
 		data->first = 1;

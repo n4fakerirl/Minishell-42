@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:12:08 by lenakach          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/10/16 14:55:13 by lenakach         ###   ########.fr       */
-=======
-/*   Updated: 2025/10/16 14:51:26 by ocviller         ###   ########.fr       */
->>>>>>> 229d44adb6b060456ffa2d70b5806fefab34d7da
+/*   Updated: 2025/10/16 15:52:44 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +36,6 @@ void	printing_ctrld(t_redir *tmp_r)
 int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell, t_cmd *tmp)
 {
 	char	*line;
-	char	*expanded;
 
 	while (1)
 	{
@@ -52,26 +47,24 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell, t_cmd *tmp)
 			printing_ctrld(tmp_r);
 			break ;
 		}
-<<<<<<< HEAD
-		 {
-            char *orig = line;
-            char *expanded = expand_word(orig, shell->env, 0, 0);
-            if (expanded != orig)
-            {
-				close(fd[0]);
-                /* expand_word returned a new buffer -> free original */
-                free(orig);
-            }
-            line = expanded;
-        }
+		line = expand_word(line, shell->env, 0, 0);
+		{
+			char *orig = line;
+			char *expanded = expand_word(orig, shell->env, 0, 0);
+			if (expanded != orig)
+			{
+				free(orig);
+			}
+			line = expanded;
+		}
 		if (ft_strcmp(line, tmp_r->file) == 0)
 		{
-			free(expanded);
+			free(line);
 			break ;
 		}
-		write(fd[1], expanded, ft_strlen(expanded));
+		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
-		free(expanded);
+		free(line);
 	}
 	close(fd[1]);
 	close(fd[0]);
