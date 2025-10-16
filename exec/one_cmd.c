@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 21:36:06 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:21:01 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 {
 	char	*cmd_finale;
 
+	close_unused_heredocs(shell, shell->cmd);
 	cmd_finale = get_cmd(shell);
 	close(shell->saved_stdin);
 	close(shell->saved_stdout);

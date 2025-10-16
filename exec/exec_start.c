@@ -6,11 +6,28 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/16 14:42:29 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:19:59 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	close_unused_heredocs(t_shell *shell, t_cmd *current_cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = shell->head_cmd;
+	while (tmp)
+	{
+		// Fermer tous les heredocs sauf celui de la commande courante
+		if (tmp != current_cmd && tmp->here_doc > 2)
+		{
+			close(tmp->here_doc);
+			tmp->here_doc = -1;
+		}
+		tmp = tmp->next;
+	}
+}
 
 int	piping(t_shell *shell, int i)
 {
@@ -34,6 +51,7 @@ void	forking_child(t_shell *shell, int i)
 {
 	int	exit_status;
 
+	close_unused_heredocs(shell, shell->cmd);
 	check_redir(shell, i);
 	close(shell->saved_stdin);
 	close(shell->saved_stdout);
@@ -66,6 +84,11 @@ void	forking_parent(t_shell *shell, int i)
 		if (shell->cmd->redirect->type == REDIRDL)
 			unlink(shell->cmd->redirect->file);
 	}
+	 if (shell->cmd && shell->cmd->here_doc > 2)
+    {
+        close(shell->cmd->here_doc);
+        shell->cmd->here_doc = -1;
+    }
 	if (i == 0)
 		close(shell->pipe_infos->pipe_fd[0][1]);
 	else if (i == shell->nbr_cmd - 1)

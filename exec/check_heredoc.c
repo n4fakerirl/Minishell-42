@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:12:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/16 15:52:44 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:17:47 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	do_heredoc(t_shell *shell, t_cmd *tmp, t_redir *tmp_r, int fd[2])
 
 	if (pipe(fd) == -1)
 		return (perror("pipe"));
+	fprintf(stderr, "MON ID 0 : %d\n", fd[0]);
+	fprintf(stderr, "MON ID 1 : %d\n", fd[1]);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -116,6 +118,8 @@ int	check_heredoc(t_shell *shell)
 		{
 			if (tmp_r->type == REDIRDL)
 			{
+				if (tmp->here_doc > 2)
+					close(tmp->here_doc);
 				do_heredoc(shell, tmp, tmp_r, fd);
 				if (tmp_r->next && tmp_r->next->type == REDIRDL)
 					close(fd[0]);
