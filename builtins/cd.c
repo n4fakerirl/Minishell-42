@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:09:51 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 18:10:59 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:10:17 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,28 @@ int	maj_pwd(t_env **env, char *pwd, char *old_path)
 	return (0);
 }
 
-int	change_directory(t_env **env, char *path)
+int	get_current_pwd(char **current_pwd)
+{
+	*current_pwd = getcwd(NULL, 0);
+	if (!current_pwd)
+		return (cwd_exit("minishell: cd: error retrieving current directory"),
+			1);
+	return (0);
+}
+
+int	change_directory(t_env **env, char *path, int home)
 {
 	char	*current_pwd;
 	char	*new_pwd;
 
-	current_pwd = getcwd(NULL, 0);
-	if (!current_pwd)
+	if (home == 0)
+		if (get_current_pwd(&current_pwd) == 1)
+			return (1);
+	if (home == 1)
 	{
-		return (cwd_exit("minishell: cd: error retrieving current directory"),
-			1);
+		current_pwd = ft_strdup(path);
+		if (!current_pwd)
+			return (1);
 	}
 	if (chdir(path) == -1)
 		return (chdir_exit("minishell: cd: ", path), free(current_pwd), 1);
@@ -86,7 +98,7 @@ int	ft_cd(char **split, t_env **env)
 		path = get_pwd(*env, "HOME");
 		if (!path)
 			return (getpwd_exit("minishell: cd: HOME not set\n"), 1);
-		if (change_directory(env, path) == 1)
+		if (change_directory(env, path, 1) == 1)
 			return (free(path), 1);
 		free(path);
 	}
@@ -95,12 +107,12 @@ int	ft_cd(char **split, t_env **env)
 		path = get_pwd(*env, "OLDPWD");
 		if (!path)
 			return (getpwd_exit("minishell: cd: OLDPWD not set\n"), 1);
-		if (change_directory(env, path) == 1)
+		if (change_directory(env, path, 0) == 1)
 			return (free(path), 1);
 		return (printf("%s\n", path), free(path), 0);
 	}
 	else if (split[0])
-		if (change_directory(env, split[0]) == 1)
+		if (change_directory(env, split[0], 0) == 1)
 			return (1);
 	return (0);
 }
