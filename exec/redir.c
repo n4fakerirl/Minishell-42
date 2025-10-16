@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:12:47 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 21:33:17 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:28:04 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	inter_close(t_shell *shell, int i)
 {
 	if (safe_dup2(shell->pipe_infos->pipe_fd[i][1], 1, "dup 2") == 1)
 		return ;
-	if (safe_dup2(shell->pipe_infos->pipe_fd[i -1][0], 0, "dup 2") == 1)
+	if (safe_dup2(shell->pipe_infos->pipe_fd[i - 1][0], 0, "dup 2") == 1)
 		return ;
 	close(shell->pipe_infos->pipe_fd[i][0]);
 	close(shell->pipe_infos->pipe_fd[i][1]);

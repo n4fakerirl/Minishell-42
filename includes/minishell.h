@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/16 16:20:42 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:45:45 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,5 +276,9 @@ int								safe_dup2(int oldfd, int newfd,
 void							failed_cmd_execve(t_shell *shell);
 void							close_unused_heredocs(t_shell *shell,
 									t_cmd *current_cmd);
-
+int								closing(t_redir *tmp_r, int fd[2],
+									t_shell *shell);
+int								need_exp_str(char *str);
+int								expand_line(char **line, t_shell *shell,
+									t_redir *tmp_r);
 #endif
