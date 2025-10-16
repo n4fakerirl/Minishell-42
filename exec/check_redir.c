@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 22:24:16 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 20:57:44 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:41:11 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	redir_heredoc(t_shell *shell)
 		close(fd);
 		return ;
 	}
+	fprintf(stderr, "REDIR HEREDOC EXEC\n");
 	close(fd);
 }
 

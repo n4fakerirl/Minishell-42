@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:12:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/13 19:58:02 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:40:32 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ int	check_heredoc(t_shell *shell)
 	if (!shell->cmd->redirect)
 		return (0);
 	tmp = shell->cmd;
-	tmp_r = shell->cmd->redirect;
 	while (tmp)
 	{
+		tmp_r = tmp->redirect;
 		while (tmp_r)
 		{
 			if (tmp_r->type == REDIRDL)

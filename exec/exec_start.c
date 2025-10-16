@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 17:29:37 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 20:55:39 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:42:29 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	forking_parent(t_shell *shell, int i)
 
 void	start_exec(t_shell *shell)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	if (safe_main_dup(shell) == -1)
