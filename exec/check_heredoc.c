@@ -6,7 +6,7 @@
 /*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:12:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/16 14:40:32 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:55:13 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,17 @@ int	fork_heredoc(t_redir *tmp_r, int fd[2], t_shell *shell, t_cmd *tmp)
 			printing_ctrld(tmp_r);
 			break ;
 		}
-		line = expand_word(line, shell->env, 0, 0);
+		 {
+            char *orig = line;
+            char *expanded = expand_word(orig, shell->env, 0, 0);
+            if (expanded != orig)
+            {
+				close(fd[0]);
+                /* expand_word returned a new buffer -> free original */
+                free(orig);
+            }
+            line = expanded;
+        }
 		if (ft_strcmp(line, tmp_r->file) == 0)
 		{
 			free(line);
