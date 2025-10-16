@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_dup.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 20:55:27 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/16 18:10:05 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:49:47 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,4 @@ int	safe_dup2(int oldfd, int newfd, const char *context)
 		return (1);
 	}
 	return (0);
-}
-
-void	failed_cmd_execve(t_shell *shell)
-{
-	if (safe_dup2(shell->saved_stdout, STDOUT_FILENO, "") == 1)
-	{
-		free_exit(shell);
-		exit(1);
-	}
-	if (safe_dup2(shell->saved_stdin, STDIN_FILENO, "") == 1)
-	{
-		free_exit(shell);
-		exit(1);
-	}
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
 }

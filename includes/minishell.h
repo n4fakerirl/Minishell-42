@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 15:53:43 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/16 16:45:45 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:49:09 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,6 @@ int								safe_main_dup(t_shell *shell);
 int								safe_redir_dup(t_shell *shell, int fd, int i);
 int								safe_dup2(int oldfd, int newfd,
 									const char *context);
-void							failed_cmd_execve(t_shell *shell);
 void							close_unused_heredocs(t_shell *shell,
 									t_cmd *current_cmd);
 int								closing(t_redir *tmp_r, int fd[2],
@@ -281,4 +280,7 @@ int								closing(t_redir *tmp_r, int fd[2],
 int								need_exp_str(char *str);
 int								expand_line(char **line, t_shell *shell,
 									t_redir *tmp_r);
+void							free_last(t_shell *shell);
+void							cmd_not(t_shell *shell);
+
 #endif
