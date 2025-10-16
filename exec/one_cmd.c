@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/16 17:43:51 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:42:31 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 	close(shell->saved_stdout);
 	if (!cmd_finale)
 	{
-		failed_cmd_execve(shell);
-		ft_putstr_fd("minishell:", 2);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(shell->cmd->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd(" : command not found\n", 2);
 		shell->exit_status = 127;
 		free_exit(shell);
 		exit(127);
@@ -79,7 +78,7 @@ void	one_cmd(t_shell *shell, char **envp_initial)
 		one_child(shell, envp_initial);
 	if (safe_dup2(shell->saved_stdout, STDOUT_FILENO, "dup2") == 1)
 		return ;
-	if (safe_dup2(shell->saved_stdin, STDIN_FILENO, "deup2") == 1)
+	if (safe_dup2(shell->saved_stdin, STDIN_FILENO, "dup2") == 1)
 		return ;
 	close(shell->saved_stdin);
 	close(shell->saved_stdout);
