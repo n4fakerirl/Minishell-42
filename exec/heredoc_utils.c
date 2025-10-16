@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 16:14:17 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/14 13:46:43 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:43:33 by lenakach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,20 @@ int	exit_ctrlc(void)
 
 void	free_exit(t_shell *shell)
 {
+	t_cmd	*tmp;
+
 	if (!shell)
 		return ;
+	tmp = shell->head_cmd;
+	while (tmp)
+	{
+		if (tmp->here_doc > 2)
+		{
+			close(tmp->here_doc);
+			tmp->here_doc = -1;
+		}
+		tmp = tmp->next;
+	}
 	if (shell->envp_initial)
 		free_split(shell->envp_initial);
 	if (shell->head_cmd)
