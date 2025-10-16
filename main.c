@@ -39,7 +39,6 @@ void	end_shell(t_shell *shell, char *str, t_data *data)
 	{
 		if (tmp_cmd->here_doc > 2)
 		{
-			fprintf(stderr, "DANS ENDSHELL JE FERME HERDEDOC\n");
 			close(tmp_cmd->here_doc);
 			tmp_cmd->here_doc = -1;
 		}

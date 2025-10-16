@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   last_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 09:32:36 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 20:54:34 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:12:57 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	free_last(t_shell *shell)
+{
+	free_exit(shell);
+	exit(127);
+}
+
+void	cmd_not(t_shell *shell)
+{
+	ft_putstr_fd("minishell:", 2);
+	ft_putstr_fd(shell->cmd->args[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
 
 void	last_child(t_shell *shell, char **envp_initial)
 {
@@ -24,11 +37,10 @@ void	last_child(t_shell *shell, char **envp_initial)
 		close(shell->saved_stdin);
 		close(shell->saved_stdout);
 		shell->exit_status = 127;
-		ft_putstr_fd("bash:", 2);
-		ft_putstr_fd(shell->cmd->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		free_exit(shell);
-		exit(127);
+		if (!shell->cmd->args[0])
+			free_last(shell);
+		cmd_not(shell);
+		free_last(shell);
 	}
 	execve(cmd_finale, shell->cmd->args, envp_initial);
 	dup2(shell->saved_stdout, STDOUT_FILENO);

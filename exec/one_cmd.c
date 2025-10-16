@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:18:44 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/16 16:21:01 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 17:43:51 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	forking_one_child(t_shell *shell, char **envp_initial)
 	if (!cmd_finale)
 	{
 		failed_cmd_execve(shell);
-		ft_putstr_fd("bash:", 2);
+		ft_putstr_fd("minishell:", 2);
 		ft_putstr_fd(shell->cmd->args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		shell->exit_status = 127;

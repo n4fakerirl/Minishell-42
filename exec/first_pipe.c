@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lenakach <lenakach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 18:46:19 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/15 21:36:38 by lenakach         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:39:24 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	first_child(t_shell *shell, char **envp_initial)
 		failed_cmd_execve(shell);
 		close(shell->saved_stdin);
 		close(shell->saved_stdout);
-		ft_putstr_fd("bash:", 2);
+		ft_putstr_fd("minishell:", 2);
 		ft_putstr_fd(shell->cmd->args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		shell->exit_status = 127;

@@ -6,7 +6,7 @@
 /*   By: ocviller <ocviller@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 17:12:08 by lenakach          #+#    #+#             */
-/*   Updated: 2025/10/16 16:44:13 by ocviller         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:36:09 by ocviller         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	check_heredoc(t_shell *shell)
 	t_redir	*tmp_r;
 	int		fd[2];
 
-	if (!shell->cmd->redirect)
+	if (!shell->cmd)
 		return (0);
 	tmp = shell->cmd;
 	while (tmp)
