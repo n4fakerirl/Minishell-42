@@ -64,6 +64,7 @@ minishell> exit
 ---
 
 ## 🫐 Auteurs
-Léa (lenakach) && Océane (ocviller)
 
-Projet réalisé à 42 Paris, 2025
+* Léa (lenakach) && Océane (ocviller)
+* Piscine de Mars 2025
+* Projet réalisé à 42 Paris, 2025
